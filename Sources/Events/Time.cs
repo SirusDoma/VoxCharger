@@ -44,17 +44,24 @@ namespace VoxCharger
         public static Time FromOffset(float absOffset, (int beat, int note) signature)
         {
             float remaining = (absOffset % 192f) % (192f / signature.beat);
-            float divisor   = (192f / signature.beat);
+            float division  = ((192f / signature.beat) / signature.note);
 
             int measure = (int)(absOffset / 192f);
-            int beat    = (int)((absOffset % 192f) / divisor) + 1;
-            int offset  = (int)Math.Round((remaining / (divisor / signature.note)) * ((192f / 4f) / 4f));
+            int beat    = (int)((absOffset % 192f) / (192f / signature.beat)) + 1;
+            int offset  = (int)Math.Round((remaining / division) * ((192f / 4f) / 4f));
 
             // Since the value rounded up, there's chance this happen (precision rounding problem)
-            beat    += offset / 48;
-            measure += beat > signature.beat ? 1 : 0;
-            beat     = beat > signature.beat ? signature.beat - (beat - 1) : beat;
-            offset  %= 48;
+            beat += offset / 48;
+            offset %= 48;
+
+            measure += beat / signature.beat;
+            beat %= signature.beat;
+
+            if (beat == 0)
+            {
+                measure -= 1;
+                beat = signature.beat;
+            }
 
             return new Time(measure, beat, offset);
         }
