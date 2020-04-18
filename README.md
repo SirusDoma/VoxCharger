@@ -40,7 +40,7 @@ Original mix is locked to prevent you (yes, you) to break your KFC installation.
 Again, use [IFS LayeredFS](https://github.com/mon/ifs_layeredfs). If you haven't heard this then you're totally missing out!
 
 ### Conversion Output
-Vox have some sense in it's file format than ksh file, as the result, not all attributes can be mapped precisely and potentially lead into bug in the output file.  
+Vox have some sense in it's file format than ksh file, as the result, not all attributes can be mapped precisely and potentially lead into bug in the output file. For FX mapping, user defined FX will be ignored, only basic FX's that will be included into the output.  
 
 Remember, stupid input get stupid output. But if you believe it's a bug, feel free to open issue or PR.
 
@@ -50,12 +50,12 @@ Imported music preview from normal audio files may broken or not trimmed properl
 If you can't live without it, consider making PR to this feature.
 
 ### Music DB
-Some attributes are kept hidden from editor, For existing songs, some of their attributes might untouched throughout save iteration, but the rest of attributes might be replaced with dummy / stub data.  
+Some attributes are kept hidden from editor, For existing songs, some of their attributes might untouched throughout save iteration, but the rest of hidden attributes might be replaced with dummy / stub data.  
 
 If this really concern you, make sure to backup your `music_db.xml` / `music_db.merged.xml`.
 
 ### Asset File Modification
-Replacing asset files such as vox, 2dx and graphic files are happen immediately after changes are confirmed. In other hand, metadata need to be saved manually by `File -> Save` or `CTRL+S`.  
+Replacing asset files such as vox, 2dx and graphic files are happen immediately after changes are confirmed. In other hand, metadata need to be saved manually by clicking `File -> Save` or `CTRL+S`.  
 
 Note that you can postpone asset modification until you save metadata by disabling autosave in `Edit -> Autosave Assets`
 
