@@ -45,7 +45,7 @@ Vox have some sense in it's file format than ksh file, as the result, not all at
 Remember, stupid input get stupid output. But if you believe it's a bug, feel free to open issue or PR.
 
 ### Music Preview
-Imported music preview from normal audio files may broken or not trimmed properly in the output file. Preview offset in ksh is also ignored, you need dedicated preview file with proper fade in and out. Keep in mind that `2dxbuld.exe` will not do this for you. Until program supports built in encoder, you have to provide 2dx preview manually for proper preview file.  
+Imported music preview from normal audio files may broken or not trimmed properly in the output file. Preview offset in ksh is also ignored, you need dedicated preview file with proper fade in and out. Keep in mind that `2dxwavconvert.exe` will not do this for you, it only trim your audio into 10 second for preview purpose. Until program supports built in encoder, you have to provide 2dx preview manually for proper preview file.  
 
 If you can't live without it, consider making PR to this feature.
 
