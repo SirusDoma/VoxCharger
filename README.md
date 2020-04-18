@@ -4,7 +4,7 @@
 - **Email**: com@cxo2.me
 - **Version**: 0.9.7b
 
-Recharge your KFC Chicken sauce.  
+Recharge your KFC Chicken sauce ([Download](https://github.com/SirusDoma/VoxCharger/releases))   
 
 Written under C# language, this program allow you to manage music asset files of your KFC installation.  
 Additionally, it include built-in converter to import ksh into vox that can be consumed by KFC.  
