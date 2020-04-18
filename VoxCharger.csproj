@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <IntermediateOutputPath>.\Temp</IntermediateOutputPath>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B049DC1D-7404-4437-AE8C-1FF6A0A321DC}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>VoxCharger</RootNamespace>
+    <AssemblyName>VoxCharger</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <IntermediateOutputPath>.\Temp</IntermediateOutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Build\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <IntermediateOutputPath>.\Temp</IntermediateOutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Build\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sources\Forms\MenuButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Sources\Forms\ConverterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sources\Forms\ConverterForm.Designer.cs">
+      <DependentUpon>ConverterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sources\Forms\HelpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sources\Forms\HelpForm.Designer.cs">
+      <DependentUpon>HelpForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sources\2dx\DxTool.cs" />
+    <Compile Include="Sources\AssetManager.cs" />
+    <Compile Include="Sources\Events\Controller\Camera.cs" />
+    <Compile Include="Sources\Events\Controller\Radian.cs" />
+    <Compile Include="Sources\Events\Controller\LaneClear.cs" />
+    <Compile Include="Sources\Events\Controller\Tilt.cs" />
+    <Compile Include="Sources\Events\Controller\WorkType.cs" />
+    <Compile Include="Sources\Events\Controller\Rotation.cs" />
+    <Compile Include="Sources\Effects\BitCrusher.cs" />
+    <Compile Include="Sources\Effects\Flanger.cs" />
+    <Compile Include="Sources\Effects\PitchShift.cs" />
+    <Compile Include="Sources\Effects\LowPass.cs" />
+    <Compile Include="Sources\Effects\Effect.cs" />
+    <Compile Include="Sources\Effects\FxType.cs" />
+    <Compile Include="Sources\Effects\Gate.cs" />
+    <Compile Include="Sources\Effects\Phaser.cs" />
+    <Compile Include="Sources\Effects\Retrigger.cs" />
+    <Compile Include="Sources\Effects\SideChain.cs" />
+    <Compile Include="Sources\Effects\TapeStop.cs" />
+    <Compile Include="Sources\Effects\Wobble.cs" />
+    <Compile Include="Sources\Events\BPM.cs" />
+    <Compile Include="Sources\Events\Button.cs" />
+    <Compile Include="Sources\Events\Laser.cs" />
+    <Compile Include="Sources\Events\Signature.cs" />
+    <Compile Include="Sources\Events\Stop.cs" />
+    <Compile Include="Sources\Events\TiltMode.cs" />
+    <Compile Include="Sources\Ksh\Ksh.cs" />
+    <Compile Include="Sources\Events\EventCollection.cs" />
+    <Compile Include="Sources\Events\Event.cs" />
+    <Compile Include="Sources\Ksh\KshDefinition.cs" />
+    <Compile Include="Sources\Ksh\KshSoundEffect.cs" />
+    <Compile Include="Sources\Events\Time.cs" />
+    <Compile Include="Sources\Vox\GameVersion.cs" />
+    <Compile Include="Sources\Vox\InfiniteVersion.cs" />
+    <Compile Include="Sources\Vox\Difficulty.cs" />
+    <Compile Include="Sources\Vox\MusicDb.cs" />
+    <Compile Include="Sources\Vox\Section.cs" />
+    <Compile Include="Sources\Vox\VoxChart.cs" />
+    <Compile Include="Sources\Vox\VoxLevelHeader.cs" />
+    <Compile Include="Sources\Forms\AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sources\Forms\AboutForm.designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sources\Forms\LoadingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sources\Forms\LoadingForm.designer.cs">
+      <DependentUpon>LoadingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sources\Forms\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sources\Forms\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sources\Forms\LevelEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sources\Forms\LevelEditorForm.Designer.cs">
+      <DependentUpon>LevelEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sources\Forms\MixSelectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sources\Forms\MixSelectorForm.Designer.cs">
+      <DependentUpon>MixSelectorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sources\Vox\VoxHeader.cs" />
+    <Compile Include="Sources\Forms\JacketViewerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sources\Forms\JacketViewerForm.Designer.cs">
+      <DependentUpon>JacketViewerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Sources\Forms\AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\Forms\LoadingForm.resx">
+      <DependentUpon>LoadingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\Forms\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\Forms\LevelEditorForm.resx">
+      <DependentUpon>LevelEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\Forms\MixSelectorForm.resx">
+      <DependentUpon>MixSelectorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\Forms\JacketViewerForm.resx">
+      <DependentUpon>JacketViewerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\Forms\ConverterForm.resx">
+      <DependentUpon>ConverterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sources\Forms\HelpForm.resx">
+      <DependentUpon>HelpForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="2dxbuild.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="2dxwavconvert.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="Resources\icon.ico" />
+    <None Include="Resources\jk_dummy_s.png" />
+    <None Include="Resources\jk_dummy_b.png" />
+    <None Include="Resources\jk_dummy.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
