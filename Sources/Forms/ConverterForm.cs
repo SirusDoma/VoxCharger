@@ -37,8 +37,9 @@ namespace VoxCharger
         private bool converter;
         private Dictionary<Difficulty, ChartInfo> charts = new Dictionary<Difficulty, ChartInfo>();
 
-        public VoxHeader Header { get; private set; } = null;
-        public Action Action    { get; private set; } = null;
+        public VoxHeader Header        { get; private set; } = null;
+        public Action Action           { get; private set; } = null;
+        public Ksh.ParseOption Options { get; private set; } = new Ksh.ParseOption();
 
         public ConverterForm(string path, bool asConverter = false)
         {
@@ -94,9 +95,9 @@ namespace VoxCharger
                 }
 
                 defaultAscii = AsciiTextBox.Text = Header.Ascii;
-                BackgroundDropDown.SelectedItem  = LastBackground;
-                VersionDropDown.SelectedIndex    = 4;
-                InfVerDropDown.SelectedIndex     = 0;
+                BackgroundDropDown.SelectedItem = LastBackground;
+                VersionDropDown.SelectedIndex = 4;
+                InfVerDropDown.SelectedIndex = 0;
 
                 charts[main.Difficulty] = new ChartInfo(main, ToLevelHeader(main), target);
                 LoadJacket(charts[main.Difficulty]);
@@ -104,36 +105,18 @@ namespace VoxCharger
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    $"Failed to load ksh chart.\n{ex.Message}", 
-                    "Error", 
-                    MessageBoxButtons.OK, 
+                    $"Failed to load ksh chart.\n{ex.Message}",
+                    "Error",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
 
-                CancelButton.PerformClick();
+                Close();
+                return;
             }
 
             // Try to locate another difficulty
-            string dir = Path.GetDirectoryName(target);
-            foreach (string fn in Directory.GetFiles(dir, "*.ksh"))
-            {
-                try
-                {
-                    var chart = new Ksh();
-                    chart.Parse(fn);
-
-                    // Different chart
-                    if (chart.Title != main.Title)
-                        continue;
-
-                    charts[chart.Difficulty] = new ChartInfo(chart, ToLevelHeader(chart), fn);
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("Failed attempt to parse ksh file: {0} ({1})", fn, ex.Message);
-                }
-            }
-
+            charts = GetCharts(target, main);
             UpdateUI();
         }
 
@@ -207,8 +190,7 @@ namespace VoxCharger
 
         private void OnProcessConvertButtonClick(object sender, EventArgs e)
         {
-            bool warned = false;
-            var options = new Ksh.ParseOption()
+            Options = new Ksh.ParseOption()
             {
                 RealignOffset = RealignOffsetCheckBox.Checked,
                 EnableChipFx  = ChipFxCheckBox.Checked,
@@ -221,235 +203,16 @@ namespace VoxCharger
 
             // Act as converter
             if (converter)
-            {
-                try
-                {
-                    if (File.Exists(target) || Directory.Exists(target))
-                    {
-                        if (File.Exists(target))
-                            SingleConvert(options);
-                        else if (Directory.Exists(target))
-                            BulkConvert(options);
-                    }
-                    else
-                    {
-                        MessageBox.Show(
-                            "Target path not found",
-                            "Error",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error
-                        );
-
-                        Close();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(
-                       $"Failed to convert ksh chart.\n{ex.Message}",
-                       "Error",
-                       MessageBoxButtons.OK,
-                       MessageBoxIcon.Error
-                    );
-                }
-
-                return;
-            }
-
-            // Again, stupid input get stupid output
-            foreach (var header in AssetManager.Headers)
-            {
-                if (Header.Ascii == header.Ascii)
-                {
-                    MessageBox.Show(
-                        $"Music Code is already exists.\n{AssetManager.GetMusicPath(header)}",
-                        "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                    );
-
-                    return;
-                }
-            }
-
-            // Assign metadata
-            Header.Ascii        = AsciiTextBox.Text;
-            Header.BackgroundId = short.Parse((BackgroundDropDown.SelectedItem ?? "0").ToString().Split(' ')[0]);
-            Header.Version      = (GameVersion)(VersionDropDown.SelectedIndex + 1);
-            Header.InfVersion   = InfVerDropDown.SelectedIndex == 0 ? InfiniteVersion.MXM : (InfiniteVersion)(InfVerDropDown.SelectedIndex + 1);
-            Header.GenreId      = 16;
-            Header.Levels       = new Dictionary<Difficulty, VoxLevelHeader>();
-
-            // Again, stupid input get stupid output
-            if (Directory.Exists(AssetManager.GetMusicPath(Header)))
-            {
-                MessageBox.Show(
-                    $"Music asset for {Header.CodeName} is already exists.",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
-
-                return;
-            }
-
-            // Uhh, remove empty level?
-            var entries = charts.Where(x => x.Value != null);
-            charts      = new Dictionary<Difficulty, ChartInfo>();
-            foreach (var entry in entries)
-                charts[entry.Key] = entry.Value;
-
-            // Assign level info and charts
-            foreach (var chart in charts)
-            {
-                var info = chart.Value;
-                if (!File.Exists(info.FileName))
-                {
-                    MessageBox.Show(
-                        $"Chart file was moved or deleted\n{info.FileName}",
-                        "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                    );
-
-                    charts[chart.Key] = null;
-                    UpdateUI();
-
-                    return;
-                }
-
-                // If you happen to read the source, this is probably what you're looking for
-                var ksh = new Ksh();
-                ksh.Parse(info.FileName, options);
-
-                var bpmCount = ksh.Events.Count(ev => ev is Event.BPM);
-                if (!warned && bpmCount > 1 && ksh.MusicOffset % 48 != 0 && options.RealignOffset)
-                {
-                    // You've been warned!
-                    var prompt = MessageBox.Show(
-                       "Chart contains multiple bpm with music offset that non multiple of 48.\n" +
-                       "Adapting music offset could break the chart.\n\n" +
-                       "Do you want to continue?",
-                       "Warning",
-                       MessageBoxButtons.YesNo,
-                       MessageBoxIcon.Warning
-                    );
-
-                    warned = true;
-                    if (prompt == DialogResult.No)
-                        return;
-                }
-
-                var vox = new VoxChart();
-                vox.Import(ksh);
-
-                var level = ToLevelHeader(ksh);
-                level.Chart = vox;
-
-                info.Source = ksh;
-                Header.Levels[chart.Key] = charts[chart.Key].Header = level;
-            }
-
-            // Prevent resource files being moved or deleted, copy them into temporary storage
-            string musicFile = string.Empty;
-            string tmpFile = string.Empty;
-            foreach (var chart in charts)
-            {
-                var info = chart.Value;
-
-                // Make sure to reuse 2dx file for music that share same file
-                if (string.IsNullOrEmpty(musicFile) || chart.Value.MusicFileName != musicFile)
-                {
-                    string music = Path.Combine(Path.GetDirectoryName(info.FileName), info.Source.MusicFileName);
-                    if (File.Exists(music))
-                    {
-                        string tmp = Path.Combine(
-                            Path.GetTempPath(),
-                            $"{Path.GetRandomFileName()}{new FileInfo(info.Source.MusicFileName).Extension}"
-                        );
-
-                        musicFile = music;
-                        info.MusicFileName = tmpFile = tmp;
-
-                        File.Copy(music, tmp);
-                    }
-                    else
-                        info.MusicFileName = string.Empty;
-                }
-                else
-                    info.MusicFileName = tmpFile;
-
-                string jacket = Path.Combine(Path.GetDirectoryName(info.FileName), info.Source.JacketFileName);
-                if (File.Exists(jacket))
-                {
-                    string tmp = Path.Combine(
-                        Path.GetTempPath(),
-                        $"{Path.GetRandomFileName()}{new FileInfo(info.Source.JacketFileName).Extension}"
-                    );
-
-                    try
-                    {
-                        using (var image = Image.FromFile(jacket))
-                            info.Header.Jacket = new Bitmap(image);
-                    }
-                    catch (Exception)
-                    {
-                        info.Header.Jacket = null;
-                    }
-
-                    info.JacketFileName = tmp;
-                    File.Copy(jacket, tmp);
-                }
-            }
-
-            Action = new Action(() =>
-            {
-                bool unique = false;
-                musicFile   = charts.Values.First().MusicFileName;
-                foreach (var chart in charts)
-                {
-                    if (chart.Value.MusicFileName != musicFile)
-                    {
-                        unique = true;
-                        break;
-                    }
-                }
-
-                // Import all music assets
-                AssetManager.ImportVox(Header);
-
-                // Make sure to use single asset for music for shared music file
-                if (!unique)
-                {
-                    AssetManager.Import2DX(musicFile, Header);
-                    AssetManager.Import2DX(musicFile, Header, true);
-                }
-
-                foreach (var chart in charts.Values)
-                {
-                    if (unique && File.Exists(chart.MusicFileName))
-                    {
-                        AssetManager.Import2DX(chart.MusicFileName, Header, chart.Header.Difficulty);
-                        AssetManager.Import2DX(chart.MusicFileName, Header, chart.Header.Difficulty, true);
-                    }
-
-                    if (File.Exists(chart.JacketFileName))
-                    {
-                        using (var image = Image.FromFile(chart.JacketFileName))
-                            AssetManager.ImportJacket(Header, chart.Header.Difficulty, new Bitmap(image));
-                    }
-                }
-            });
-
-            DialogResult = DialogResult.OK;
-            Close();
+                Convert();
+            else
+                Process();
         }
 
         private VoxHeader ToHeader(Ksh chart)
         {
             return new VoxHeader()
             {
-                ID               = AssetManager.Headers.LastID + 1,
+                ID               = AssetManager.GetNextMusicID(),
                 Title            = chart.Title,
                 Artist           = chart.Artist,
                 BpmMin           = chart.BpmMin,
@@ -471,7 +234,280 @@ namespace VoxCharger
                 Level       = chart.Level
             };
         }
-        
+
+        private void Process()
+        {
+            try
+            {
+                bool warned = false;
+                foreach (var header in AssetManager.Headers)
+                {
+                    if (Header.Ascii == header.Ascii)
+                    {
+                        MessageBox.Show(
+                            $"Music Code is already exists.\n{AssetManager.GetMusicPath(header).Replace(AssetManager.GamePath, "")}",
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+
+                        return;
+                    }
+                }
+
+                // Assign metadata
+                Header.Ascii = AsciiTextBox.Text;
+                Header.BackgroundId = short.Parse((BackgroundDropDown.SelectedItem ?? "0").ToString().Split(' ')[0]);
+                Header.Version = (GameVersion)(VersionDropDown.SelectedIndex + 1);
+                Header.InfVersion = InfVerDropDown.SelectedIndex == 0 ? InfiniteVersion.MXM : (InfiniteVersion)(InfVerDropDown.SelectedIndex + 1);
+                Header.GenreId = 16;
+                Header.Levels = new Dictionary<Difficulty, VoxLevelHeader>();
+
+                if (Directory.Exists(AssetManager.GetMusicPath(Header)))
+                {
+                    MessageBox.Show(
+                        $"Music asset for {Header.CodeName} is already exists.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+
+                    return;
+                }
+
+                // Uhh, remove empty level?
+                var entries = charts.Where(x => x.Value != null);
+                charts = new Dictionary<Difficulty, ChartInfo>();
+                foreach (var entry in entries)
+                    charts[entry.Key] = entry.Value;
+
+                // Assign level info and charts
+                foreach (var chart in charts)
+                {
+                    var info = chart.Value;
+                    if (!File.Exists(info.FileName))
+                    {
+                        MessageBox.Show(
+                            $"Chart file was moved or deleted\n{info.FileName}",
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+
+                        charts[chart.Key] = null;
+                        UpdateUI();
+
+                        return;
+                    }
+
+                    // If you happen to read the source, this is probably what you're looking for
+                    var ksh = new Ksh();
+                    ksh.Parse(info.FileName, Options);
+
+                    var bpmCount = ksh.Events.Count(ev => ev is Event.BPM);
+                    if (!warned && bpmCount > 1 && ksh.MusicOffset % 48 != 0 && Options.RealignOffset)
+                    {
+                        // You've been warned!
+                        var prompt = MessageBox.Show(
+                           "Chart contains multiple bpm with music offset that non multiple of 48.\n" +
+                           "Adapting music offset could break the chart.\n\n" +
+                           "Do you want to continue?",
+                           "Warning",
+                           MessageBoxButtons.YesNo,
+                           MessageBoxIcon.Warning
+                        );
+
+                        warned = true;
+                        if (prompt == DialogResult.No)
+                            return;
+                    }
+
+                    // Conversion is actually boring because its already "pre-converted"
+                    var vox = new VoxChart();
+                    vox.Import(ksh);
+
+                    var level = ToLevelHeader(ksh);
+                    level.Chart = vox;
+
+                    info.Source = ksh;
+                    Header.Levels[chart.Key] = charts[chart.Key].Header = level;
+                }
+
+                // Prevent resource files being moved or deleted, copy them into temporary storage
+                string musicFile = string.Empty;
+                string tmpFile = string.Empty;
+                foreach (var chart in charts)
+                {
+                    var info = chart.Value;
+
+                    // Make sure to reuse 2dx file for music that share same file
+                    if (string.IsNullOrEmpty(musicFile) || chart.Value.MusicFileName != musicFile)
+                    {
+                        string music = Path.Combine(Path.GetDirectoryName(info.FileName), info.Source.MusicFileName);
+                        if (File.Exists(music))
+                        {
+                            string tmp = Path.Combine(
+                                Path.GetTempPath(),
+                                $"{Path.GetRandomFileName()}{new FileInfo(info.Source.MusicFileName).Extension}"
+                            );
+
+                            musicFile = music;
+                            info.MusicFileName = tmpFile = tmp;
+
+                            File.Copy(music, tmp);
+                        }
+                        else
+                            info.MusicFileName = string.Empty;
+                    }
+                    else
+                        info.MusicFileName = tmpFile;
+
+                    string jacket = Path.Combine(Path.GetDirectoryName(info.FileName), info.Source.JacketFileName);
+                    if (File.Exists(jacket))
+                    {
+                        string tmp = Path.Combine(
+                            Path.GetTempPath(),
+                            $"{Path.GetRandomFileName()}{new FileInfo(info.Source.JacketFileName).Extension}"
+                        );
+
+                        try
+                        {
+                            using (var image = Image.FromFile(jacket))
+                                info.Header.Jacket = new Bitmap(image);
+                        }
+                        catch (Exception)
+                        {
+                            info.Header.Jacket = null;
+                        }
+
+                        info.JacketFileName = tmp;
+                        File.Copy(jacket, tmp);
+                    }
+                }
+
+                Action = new Action(() =>
+                {
+                    bool unique = false;
+                    musicFile = charts.Values.First().MusicFileName;
+                    foreach (var chart in charts)
+                    {
+                        if (chart.Value.MusicFileName != musicFile)
+                        {
+                            unique = true;
+                            break;
+                        }
+                    }
+
+                // Import all music assets
+                AssetManager.ImportVox(Header);
+
+                // Make sure to use single asset for music for shared music file
+                if (!unique)
+                    {
+                        AssetManager.Import2DX(musicFile, Header);
+                        AssetManager.Import2DX(musicFile, Header, true);
+                    }
+
+                    foreach (var chart in charts.Values)
+                    {
+                        if (unique && File.Exists(chart.MusicFileName))
+                        {
+                            AssetManager.Import2DX(chart.MusicFileName, Header, chart.Header.Difficulty);
+                            AssetManager.Import2DX(chart.MusicFileName, Header, chart.Header.Difficulty, true);
+                        }
+
+                        if (File.Exists(chart.JacketFileName))
+                        {
+                            using (var image = Image.FromFile(chart.JacketFileName))
+                                AssetManager.ImportJacket(Header, chart.Header.Difficulty, new Bitmap(image));
+                        }
+                    }
+                });
+
+
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                  $"Failed to import ksh chart.\n{ex.Message}",
+                  "Error",
+                  MessageBoxButtons.OK,
+                  MessageBoxIcon.Error
+               );
+            }
+        }
+
+        private void Convert()
+        {
+            // Only serve as options dialog
+            if (string.IsNullOrEmpty(target))
+            {
+                DialogResult = DialogResult.OK;
+                Close();
+            }
+
+            try
+            {
+                if (File.Exists(target) || Directory.Exists(target))
+                {
+                    if (File.Exists(target))
+                        SingleConvert(Options);
+                    else if (Directory.Exists(target))
+                        BulkConvert(Options);
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "Target path not found",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+
+                    DialogResult = DialogResult.Cancel;
+                    Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                   $"Failed to convert ksh chart.\n{ex.Message}",
+                   "Error",
+                   MessageBoxButtons.OK,
+                   MessageBoxIcon.Error
+                );
+            }
+        }
+
+        private Dictionary<Difficulty, ChartInfo> GetCharts(string target, Ksh main)
+        {
+            // Try to locate another difficulty
+            string dir = Path.GetDirectoryName(target);
+            var charts = new Dictionary<Difficulty, ChartInfo>();
+            foreach (string fn in Directory.GetFiles(dir, "*.ksh"))
+            {
+                try
+                {
+                    var chart = new Ksh();
+                    chart.Parse(fn);
+
+                    // Different chart
+                    if (chart.Title != main.Title)
+                        continue;
+
+                    charts[chart.Difficulty] = new ChartInfo(chart, ToLevelHeader(chart), fn);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Failed attempt to parse ksh file: {0} ({1})", fn, ex.Message);
+                }
+            }
+
+            return charts;
+        }
+
         private void LoadJacket(ChartInfo info)
         {
             var chart = info.Source;
@@ -608,6 +644,7 @@ namespace VoxCharger
                     MessageBoxIcon.Information
                 );
 
+                DialogResult = DialogResult.OK;
                 Close();
             }
         }
@@ -692,6 +729,7 @@ namespace VoxCharger
                 MessageBoxIcon.Information
             );
 
+            DialogResult = DialogResult.OK;
             Close();
         }
     }

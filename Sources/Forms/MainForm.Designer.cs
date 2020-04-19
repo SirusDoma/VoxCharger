@@ -858,9 +858,9 @@
             this.IdTextBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.IdTextBox.Location = new System.Drawing.Point(83, 23);
             this.IdTextBox.Name = "IdTextBox";
+            this.IdTextBox.ReadOnly = true;
             this.IdTextBox.Size = new System.Drawing.Size(383, 21);
             this.IdTextBox.TabIndex = 1;
-            this.IdTextBox.TextChanged += new System.EventHandler(this.OnMetadataChanged);
             // 
             // IdLabel
             // 

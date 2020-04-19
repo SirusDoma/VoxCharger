@@ -107,13 +107,15 @@ namespace VoxCharger
         {
             try
             {
-                Save(AssetManager.MdbFilename);
-                MessageBox.Show(
-                   "Mix has been saved successfully",
-                   "Information",
-                   MessageBoxButtons.OK,
-                   MessageBoxIcon.Information
-               );
+                if (Save(AssetManager.MdbFilename))
+                {
+                    MessageBox.Show(
+                       "Mix has been saved successfully",
+                       "Information",
+                       MessageBoxButtons.OK,
+                       MessageBoxIcon.Information
+                   );
+                }
             }
             catch (Exception ex)
             {
@@ -139,13 +141,15 @@ namespace VoxCharger
                     if (exporter.ShowDialog() != DialogResult.OK)
                         return;
 
-                    Save(exporter.FileName);
-                    MessageBox.Show(
-                       "Mix has been saved successfully",
-                       "Information",
-                       MessageBoxButtons.OK,
-                       MessageBoxIcon.Information
-                    );
+                    if (Save(exporter.FileName))
+                    {
+                        MessageBox.Show(
+                           "Mix has been saved successfully",
+                           "Information",
+                           MessageBoxButtons.OK,
+                           MessageBoxIcon.Information
+                        );
+                    }
                 }
             }
             catch (Exception ex)
@@ -491,7 +495,16 @@ namespace VoxCharger
                 return;
 
             if (int.TryParse(IdTextBox.Text, out int id))
-                header.ID = id;
+            {
+                // Validate ID
+                if (!AssetManager.ValidateMusicID(id))
+                {
+                    IdTextBox.Text = header.ID.ToString();
+                    MessageBox.Show("Music ID is already taken", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                    header.ID = id;
+            }
             else
                 IdTextBox.Text = header.ID.ToString();
 
@@ -703,19 +716,21 @@ namespace VoxCharger
             }
         }
 
-        private void Save(string dbFilename)
+        private bool Save(string dbFilename)
         {
+            var errors = new List<string>();
             using (var loader = new LoadingForm())
             {
                 var proc = new Action(() =>
                 {
                     int max = actions.Count + 1;
-                    foreach (var queue in actions.Values)
+                    foreach (var action in actions)
                     {
                         float progress = ((float)(max - actions.Count) / max) * 100f;
                         loader.SetStatus($"[{progress:00}%] - Processing assets..");
                         loader.SetProgress(progress);
 
+                        var queue = action.Value;
                         while (queue.Count > 0)
                         {
                             try
@@ -724,6 +739,7 @@ namespace VoxCharger
                             }
                             catch (Exception ex)
                             {
+                                errors.Add($"{action.Key}: {ex.Message}");
                                 Debug.WriteLine(ex.Message);
                             }
                         }
@@ -740,8 +756,19 @@ namespace VoxCharger
                 loader.ShowDialog();
             }
 
+            if (errors.Count > 0)
+            {
+                string message = "Error occured when processing following assets:\n";
+                foreach (var err in errors)
+                    message += $"\n{err}";
+
+                MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
             actions.Clear();
             Pristine = true;
+
+            return errors.Count == 0;
         }
 
         private void Import2DX(bool preview = false)
@@ -880,6 +907,8 @@ namespace VoxCharger
                     control.Enabled = safe;
             }
 
+            // Modifying this could lead into disaster, must be left untouched
+            IdTextBox.ReadOnly    = true;
             LevelGroupBox.Enabled = true;
             foreach (Control control in LevelGroupBox.Controls)
             {

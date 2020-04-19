@@ -15,10 +15,11 @@ namespace VoxCharger
         private static readonly Encoding DefaultEncoding = Encoding.GetEncoding("Shift_JIS");
 
         private Dictionary<int, VoxHeader> headers;
-        
-        public int LastID => headers.Count > 0 ? headers.Values.Max(h => h.ID) : 0;
+        private int max = 0;
 
-        public int Count => headers.Count;
+        public int Count  => headers.Count;
+
+        public int LastID => headers.Values.Max(h => h.ID);
 
         public MusicDb()
         {
@@ -178,17 +179,33 @@ namespace VoxCharger
 
         public void Add(VoxHeader header)
         {
+            if (max < header.ID)
+                max = header.ID;
+
             headers[header.ID] = header;
         }
 
         public void Remove(int id)
         {
+            if (max == id)
+                max = 0;
+
             headers.Remove(id);
         }
 
         public void Remove(VoxHeader header)
         {
-            headers.Remove(header.ID);
+            Remove(header.ID);
+        }
+
+        public bool Contains(int id)
+        {
+            return headers.ContainsKey(id);
+        }
+
+        public bool Contains(VoxHeader header)
+        {
+            return Contains(header.ID);
         }
 
         public VoxHeader GetHeader(int id)

@@ -12,6 +12,8 @@ namespace VoxCharger
     {
         #region --- Properties ---
         private static List<string> MixList = new List<string>();
+        private static MusicDb InternalHeaders = null;
+        private static int LastOriginalID = 0;
 
         public static string MixName { get; private set; }
 
@@ -31,13 +33,6 @@ namespace VoxCharger
             string dbFilename = Path.Combine(gamePath, @"data\others\music_db.xml");
             if (!File.Exists(dbFilename))
                 throw new FormatException("Invalid Game Directory");
-
-            // Validate whether cache exists, perform full load when cache is not available
-            string cacheFilename = Path.Combine(gamePath, @"data_mods\_cache\others\music_db.xml");
-            
-            // Load original headers data
-            Headers = new MusicDb();
-            Headers.Load(File.Exists(cacheFilename) ? cacheFilename : dbFilename);
 
             // Look for other mixes
             MixList.Clear();
@@ -59,10 +54,10 @@ namespace VoxCharger
                     continue;
 
                 // Confirmed mod path, append into music db, ignore cache to avoid uncached mix being excluded
-                Headers.Load(dbFilename, true);
                 MixList.Add(modName);
             }
 
+            LastOriginalID = 0;
             GamePath = gamePath;
         }
 
@@ -76,6 +71,9 @@ namespace VoxCharger
             Directory.CreateDirectory(Path.Combine(mixPath, @"graphics\s_jacket00_ifs\"));
             Directory.CreateDirectory(Path.Combine(mixPath, @"music\"));
             Directory.CreateDirectory(Path.Combine(mixPath, @"others\"));
+
+            // Load Existing song DB to avoid duplicate id
+            LoadInternalDb(mixName);
 
             // Create empty db
             MdbFilename = Path.Combine(mixPath, @"others\music_db.merged.xml");
@@ -93,7 +91,8 @@ namespace VoxCharger
             if (!Directory.Exists(mixPath))
                 throw new DirectoryNotFoundException("Mix directory missing");
 
-            // No way it happen since combo box is dropdownlist, but well.. :v
+            // Load Existing song DB to avoid duplicate id
+            LoadInternalDb(mixName);
             if (!string.IsNullOrEmpty(mixName) && !MixList.Contains(mixName))
                 MixList.Add(mixName);
 
@@ -110,6 +109,38 @@ namespace VoxCharger
             return MixList.ToArray();
         }
 
+        private static void LoadInternalDb(string mixName)
+        {
+            // First, we need to populate available ids outside selected mix
+            // This will prevent duplicate ID not only with originals but with other mixes too
+
+            // Load original music,  ignore cache to avoid uncached mix being excluded or included
+            string dbFilename = Path.Combine(GamePath, @"data\others\music_db.xml");
+            string modsPath = Path.Combine(GamePath, @"data_mods\");
+
+            // Load original headers data
+            InternalHeaders = new MusicDb();
+            InternalHeaders.Load(dbFilename);
+            LastOriginalID  = InternalHeaders.LastID;
+
+            // Load other music db
+            foreach (var modDir in Directory.GetDirectories(modsPath))
+            {
+                // Get directory name, exclude selected mix
+                string modName = new DirectoryInfo(modDir).Name;
+                if (modName == "_cache" || modName == mixName)
+                    continue;
+
+                // Validate whether the mod is a mix mod
+                // Do not skip unsupported mods, just read the db and ignore the rest of assets
+                dbFilename = Path.Combine(modDir, @"others\music_db.merged.xml");
+                if (!File.Exists(dbFilename))
+                    continue;
+
+                // Confirmed mod path, append into music db
+                InternalHeaders.Load(dbFilename, true);
+            }
+        }
         #endregion
 
         #region --- Asset Management ---
@@ -217,6 +248,23 @@ namespace VoxCharger
         #endregion
 
         #region --- Asset Identifier ---
+        public static int GetNextMusicID()
+        {
+            // TODO: This probably inefficient in scenario where one or more mix has gap between each ids
+            // This could be waste to those gaps, and eat up our precious limited id
+            // However, these gaps may indicate deleted song, which should be taken by omnimix
+
+            int id = InternalHeaders.LastID + 1;
+            while (InternalHeaders.Contains(id) || Headers.Contains(id)) // Contains is O(1) so its should be fine
+                id++;
+
+            return id;
+        }
+
+        public static bool ValidateMusicID(int id)
+        {
+            return !InternalHeaders.Contains(id);
+        }
 
         public static string GetDifficultyCodes(VoxHeader header, Difficulty difficulty)
         {
