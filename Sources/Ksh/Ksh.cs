@@ -75,7 +75,7 @@ namespace VoxCharger
             for (int i = 0; i < lines.Length; i++)
             {
                 string line = lines[i].Trim();
-                if (line.StartsWith("//"))
+                if (string.IsNullOrEmpty(line) || line.StartsWith("//"))
                     continue;
 
 
@@ -493,11 +493,14 @@ namespace VoxCharger
                     time = Time.FromOffset(position, signature);
                     for (int j = i + 1; j < lines.Length; j++)
                     {
-                        string ln = lines[j];
-                        if (char.IsDigit(ln[0]))
-                            noteCount++;
-                        else if (ln == "--")
-                            break;
+                        string ln = lines[j].Trim();
+                        if (!string.IsNullOrEmpty(ln))
+                        {
+                            if (char.IsDigit(ln[0]))
+                                noteCount++;
+                            else if (ln == "--")
+                                break;
+                        }
                     }
                 }
                 else if (char.IsDigit(line[0]))
