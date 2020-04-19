@@ -305,11 +305,11 @@ namespace VoxCharger
                 var action = new Action(() =>
                 {
                     var directories = Directory.GetDirectories(target);
-                    int current     = 1;
+                    int current     = 0;
                     foreach (string dir in directories)
                     {
                         loader.SetStatus($"Processing {Path.GetFileName(dir)}..");
-                        loader.SetProgress((current / (float)directories.Length) * 100f);
+                        loader.SetProgress((current + 1 / (float)directories.Length) * 100f);
 
                         var files = Directory.GetFiles(dir, "*.ksh");
                         if (files.Length == 0)
