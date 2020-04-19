@@ -2,7 +2,7 @@
 
 - **Author**: CXO2
 - **Email**: com@cxo2.me
-- **Version**: 0.9.7b
+- **Version**: 0.9.8b
 
 Recharge your KFC Chicken sauce ([Download](https://github.com/SirusDoma/VoxCharger/releases))   
 
@@ -44,15 +44,20 @@ Vox have some sense in it's file format than ksh file, as the result, not all at
 
 Remember, stupid input get stupid output. But if you believe it's a bug, feel free to open issue or PR.
 
-### Music Preview
-Imported music preview from normal audio files may broken or not trimmed properly in the output file. Preview offset in ksh is also ignored, you need dedicated preview file with proper fade in and out. Keep in mind that `2dxwavconvert.exe` will not do this for you, it only trim your audio into 10 second for preview purpose. Until program supports built in encoder, you have to provide 2dx preview manually for proper preview file.  
-
-If you can't live without it, consider making PR to this feature.
+### Network Scores
+Make sure you are using under Offline environment and **NOT** connected to any KFC network server while using the output files of this tool. It could break network score table and you may get banned from the network for doing so.
 
 ### Music DB
-Some attributes are kept hidden from editor, For existing songs, some of their attributes might untouched throughout save iteration, but the rest of hidden attributes might be replaced with dummy / stub data.  
+The program also prevent you to modify Music ID and some attributes are kept hidden from editor, For existing songs, some of their attributes might untouched throughout save iteration, but the rest of hidden attributes might be replaced with dummy / stub data. 
 
 If this really concern you, make sure to backup your `music_db.xml` / `music_db.merged.xml`.
+
+### Music Preview
+Imported music preview from normal audio files may broken or not trimmed properly in the output file. Preview offset in ksh is also ignored, you need dedicated preview file with proper fade in and out.  
+
+Keep in mind that `2dxwavconvert.exe` will not do this for you, it only trim your audio into 10 second for preview purpose. Until program supports built in encoder, you have to provide 2dx preview manually for proper preview file.  
+
+If you can't live without it, consider making PR to this feature.
 
 ### Asset File Modification
 Replacing asset files such as vox, 2dx and graphic files are happen immediately after changes are confirmed. In other hand, metadata need to be saved manually by clicking `File -> Save` or `CTRL+S`.  

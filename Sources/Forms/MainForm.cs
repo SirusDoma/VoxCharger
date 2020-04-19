@@ -259,7 +259,7 @@ namespace VoxCharger
                 if (browser.ShowDialog() != DialogResult.OK)
                     return;
 
-                using (var converter = new ConverterForm(browser.FileName, true))
+                using (var converter = new ConverterForm(browser.FileName, ConvertMode.Converter))
                     converter.ShowDialog();
             }
         }
@@ -272,7 +272,7 @@ namespace VoxCharger
                 if (browser.ShowDialog() != DialogResult.OK)
                     return;
 
-                using (var converter = new ConverterForm(browser.SelectedPath, true))
+                using (var converter = new ConverterForm(browser.SelectedPath, ConvertMode.Converter))
                     converter.ShowDialog();
             }
         }
@@ -453,7 +453,7 @@ namespace VoxCharger
             MusicListBox.Items.Add(header);
         }
 
-        private void OnImportKshMenuClick(object sender, EventArgs e)
+        private void OnSingleImportMenuClick(object sender, EventArgs e)
         {
             using (var browser = new OpenFileDialog())
             {
@@ -463,12 +463,12 @@ namespace VoxCharger
                 if (browser.ShowDialog() != DialogResult.OK)
                     return;
 
-                using (var converter = new ConverterForm(browser.FileName))
+                using (var converter = new ConverterForm(browser.FileName, ConvertMode.Importer))
                 {
                     if (converter.ShowDialog() != DialogResult.OK)
                         return;
 
-                    var header = converter.Header;
+                    var header = converter.Result;
                     if (!actions.ContainsKey(header.Ascii))
                         actions[header.Ascii] = new Queue<Action>();
 
@@ -477,6 +477,37 @@ namespace VoxCharger
                     MusicListBox.Items.Add(header);
 
                     actions[header.Ascii].Enqueue(converter.Action);
+                    if (Autosave)
+                        Save(AssetManager.MdbFilename);
+                }
+            }
+        }
+
+        private void OnBulkImportKshMenuClick(object sender, EventArgs e)
+        {
+            using (var browser = new FolderBrowserDialog())
+            {
+                browser.Description = "Select Kshoot chart repository";
+                if (browser.ShowDialog() != DialogResult.OK)
+                    return;
+
+                using (var converter = new ConverterForm(browser.SelectedPath, ConvertMode.BulkImporter))
+                {
+                    if (converter.ShowDialog() != DialogResult.OK)
+                        return;
+
+                    foreach (var header in converter.ResultSet)
+                    {
+                        if (!actions.ContainsKey(header.Ascii))
+                            actions[header.Ascii] = new Queue<Action>();
+
+                        AssetManager.Headers.Add(header);
+                        MusicListBox.Items.Add(header);
+
+                        actions[header.Ascii].Enqueue(converter.ActionSet[header.Ascii]);
+                    }
+
+                    Pristine = false;
                     if (Autosave)
                         Save(AssetManager.MdbFilename);
                 }
@@ -723,11 +754,11 @@ namespace VoxCharger
             {
                 var proc = new Action(() =>
                 {
-                    int max = actions.Count + 1;
+                    float it = 1f;
                     foreach (var action in actions)
                     {
-                        float progress = ((float)(max - actions.Count) / max) * 100f;
-                        loader.SetStatus($"[{progress:00}%] - Processing assets..");
+                        float progress = (it++ / actions.Count) * 100f;
+                        loader.SetStatus($"[{progress:00}%] - Processing {action.Key} assets..");
                         loader.SetProgress(progress);
 
                         var queue = action.Value;
@@ -953,5 +984,6 @@ namespace VoxCharger
             ExplorerEditMenu.Enabled         = false;
         }
         #endregion
+
     }
 }

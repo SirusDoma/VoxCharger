@@ -44,6 +44,32 @@ namespace VoxCharger
         {
         }
 
+        public VoxHeader ToHeader()
+        {
+            return new VoxHeader()
+            {
+                Title            = Title,
+                Artist           = Artist,
+                BpmMin           = BpmMin,
+                BpmMax           = BpmMax,
+                Volume           = Volume > 0 ? (short)Volume : (short)91,
+                DistributionDate = DateTime.Now,
+                BackgroundId     = 63,
+                GenreId          = 16,
+            };
+        }
+
+        public VoxLevelHeader ToLevelHeader()
+        {
+            return new VoxLevelHeader
+            {
+                Difficulty  = Difficulty,
+                Illustrator = Illustrator,
+                Effector    = Effector,
+                Level       = Level
+            };
+        }
+
         public void Parse(string fileName, ParseOption opt = null)
         {
             // I pulled all nighters for few days, all for this piece of trash codes :)
@@ -108,13 +134,8 @@ namespace VoxCharger
                     if (opt.RealignOffset)
                         position -= MusicOffset; // Attempt to align
 
-                    time = Time.FromOffset(position, signature);
-                    //int p = time.AsAbsoluteOffset(signature);
-                    //if ((int)Math.Round(position) != p)
-                    //    Debug.WriteLine("");
-
-
                     // Magic happens here!
+                    time = Time.FromOffset(position, signature);
                     if (time.Measure < 0)
                         continue; // Might happen when try to realign music offset
 

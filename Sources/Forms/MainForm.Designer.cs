@@ -46,6 +46,8 @@
             this.AddEditMenu = new System.Windows.Forms.MenuItem();
             this.AddNewEditMenu = new System.Windows.Forms.MenuItem();
             this.ImportKshEditMenu = new System.Windows.Forms.MenuItem();
+            this.MenuSeparator7 = new System.Windows.Forms.MenuItem();
+            this.BulkImportKshEditMenu = new System.Windows.Forms.MenuItem();
             this.RemoveEditMenu = new System.Windows.Forms.MenuItem();
             this.MenuSeparator4 = new System.Windows.Forms.MenuItem();
             this.Import2DXEditMenu = new System.Windows.Forms.MenuItem();
@@ -69,6 +71,8 @@
             this.ImportContextMenu = new System.Windows.Forms.ContextMenu();
             this.ImportVoxMenu = new System.Windows.Forms.MenuItem();
             this.ImportKshMenu = new System.Windows.Forms.MenuItem();
+            this.MenuSeparator8 = new System.Windows.Forms.MenuItem();
+            this.BulkImportKshMenu = new System.Windows.Forms.MenuItem();
             this.RemoveButton = new System.Windows.Forms.Button();
             this.MusicListBox = new System.Windows.Forms.ListBox();
             this.MetadataGroupBox = new System.Windows.Forms.GroupBox();
@@ -228,7 +232,9 @@
             this.AddEditMenu.Index = 0;
             this.AddEditMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.AddNewEditMenu,
-            this.ImportKshEditMenu});
+            this.ImportKshEditMenu,
+            this.MenuSeparator7,
+            this.BulkImportKshEditMenu});
             this.AddEditMenu.Shortcut = System.Windows.Forms.Shortcut.Ins;
             this.AddEditMenu.Text = "Add";
             // 
@@ -241,8 +247,19 @@
             // ImportKshEditMenu
             // 
             this.ImportKshEditMenu.Index = 1;
-            this.ImportKshEditMenu.Text = "Import from Ksh..";
-            this.ImportKshEditMenu.Click += new System.EventHandler(this.OnImportKshMenuClick);
+            this.ImportKshEditMenu.Text = "Import Ksh..";
+            this.ImportKshEditMenu.Click += new System.EventHandler(this.OnSingleImportMenuClick);
+            // 
+            // MenuSeparator7
+            // 
+            this.MenuSeparator7.Index = 2;
+            this.MenuSeparator7.Text = "-";
+            // 
+            // BulkImportKshEditMenu
+            // 
+            this.BulkImportKshEditMenu.Index = 3;
+            this.BulkImportKshEditMenu.Text = "Bulk Import Ksh..";
+            this.BulkImportKshEditMenu.Click += new System.EventHandler(this.OnBulkImportKshMenuClick);
             // 
             // RemoveEditMenu
             // 
@@ -410,7 +427,9 @@
             // 
             this.ImportContextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
             this.ImportVoxMenu,
-            this.ImportKshMenu});
+            this.ImportKshMenu,
+            this.MenuSeparator8,
+            this.BulkImportKshMenu});
             // 
             // ImportVoxMenu
             // 
@@ -422,7 +441,18 @@
             // 
             this.ImportKshMenu.Index = 1;
             this.ImportKshMenu.Text = "Import Ksh..";
-            this.ImportKshMenu.Click += new System.EventHandler(this.OnImportKshMenuClick);
+            this.ImportKshMenu.Click += new System.EventHandler(this.OnSingleImportMenuClick);
+            // 
+            // MenuSeparator8
+            // 
+            this.MenuSeparator8.Index = 2;
+            this.MenuSeparator8.Text = "-";
+            // 
+            // BulkImportKshMenu
+            // 
+            this.BulkImportKshMenu.Index = 3;
+            this.BulkImportKshMenu.Text = "Bulk Import Ksh..";
+            this.BulkImportKshMenu.Click += new System.EventHandler(this.OnBulkImportKshMenuClick);
             // 
             // RemoveButton
             // 
@@ -1079,6 +1109,10 @@
         private System.Windows.Forms.MenuItem BulkConvertToolsMenu;
         private System.Windows.Forms.MenuItem MenuSeparator6;
         private System.Windows.Forms.MenuItem AutosaveEditMenu;
+        private System.Windows.Forms.MenuItem BulkImportKshEditMenu;
+        private System.Windows.Forms.MenuItem MenuSeparator7;
+        private System.Windows.Forms.MenuItem MenuSeparator8;
+        private System.Windows.Forms.MenuItem BulkImportKshMenu;
     }
 }
 

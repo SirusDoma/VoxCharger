@@ -97,6 +97,7 @@
     <Compile Include="Sources\Events\Signature.cs" />
     <Compile Include="Sources\Events\Stop.cs" />
     <Compile Include="Sources\Events\TiltMode.cs" />
+    <Compile Include="Sources\Ksh\Exporter.cs" />
     <Compile Include="Sources\Ksh\Ksh.cs" />
     <Compile Include="Sources\Events\EventCollection.cs" />
     <Compile Include="Sources\Events\Event.cs" />
