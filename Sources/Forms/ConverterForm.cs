@@ -305,11 +305,11 @@ namespace VoxCharger
                 var action = new Action(() =>
                 {
                     var directories = Directory.GetDirectories(target);
-                    int progress = 0;
+                    int current     = 1;
                     foreach (string dir in directories)
                     {
                         loader.SetStatus($"Processing {Path.GetFileName(dir)}..");
-                        loader.SetProgress((progress++ / (float)directories.Length) * 100f);
+                        loader.SetProgress((current / (float)directories.Length) * 100f);
 
                         var files = Directory.GetFiles(dir, "*.ksh");
                         if (files.Length == 0)
@@ -323,7 +323,7 @@ namespace VoxCharger
                             ksh.Parse(fn, Options);
 
                             var header          = ksh.ToHeader();
-                            header.ID           = AssetManager.GetNextMusicID();
+                            header.ID           = AssetManager.GetNextMusicID() + current++;
                             header.BackgroundId = short.Parse((BackgroundDropDown.SelectedItem ?? "0").ToString().Split(' ')[0]);
                             header.Version      = (GameVersion)(VersionDropDown.SelectedIndex + 1);
                             header.InfVersion   = InfVerDropDown.SelectedIndex == 0 ? InfiniteVersion.MXM : (InfiniteVersion)(InfVerDropDown.SelectedIndex + 1);
