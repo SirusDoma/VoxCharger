@@ -43,7 +43,7 @@ namespace VoxCharger
             var info = new ProcessStartInfo()
             {
                 FileName               = fileName,
-                Arguments              = args,
+                Arguments              = $"\"{args}\"",
                 WorkingDirectory       = workingDir,
                 CreateNoWindow         = true,
                 UseShellExecute        = false,
