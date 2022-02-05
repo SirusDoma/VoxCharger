@@ -19,7 +19,7 @@ namespace VoxCharger
             string output = Path.Combine(tempDir, $"{Directory.GetFiles(tempDir).Length}.wav");
             Execute(
                 ConverterFileName,
-                $"{inputFileName} {output}" + (preview ? " preview" : string.Empty)
+                $"\"{inputFileName}\" \"{output}\"" + (preview ? " preview" : string.Empty)
             );
 
             return tempDir;
@@ -29,7 +29,7 @@ namespace VoxCharger
         {
             Execute(
                 BuilderFileName,
-                outputFileName,
+                $"\"{outputFileName}\"",
                 inputDir
             );
         }
