@@ -78,18 +78,18 @@
             this.LevelGroupBox.Controls.Add(this.JacketExhPictureBox);
             this.LevelGroupBox.Controls.Add(this.JacketAdvPictureBox);
             this.LevelGroupBox.Controls.Add(this.JacketNovPictureBox);
-            this.LevelGroupBox.Location = new System.Drawing.Point(12, 44);
+            this.LevelGroupBox.Location = new System.Drawing.Point(12, 41);
             this.LevelGroupBox.Name = "LevelGroupBox";
-            this.LevelGroupBox.Size = new System.Drawing.Size(447, 165);
+            this.LevelGroupBox.Size = new System.Drawing.Size(447, 152);
             this.LevelGroupBox.TabIndex = 15;
             this.LevelGroupBox.TabStop = false;
             this.LevelGroupBox.Text = "Levels";
             // 
             // InfEditButton
             // 
-            this.InfEditButton.Location = new System.Drawing.Point(331, 133);
+            this.InfEditButton.Location = new System.Drawing.Point(331, 123);
             this.InfEditButton.Name = "InfEditButton";
-            this.InfEditButton.Size = new System.Drawing.Size(108, 26);
+            this.InfEditButton.Size = new System.Drawing.Size(108, 24);
             this.InfEditButton.TabIndex = 18;
             this.InfEditButton.Tag = "4";
             this.InfEditButton.Text = "--";
@@ -98,9 +98,9 @@
             // 
             // ExhEditButton
             // 
-            this.ExhEditButton.Location = new System.Drawing.Point(223, 133);
+            this.ExhEditButton.Location = new System.Drawing.Point(223, 123);
             this.ExhEditButton.Name = "ExhEditButton";
-            this.ExhEditButton.Size = new System.Drawing.Size(108, 26);
+            this.ExhEditButton.Size = new System.Drawing.Size(108, 24);
             this.ExhEditButton.TabIndex = 17;
             this.ExhEditButton.Tag = "3";
             this.ExhEditButton.Text = "EXH";
@@ -109,9 +109,9 @@
             // 
             // AdvEditButton
             // 
-            this.AdvEditButton.Location = new System.Drawing.Point(115, 133);
+            this.AdvEditButton.Location = new System.Drawing.Point(115, 123);
             this.AdvEditButton.Name = "AdvEditButton";
-            this.AdvEditButton.Size = new System.Drawing.Size(108, 26);
+            this.AdvEditButton.Size = new System.Drawing.Size(108, 24);
             this.AdvEditButton.TabIndex = 16;
             this.AdvEditButton.Tag = "2";
             this.AdvEditButton.Text = "ADV";
@@ -120,9 +120,9 @@
             // 
             // NovEditButton
             // 
-            this.NovEditButton.Location = new System.Drawing.Point(7, 133);
+            this.NovEditButton.Location = new System.Drawing.Point(7, 123);
             this.NovEditButton.Name = "NovEditButton";
-            this.NovEditButton.Size = new System.Drawing.Size(108, 26);
+            this.NovEditButton.Size = new System.Drawing.Size(108, 24);
             this.NovEditButton.TabIndex = 15;
             this.NovEditButton.Tag = "1";
             this.NovEditButton.Text = "NOV";
@@ -132,9 +132,9 @@
             // JacketInfPictureBox
             // 
             this.JacketInfPictureBox.Image = global::VoxCharger.Properties.Resources.jk_dummy_s;
-            this.JacketInfPictureBox.Location = new System.Drawing.Point(331, 19);
+            this.JacketInfPictureBox.Location = new System.Drawing.Point(331, 18);
             this.JacketInfPictureBox.Name = "JacketInfPictureBox";
-            this.JacketInfPictureBox.Size = new System.Drawing.Size(108, 108);
+            this.JacketInfPictureBox.Size = new System.Drawing.Size(108, 100);
             this.JacketInfPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.JacketInfPictureBox.TabIndex = 6;
             this.JacketInfPictureBox.TabStop = false;
@@ -143,9 +143,9 @@
             // JacketExhPictureBox
             // 
             this.JacketExhPictureBox.Image = global::VoxCharger.Properties.Resources.jk_dummy_s;
-            this.JacketExhPictureBox.Location = new System.Drawing.Point(223, 19);
+            this.JacketExhPictureBox.Location = new System.Drawing.Point(223, 18);
             this.JacketExhPictureBox.Name = "JacketExhPictureBox";
-            this.JacketExhPictureBox.Size = new System.Drawing.Size(108, 108);
+            this.JacketExhPictureBox.Size = new System.Drawing.Size(108, 100);
             this.JacketExhPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.JacketExhPictureBox.TabIndex = 29;
             this.JacketExhPictureBox.TabStop = false;
@@ -154,9 +154,9 @@
             // JacketAdvPictureBox
             // 
             this.JacketAdvPictureBox.Image = global::VoxCharger.Properties.Resources.jk_dummy_s;
-            this.JacketAdvPictureBox.Location = new System.Drawing.Point(115, 19);
+            this.JacketAdvPictureBox.Location = new System.Drawing.Point(115, 18);
             this.JacketAdvPictureBox.Name = "JacketAdvPictureBox";
-            this.JacketAdvPictureBox.Size = new System.Drawing.Size(108, 108);
+            this.JacketAdvPictureBox.Size = new System.Drawing.Size(108, 100);
             this.JacketAdvPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.JacketAdvPictureBox.TabIndex = 1;
             this.JacketAdvPictureBox.TabStop = false;
@@ -165,9 +165,9 @@
             // JacketNovPictureBox
             // 
             this.JacketNovPictureBox.Image = global::VoxCharger.Properties.Resources.jk_dummy_s;
-            this.JacketNovPictureBox.Location = new System.Drawing.Point(7, 19);
+            this.JacketNovPictureBox.Location = new System.Drawing.Point(7, 18);
             this.JacketNovPictureBox.Name = "JacketNovPictureBox";
-            this.JacketNovPictureBox.Size = new System.Drawing.Size(108, 108);
+            this.JacketNovPictureBox.Size = new System.Drawing.Size(108, 100);
             this.JacketNovPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.JacketNovPictureBox.TabIndex = 0;
             this.JacketNovPictureBox.TabStop = false;
@@ -175,10 +175,10 @@
             // 
             // PathTextBox
             // 
-            this.PathTextBox.Location = new System.Drawing.Point(50, 17);
+            this.PathTextBox.Location = new System.Drawing.Point(50, 16);
             this.PathTextBox.Name = "PathTextBox";
             this.PathTextBox.ReadOnly = true;
-            this.PathTextBox.Size = new System.Drawing.Size(409, 20);
+            this.PathTextBox.Size = new System.Drawing.Size(409, 21);
             this.PathTextBox.TabIndex = 16;
             // 
             // OptionsGroupBox
@@ -201,9 +201,9 @@
             this.OptionsGroupBox.Controls.Add(this.LongFxCheckBox);
             this.OptionsGroupBox.Controls.Add(this.ChipFxCheckBox);
             this.OptionsGroupBox.Controls.Add(this.MusicCodeLabel);
-            this.OptionsGroupBox.Location = new System.Drawing.Point(12, 215);
+            this.OptionsGroupBox.Location = new System.Drawing.Point(12, 198);
             this.OptionsGroupBox.Name = "OptionsGroupBox";
-            this.OptionsGroupBox.Size = new System.Drawing.Size(447, 170);
+            this.OptionsGroupBox.Size = new System.Drawing.Size(447, 157);
             this.OptionsGroupBox.TabIndex = 1;
             this.OptionsGroupBox.TabStop = false;
             this.OptionsGroupBox.Text = "Options";
@@ -214,9 +214,9 @@
             this.SlamImpactCheckBox.AutoSize = true;
             this.SlamImpactCheckBox.Checked = true;
             this.SlamImpactCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.SlamImpactCheckBox.Location = new System.Drawing.Point(293, 114);
+            this.SlamImpactCheckBox.Location = new System.Drawing.Point(293, 105);
             this.SlamImpactCheckBox.Name = "SlamImpactCheckBox";
-            this.SlamImpactCheckBox.Size = new System.Drawing.Size(84, 17);
+            this.SlamImpactCheckBox.Size = new System.Drawing.Size(90, 16);
             this.SlamImpactCheckBox.TabIndex = 20;
             this.SlamImpactCheckBox.Text = "Slam Impact";
             this.SlamImpactCheckBox.UseVisualStyleBackColor = true;
@@ -233,8 +233,9 @@
             "Sound Voltex II: Infinite Infection",
             "Sound Voltex III: Gravity Wars",
             "Sound Voltex IV: Heavenly Haven",
-            "Sound Voltex V: VividWave"});
-            this.VersionDropDown.Location = new System.Drawing.Point(90, 42);
+            "Sound Voltex V: Vivid Wave",
+            "Sound Voltex VI: Exceed Gear"});
+            this.VersionDropDown.Location = new System.Drawing.Point(90, 39);
             this.VersionDropDown.Name = "VersionDropDown";
             this.VersionDropDown.Size = new System.Drawing.Size(247, 21);
             this.VersionDropDown.TabIndex = 19;
@@ -251,7 +252,7 @@
             "GRV",
             "HVN",
             "VVD"});
-            this.InfVerDropDown.Location = new System.Drawing.Point(343, 42);
+            this.InfVerDropDown.Location = new System.Drawing.Point(343, 39);
             this.InfVerDropDown.Name = "InfVerDropDown";
             this.InfVerDropDown.Size = new System.Drawing.Size(96, 21);
             this.InfVerDropDown.TabIndex = 18;
@@ -329,7 +330,7 @@
             "79",
             "80",
             "81"});
-            this.BackgroundDropDown.Location = new System.Drawing.Point(90, 65);
+            this.BackgroundDropDown.Location = new System.Drawing.Point(90, 60);
             this.BackgroundDropDown.Name = "BackgroundDropDown";
             this.BackgroundDropDown.Size = new System.Drawing.Size(349, 21);
             this.BackgroundDropDown.TabIndex = 17;
@@ -338,9 +339,9 @@
             // BackgroundLabel
             // 
             this.BackgroundLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.BackgroundLabel.Location = new System.Drawing.Point(10, 65);
+            this.BackgroundLabel.Location = new System.Drawing.Point(10, 60);
             this.BackgroundLabel.Name = "BackgroundLabel";
-            this.BackgroundLabel.Size = new System.Drawing.Size(74, 20);
+            this.BackgroundLabel.Size = new System.Drawing.Size(74, 18);
             this.BackgroundLabel.TabIndex = 16;
             this.BackgroundLabel.Text = "Background";
             this.BackgroundLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -349,9 +350,9 @@
             // 
             this.RealignOffsetCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.RealignOffsetCheckBox.AutoSize = true;
-            this.RealignOffsetCheckBox.Location = new System.Drawing.Point(90, 91);
+            this.RealignOffsetCheckBox.Location = new System.Drawing.Point(90, 84);
             this.RealignOffsetCheckBox.Name = "RealignOffsetCheckBox";
-            this.RealignOffsetCheckBox.Size = new System.Drawing.Size(141, 17);
+            this.RealignOffsetCheckBox.Size = new System.Drawing.Size(168, 16);
             this.RealignOffsetCheckBox.TabIndex = 15;
             this.RealignOffsetCheckBox.Text = "Adapt Start Music Offset";
             this.RealignOffsetCheckBox.UseVisualStyleBackColor = true;
@@ -361,9 +362,9 @@
             this.AsciiAutoCheckBox.AutoSize = true;
             this.AsciiAutoCheckBox.Checked = true;
             this.AsciiAutoCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.AsciiAutoCheckBox.Location = new System.Drawing.Point(391, 23);
+            this.AsciiAutoCheckBox.Location = new System.Drawing.Point(391, 21);
             this.AsciiAutoCheckBox.Name = "AsciiAutoCheckBox";
-            this.AsciiAutoCheckBox.Size = new System.Drawing.Size(48, 17);
+            this.AsciiAutoCheckBox.Size = new System.Drawing.Size(48, 16);
             this.AsciiAutoCheckBox.TabIndex = 14;
             this.AsciiAutoCheckBox.Text = "Auto";
             this.AsciiAutoCheckBox.UseVisualStyleBackColor = true;
@@ -372,9 +373,9 @@
             // InfVerLabel
             // 
             this.InfVerLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.InfVerLabel.Location = new System.Drawing.Point(10, 42);
+            this.InfVerLabel.Location = new System.Drawing.Point(10, 39);
             this.InfVerLabel.Name = "InfVerLabel";
-            this.InfVerLabel.Size = new System.Drawing.Size(74, 20);
+            this.InfVerLabel.Size = new System.Drawing.Size(74, 18);
             this.InfVerLabel.TabIndex = 12;
             this.InfVerLabel.Text = "Version";
             this.InfVerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -385,9 +386,9 @@
             this.CameraCheckBox.AutoSize = true;
             this.CameraCheckBox.Checked = true;
             this.CameraCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CameraCheckBox.Location = new System.Drawing.Point(225, 114);
+            this.CameraCheckBox.Location = new System.Drawing.Point(225, 105);
             this.CameraCheckBox.Name = "CameraCheckBox";
-            this.CameraCheckBox.Size = new System.Drawing.Size(62, 17);
+            this.CameraCheckBox.Size = new System.Drawing.Size(60, 16);
             this.CameraCheckBox.TabIndex = 5;
             this.CameraCheckBox.Text = "Camera";
             this.CameraCheckBox.UseVisualStyleBackColor = true;
@@ -398,9 +399,9 @@
             this.TrackButtonCheckBox.AutoSize = true;
             this.TrackButtonCheckBox.Checked = true;
             this.TrackButtonCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.TrackButtonCheckBox.Location = new System.Drawing.Point(157, 137);
+            this.TrackButtonCheckBox.Location = new System.Drawing.Point(157, 126);
             this.TrackButtonCheckBox.Name = "TrackButtonCheckBox";
-            this.TrackButtonCheckBox.Size = new System.Drawing.Size(62, 17);
+            this.TrackButtonCheckBox.Size = new System.Drawing.Size(66, 16);
             this.TrackButtonCheckBox.TabIndex = 7;
             this.TrackButtonCheckBox.Text = "Buttons";
             this.TrackButtonCheckBox.UseVisualStyleBackColor = true;
@@ -411,9 +412,9 @@
             this.TrackLaserCheckBox.AutoSize = true;
             this.TrackLaserCheckBox.Checked = true;
             this.TrackLaserCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.TrackLaserCheckBox.Location = new System.Drawing.Point(90, 137);
+            this.TrackLaserCheckBox.Location = new System.Drawing.Point(90, 126);
             this.TrackLaserCheckBox.Name = "TrackLaserCheckBox";
-            this.TrackLaserCheckBox.Size = new System.Drawing.Size(57, 17);
+            this.TrackLaserCheckBox.Size = new System.Drawing.Size(60, 16);
             this.TrackLaserCheckBox.TabIndex = 6;
             this.TrackLaserCheckBox.Text = "Lasers";
             this.TrackLaserCheckBox.UseVisualStyleBackColor = true;
@@ -421,9 +422,9 @@
             // TrackLabel
             // 
             this.TrackLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.TrackLabel.Location = new System.Drawing.Point(10, 134);
+            this.TrackLabel.Location = new System.Drawing.Point(10, 124);
             this.TrackLabel.Name = "TrackLabel";
-            this.TrackLabel.Size = new System.Drawing.Size(74, 20);
+            this.TrackLabel.Size = new System.Drawing.Size(74, 18);
             this.TrackLabel.TabIndex = 11;
             this.TrackLabel.Text = "Tracks";
             this.TrackLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -431,9 +432,9 @@
             // EffectsLabel
             // 
             this.EffectsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.EffectsLabel.Location = new System.Drawing.Point(10, 111);
+            this.EffectsLabel.Location = new System.Drawing.Point(10, 102);
             this.EffectsLabel.Name = "EffectsLabel";
-            this.EffectsLabel.Size = new System.Drawing.Size(74, 20);
+            this.EffectsLabel.Size = new System.Drawing.Size(74, 18);
             this.EffectsLabel.TabIndex = 10;
             this.EffectsLabel.Text = "Effects";
             this.EffectsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -441,19 +442,19 @@
             // MeasureLabel
             // 
             this.MeasureLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.MeasureLabel.Location = new System.Drawing.Point(10, 88);
+            this.MeasureLabel.Location = new System.Drawing.Point(10, 81);
             this.MeasureLabel.Name = "MeasureLabel";
-            this.MeasureLabel.Size = new System.Drawing.Size(74, 20);
+            this.MeasureLabel.Size = new System.Drawing.Size(74, 18);
             this.MeasureLabel.TabIndex = 6;
             this.MeasureLabel.Text = "Offset";
             this.MeasureLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // AsciiTextBox
             // 
-            this.AsciiTextBox.Location = new System.Drawing.Point(90, 20);
+            this.AsciiTextBox.Location = new System.Drawing.Point(90, 18);
             this.AsciiTextBox.Name = "AsciiTextBox";
             this.AsciiTextBox.ReadOnly = true;
-            this.AsciiTextBox.Size = new System.Drawing.Size(295, 20);
+            this.AsciiTextBox.Size = new System.Drawing.Size(295, 21);
             this.AsciiTextBox.TabIndex = 0;
             // 
             // LongFxCheckBox
@@ -462,9 +463,9 @@
             this.LongFxCheckBox.AutoSize = true;
             this.LongFxCheckBox.Checked = true;
             this.LongFxCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.LongFxCheckBox.Location = new System.Drawing.Point(157, 114);
+            this.LongFxCheckBox.Location = new System.Drawing.Point(157, 105);
             this.LongFxCheckBox.Name = "LongFxCheckBox";
-            this.LongFxCheckBox.Size = new System.Drawing.Size(64, 17);
+            this.LongFxCheckBox.Size = new System.Drawing.Size(66, 16);
             this.LongFxCheckBox.TabIndex = 4;
             this.LongFxCheckBox.Text = "Long Fx";
             this.LongFxCheckBox.UseVisualStyleBackColor = true;
@@ -475,18 +476,18 @@
             this.ChipFxCheckBox.AutoSize = true;
             this.ChipFxCheckBox.Checked = true;
             this.ChipFxCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChipFxCheckBox.Location = new System.Drawing.Point(90, 114);
+            this.ChipFxCheckBox.Location = new System.Drawing.Point(90, 105);
             this.ChipFxCheckBox.Name = "ChipFxCheckBox";
-            this.ChipFxCheckBox.Size = new System.Drawing.Size(61, 17);
+            this.ChipFxCheckBox.Size = new System.Drawing.Size(66, 16);
             this.ChipFxCheckBox.TabIndex = 3;
             this.ChipFxCheckBox.Text = "Chip Fx";
             this.ChipFxCheckBox.UseVisualStyleBackColor = true;
             // 
             // MusicCodeLabel
             // 
-            this.MusicCodeLabel.Location = new System.Drawing.Point(10, 19);
+            this.MusicCodeLabel.Location = new System.Drawing.Point(10, 18);
             this.MusicCodeLabel.Name = "MusicCodeLabel";
-            this.MusicCodeLabel.Size = new System.Drawing.Size(74, 20);
+            this.MusicCodeLabel.Size = new System.Drawing.Size(74, 18);
             this.MusicCodeLabel.TabIndex = 0;
             this.MusicCodeLabel.Text = "Music Code";
             this.MusicCodeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -495,9 +496,9 @@
             // 
             this.CancelConvertButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CancelConvertButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelConvertButton.Location = new System.Drawing.Point(343, 401);
+            this.CancelConvertButton.Location = new System.Drawing.Point(343, 370);
             this.CancelConvertButton.Name = "CancelConvertButton";
-            this.CancelConvertButton.Size = new System.Drawing.Size(116, 28);
+            this.CancelConvertButton.Size = new System.Drawing.Size(116, 26);
             this.CancelConvertButton.TabIndex = 20;
             this.CancelConvertButton.Text = "Cancel";
             this.CancelConvertButton.UseVisualStyleBackColor = true;
@@ -506,9 +507,9 @@
             // ProcessConvertButton
             // 
             this.ProcessConvertButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ProcessConvertButton.Location = new System.Drawing.Point(221, 401);
+            this.ProcessConvertButton.Location = new System.Drawing.Point(221, 370);
             this.ProcessConvertButton.Name = "ProcessConvertButton";
-            this.ProcessConvertButton.Size = new System.Drawing.Size(116, 28);
+            this.ProcessConvertButton.Size = new System.Drawing.Size(116, 26);
             this.ProcessConvertButton.TabIndex = 19;
             this.ProcessConvertButton.Text = "Continue";
             this.ProcessConvertButton.UseVisualStyleBackColor = true;
@@ -517,9 +518,9 @@
             // TargetLabel
             // 
             this.TargetLabel.AutoSize = true;
-            this.TargetLabel.Location = new System.Drawing.Point(9, 20);
+            this.TargetLabel.Location = new System.Drawing.Point(9, 18);
             this.TargetLabel.Name = "TargetLabel";
-            this.TargetLabel.Size = new System.Drawing.Size(38, 13);
+            this.TargetLabel.Size = new System.Drawing.Size(41, 12);
             this.TargetLabel.TabIndex = 21;
             this.TargetLabel.Text = "Target";
             this.TargetLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -527,10 +528,10 @@
             // ConverterForm
             // 
             this.AcceptButton = this.ProcessConvertButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelConvertButton;
-            this.ClientSize = new System.Drawing.Size(471, 441);
+            this.ClientSize = new System.Drawing.Size(471, 407);
             this.Controls.Add(this.TargetLabel);
             this.Controls.Add(this.CancelConvertButton);
             this.Controls.Add(this.ProcessConvertButton);

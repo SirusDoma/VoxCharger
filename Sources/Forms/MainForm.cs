@@ -434,7 +434,7 @@ namespace VoxCharger
                 Title            = "Untitled",
                 Ascii            = defaultAscii,
                 Artist           = "Unknown",
-                Version          = GameVersion.VividWave,
+                Version          = GameVersion.ExceedGear,
                 InfVersion       = InfiniteVersion.MXM,
                 BackgroundId     = short.Parse(ConverterForm.LastBackground),
                 GenreId          = 16,

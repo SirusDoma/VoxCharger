@@ -1,8 +1,8 @@
 # VoxCharger #
 
-- **Author**: CXO2
-- **Email**: com@cxo2.me
-- **Version**: 0.9.8b
+- **Author**: CXO2, 天音あめ
+- **Email**: com@cxo2.me, i@amane-a.me
+- **Version**: 0.9.9b
 
 Recharge your KFC Chicken sauce ([Download](https://github.com/SirusDoma/VoxCharger/releases))   
 

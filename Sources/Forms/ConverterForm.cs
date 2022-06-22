@@ -81,7 +81,7 @@ namespace VoxCharger
 
             PathTextBox.Text                 = target;
             BackgroundDropDown.SelectedItem  = LastBackground;
-            VersionDropDown.SelectedIndex    = 4;
+            VersionDropDown.SelectedIndex    = 5;
             InfVerDropDown.SelectedIndex     = 0;
             ProcessConvertButton.Text        = "Add";
             
