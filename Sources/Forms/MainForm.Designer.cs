@@ -62,12 +62,13 @@
             this.BulkConvertToolsMenu = new System.Windows.Forms.MenuItem();
             this.MusicFileBuilder = new System.Windows.Forms.MenuItem();
             this.HelpMenu = new System.Windows.Forms.MenuItem();
-            this.HelpHelpMenu = new System.Windows.Forms.MenuItem();
+            this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.AboutHelpMenu = new System.Windows.Forms.MenuItem();
             this.FileLabel = new System.Windows.Forms.Label();
             this.PathTextBox = new System.Windows.Forms.TextBox();
             this.OpenButton = new System.Windows.Forms.Button();
             this.MusicGroupBox = new System.Windows.Forms.GroupBox();
+            this.AddButton = new MenuButton();
             this.ImportContextMenu = new System.Windows.Forms.ContextMenu();
             this.ImportVoxMenu = new System.Windows.Forms.MenuItem();
             this.ImportKshMenu = new System.Windows.Forms.MenuItem();
@@ -108,7 +109,6 @@
             this.TitleTextBox = new System.Windows.Forms.TextBox();
             this.TitleLabel = new System.Windows.Forms.Label();
             this.MainStatusBar = new System.Windows.Forms.StatusBar();
-            this.AddButton = new MenuButton();
             this.MusicGroupBox.SuspendLayout();
             this.MetadataGroupBox.SuspendLayout();
             this.SoundGroupBox.SuspendLayout();
@@ -351,15 +351,15 @@
             // 
             this.HelpMenu.Index = 3;
             this.HelpMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.HelpHelpMenu,
+            this.menuItem1,
             this.AboutHelpMenu});
             this.HelpMenu.Text = "Help";
             // 
             // menuItem1
             // 
-            this.HelpHelpMenu.Index = 0;
-            this.HelpHelpMenu.Text = "Help";
-            this.HelpHelpMenu.Click += new System.EventHandler(this.OnHelpHelpMenu_Click);
+            this.menuItem1.Index = 0;
+            this.menuItem1.Text = "Help";
+            this.menuItem1.Click += new System.EventHandler(this.OnHelpHelpMenu_Click);
             // 
             // AboutHelpMenu
             // 
@@ -413,10 +413,23 @@
             this.MusicGroupBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MusicGroupBox.Location = new System.Drawing.Point(15, 37);
             this.MusicGroupBox.Name = "MusicGroupBox";
-            this.MusicGroupBox.Size = new System.Drawing.Size(258, 420);
+            this.MusicGroupBox.Size = new System.Drawing.Size(258, 441);
             this.MusicGroupBox.TabIndex = 3;
             this.MusicGroupBox.TabStop = false;
             this.MusicGroupBox.Text = "Music";
+            // 
+            // AddButton
+            // 
+            this.AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.AddButton.Location = new System.Drawing.Point(6, 413);
+            this.AddButton.Menu = this.ImportContextMenu;
+            this.AddButton.Name = "AddButton";
+            this.AddButton.Size = new System.Drawing.Size(120, 23);
+            this.AddButton.SplitWidth = 17;
+            this.AddButton.TabIndex = 5;
+            this.AddButton.Text = "Add";
+            this.AddButton.UseVisualStyleBackColor = true;
             // 
             // ImportContextMenu
             // 
@@ -453,7 +466,7 @@
             // 
             this.RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.RemoveButton.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RemoveButton.Location = new System.Drawing.Point(132, 392);
+            this.RemoveButton.Location = new System.Drawing.Point(132, 413);
             this.RemoveButton.Name = "RemoveButton";
             this.RemoveButton.Size = new System.Drawing.Size(120, 23);
             this.RemoveButton.TabIndex = 4;
@@ -470,7 +483,7 @@
             this.MusicListBox.FormattingEnabled = true;
             this.MusicListBox.Location = new System.Drawing.Point(6, 18);
             this.MusicListBox.Name = "MusicListBox";
-            this.MusicListBox.Size = new System.Drawing.Size(246, 355);
+            this.MusicListBox.Size = new System.Drawing.Size(246, 381);
             this.MusicListBox.Sorted = true;
             this.MusicListBox.TabIndex = 2;
             this.MusicListBox.SelectedIndexChanged += new System.EventHandler(this.OnMusicListBoxSelectedIndexChanged);
@@ -501,7 +514,7 @@
             this.MetadataGroupBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MetadataGroupBox.Location = new System.Drawing.Point(279, 37);
             this.MetadataGroupBox.Name = "MetadataGroupBox";
-            this.MetadataGroupBox.Size = new System.Drawing.Size(473, 420);
+            this.MetadataGroupBox.Size = new System.Drawing.Size(473, 441);
             this.MetadataGroupBox.TabIndex = 4;
             this.MetadataGroupBox.TabStop = false;
             this.MetadataGroupBox.Text = "Metadata";
@@ -515,7 +528,7 @@
             this.SoundGroupBox.Controls.Add(this.Import2DXMusicFileButton);
             this.SoundGroupBox.Controls.Add(this.VolumeLabel);
             this.SoundGroupBox.Controls.Add(this.VolumeTrackBar);
-            this.SoundGroupBox.Location = new System.Drawing.Point(19, 179);
+            this.SoundGroupBox.Location = new System.Drawing.Point(19, 200);
             this.SoundGroupBox.Name = "SoundGroupBox";
             this.SoundGroupBox.Size = new System.Drawing.Size(447, 74);
             this.SoundGroupBox.TabIndex = 10;
@@ -528,7 +541,7 @@
             this.VolumeIndicatorLabel.Name = "VolumeIndicatorLabel";
             this.VolumeIndicatorLabel.Size = new System.Drawing.Size(37, 12);
             this.VolumeIndicatorLabel.TabIndex = 27;
-            this.VolumeIndicatorLabel.Text = "75%";
+            this.VolumeIndicatorLabel.Text = "91%";
             this.VolumeIndicatorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Import2DXPreviewFileButton
@@ -568,12 +581,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.VolumeTrackBar.AutoSize = false;
             this.VolumeTrackBar.Location = new System.Drawing.Point(54, 45);
-            this.VolumeTrackBar.Maximum = 125;
+            this.VolumeTrackBar.Maximum = 120;
             this.VolumeTrackBar.Name = "VolumeTrackBar";
             this.VolumeTrackBar.Size = new System.Drawing.Size(353, 23);
             this.VolumeTrackBar.TabIndex = 13;
             this.VolumeTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.VolumeTrackBar.Value = 75;
+            this.VolumeTrackBar.Value = 91;
             this.VolumeTrackBar.ValueChanged += new System.EventHandler(this.OnMetadataChanged);
             // 
             // DistributionPicker
@@ -611,7 +624,7 @@
             this.LevelGroupBox.Controls.Add(this.JacketExhPictureBox);
             this.LevelGroupBox.Controls.Add(this.JacketAdvPictureBox);
             this.LevelGroupBox.Controls.Add(this.JacketNovPictureBox);
-            this.LevelGroupBox.Location = new System.Drawing.Point(19, 262);
+            this.LevelGroupBox.Location = new System.Drawing.Point(19, 283);
             this.LevelGroupBox.Name = "LevelGroupBox";
             this.LevelGroupBox.Size = new System.Drawing.Size(447, 152);
             this.LevelGroupBox.TabIndex = 14;
@@ -985,30 +998,17 @@
             // MainStatusBar
             // 
             this.MainStatusBar.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MainStatusBar.Location = new System.Drawing.Point(0, 468);
+            this.MainStatusBar.Location = new System.Drawing.Point(0, 489);
             this.MainStatusBar.Name = "MainStatusBar";
             this.MainStatusBar.Size = new System.Drawing.Size(764, 20);
             this.MainStatusBar.TabIndex = 5;
             this.MainStatusBar.Text = "Ready";
             // 
-            // AddButton
-            // 
-            this.AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.AddButton.Location = new System.Drawing.Point(6, 392);
-            this.AddButton.Menu = this.ImportContextMenu;
-            this.AddButton.Name = "AddButton";
-            this.AddButton.Size = new System.Drawing.Size(120, 23);
-            this.AddButton.SplitWidth = 17;
-            this.AddButton.TabIndex = 5;
-            this.AddButton.Text = "Add";
-            this.AddButton.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(764, 488);
+            this.ClientSize = new System.Drawing.Size(764, 509);
             this.Controls.Add(this.MainStatusBar);
             this.Controls.Add(this.MetadataGroupBox);
             this.Controls.Add(this.MusicGroupBox);
@@ -1123,7 +1123,7 @@
         private System.Windows.Forms.MenuItem MenuSeparator7;
         private System.Windows.Forms.MenuItem MenuSeparator8;
         private System.Windows.Forms.MenuItem BulkImportKshMenu;
-        private System.Windows.Forms.MenuItem HelpHelpMenu;
+        private System.Windows.Forms.MenuItem menuItem1;
     }
 }
 
