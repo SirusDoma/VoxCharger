@@ -533,7 +533,7 @@
             this.VolumeIndicatorLabel.Name = "VolumeIndicatorLabel";
             this.VolumeIndicatorLabel.Size = new System.Drawing.Size(37, 12);
             this.VolumeIndicatorLabel.TabIndex = 27;
-            this.VolumeIndicatorLabel.Text = "91%";
+            this.VolumeIndicatorLabel.Text = "75%";
             this.VolumeIndicatorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Import2DXPreviewFileButton
@@ -573,12 +573,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.VolumeTrackBar.AutoSize = false;
             this.VolumeTrackBar.Location = new System.Drawing.Point(54, 45);
-            this.VolumeTrackBar.Maximum = 120;
+            this.VolumeTrackBar.Maximum = 125;
             this.VolumeTrackBar.Name = "VolumeTrackBar";
             this.VolumeTrackBar.Size = new System.Drawing.Size(353, 23);
             this.VolumeTrackBar.TabIndex = 13;
             this.VolumeTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.VolumeTrackBar.Value = 91;
+            this.VolumeTrackBar.Value = 75;
             this.VolumeTrackBar.ValueChanged += new System.EventHandler(this.OnMetadataChanged);
             // 
             // DistributionPicker
