@@ -342,6 +342,12 @@ namespace VoxCharger
             }
         }
 
+        private void OnHelpHelpMenu_Click(object sender, EventArgs e)
+        {
+            using (var about = new HelpForm())
+                about.ShowDialog();
+        }
+
         private void OnAboutHelpMenuClick(object sender, EventArgs e)
         {
             using (var about = new AboutForm())
