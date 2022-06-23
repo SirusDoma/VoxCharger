@@ -251,7 +251,8 @@
             "INF",
             "GRV",
             "HVN",
-            "VVD"});
+            "VVD",
+            "XCD"});
             this.InfVerDropDown.Location = new System.Drawing.Point(343, 39);
             this.InfVerDropDown.Name = "InfVerDropDown";
             this.InfVerDropDown.Size = new System.Drawing.Size(96, 21);
