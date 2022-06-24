@@ -12,6 +12,7 @@ namespace VoxCharger
         INF = 2,
         GRV = 3,
         HVN = 4,
-        VVD = 5
+        VVD = 5,
+        XCD = 6
     }
 }

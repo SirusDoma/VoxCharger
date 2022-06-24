@@ -62,6 +62,7 @@
             this.BulkConvertToolsMenu = new System.Windows.Forms.MenuItem();
             this.MusicFileBuilder = new System.Windows.Forms.MenuItem();
             this.HelpMenu = new System.Windows.Forms.MenuItem();
+            this.menuItem1 = new System.Windows.Forms.MenuItem();
             this.AboutHelpMenu = new System.Windows.Forms.MenuItem();
             this.FileLabel = new System.Windows.Forms.Label();
             this.PathTextBox = new System.Windows.Forms.TextBox();
@@ -350,12 +351,19 @@
             // 
             this.HelpMenu.Index = 3;
             this.HelpMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
+            this.menuItem1,
             this.AboutHelpMenu});
             this.HelpMenu.Text = "Help";
             // 
+            // menuItem1
+            // 
+            this.menuItem1.Index = 0;
+            this.menuItem1.Text = "Help";
+            this.menuItem1.Click += new System.EventHandler(this.OnHelpHelpMenu_Click);
+            // 
             // AboutHelpMenu
             // 
-            this.AboutHelpMenu.Index = 0;
+            this.AboutHelpMenu.Index = 1;
             this.AboutHelpMenu.Text = "About";
             this.AboutHelpMenu.Click += new System.EventHandler(this.OnAboutHelpMenuClick);
             // 
@@ -363,7 +371,7 @@
             // 
             this.FileLabel.AutoSize = true;
             this.FileLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FileLabel.Location = new System.Drawing.Point(12, 15);
+            this.FileLabel.Location = new System.Drawing.Point(12, 14);
             this.FileLabel.Name = "FileLabel";
             this.FileLabel.Size = new System.Drawing.Size(48, 13);
             this.FileLabel.TabIndex = 0;
@@ -374,7 +382,7 @@
             this.PathTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PathTextBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PathTextBox.Location = new System.Drawing.Point(66, 12);
+            this.PathTextBox.Location = new System.Drawing.Point(66, 11);
             this.PathTextBox.Name = "PathTextBox";
             this.PathTextBox.ReadOnly = true;
             this.PathTextBox.Size = new System.Drawing.Size(605, 21);
@@ -385,9 +393,9 @@
             // 
             this.OpenButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.OpenButton.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OpenButton.Location = new System.Drawing.Point(677, 10);
+            this.OpenButton.Location = new System.Drawing.Point(677, 9);
             this.OpenButton.Name = "OpenButton";
-            this.OpenButton.Size = new System.Drawing.Size(75, 23);
+            this.OpenButton.Size = new System.Drawing.Size(75, 21);
             this.OpenButton.TabIndex = 2;
             this.OpenButton.Text = "Open";
             this.OpenButton.UseVisualStyleBackColor = true;
@@ -403,9 +411,9 @@
             this.MusicGroupBox.Controls.Add(this.MusicListBox);
             this.MusicGroupBox.Enabled = false;
             this.MusicGroupBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MusicGroupBox.Location = new System.Drawing.Point(15, 40);
+            this.MusicGroupBox.Location = new System.Drawing.Point(15, 37);
             this.MusicGroupBox.Name = "MusicGroupBox";
-            this.MusicGroupBox.Size = new System.Drawing.Size(258, 478);
+            this.MusicGroupBox.Size = new System.Drawing.Size(258, 441);
             this.MusicGroupBox.TabIndex = 3;
             this.MusicGroupBox.TabStop = false;
             this.MusicGroupBox.Text = "Music";
@@ -414,10 +422,10 @@
             // 
             this.AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.AddButton.Location = new System.Drawing.Point(6, 447);
+            this.AddButton.Location = new System.Drawing.Point(6, 413);
             this.AddButton.Menu = this.ImportContextMenu;
             this.AddButton.Name = "AddButton";
-            this.AddButton.Size = new System.Drawing.Size(120, 25);
+            this.AddButton.Size = new System.Drawing.Size(120, 23);
             this.AddButton.SplitWidth = 17;
             this.AddButton.TabIndex = 5;
             this.AddButton.Text = "Add";
@@ -458,9 +466,9 @@
             // 
             this.RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.RemoveButton.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RemoveButton.Location = new System.Drawing.Point(132, 447);
+            this.RemoveButton.Location = new System.Drawing.Point(132, 413);
             this.RemoveButton.Name = "RemoveButton";
-            this.RemoveButton.Size = new System.Drawing.Size(120, 25);
+            this.RemoveButton.Size = new System.Drawing.Size(120, 23);
             this.RemoveButton.TabIndex = 4;
             this.RemoveButton.Text = "Remove";
             this.RemoveButton.UseVisualStyleBackColor = true;
@@ -473,9 +481,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.MusicListBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MusicListBox.FormattingEnabled = true;
-            this.MusicListBox.Location = new System.Drawing.Point(6, 19);
+            this.MusicListBox.Location = new System.Drawing.Point(6, 18);
             this.MusicListBox.Name = "MusicListBox";
-            this.MusicListBox.Size = new System.Drawing.Size(246, 420);
+            this.MusicListBox.Size = new System.Drawing.Size(246, 381);
             this.MusicListBox.Sorted = true;
             this.MusicListBox.TabIndex = 2;
             this.MusicListBox.SelectedIndexChanged += new System.EventHandler(this.OnMusicListBoxSelectedIndexChanged);
@@ -504,9 +512,9 @@
             this.MetadataGroupBox.Controls.Add(this.TitleLabel);
             this.MetadataGroupBox.Enabled = false;
             this.MetadataGroupBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MetadataGroupBox.Location = new System.Drawing.Point(279, 40);
+            this.MetadataGroupBox.Location = new System.Drawing.Point(279, 37);
             this.MetadataGroupBox.Name = "MetadataGroupBox";
-            this.MetadataGroupBox.Size = new System.Drawing.Size(473, 478);
+            this.MetadataGroupBox.Size = new System.Drawing.Size(473, 441);
             this.MetadataGroupBox.TabIndex = 4;
             this.MetadataGroupBox.TabStop = false;
             this.MetadataGroupBox.Text = "Metadata";
@@ -520,27 +528,27 @@
             this.SoundGroupBox.Controls.Add(this.Import2DXMusicFileButton);
             this.SoundGroupBox.Controls.Add(this.VolumeLabel);
             this.SoundGroupBox.Controls.Add(this.VolumeTrackBar);
-            this.SoundGroupBox.Location = new System.Drawing.Point(19, 217);
+            this.SoundGroupBox.Location = new System.Drawing.Point(19, 200);
             this.SoundGroupBox.Name = "SoundGroupBox";
-            this.SoundGroupBox.Size = new System.Drawing.Size(447, 80);
+            this.SoundGroupBox.Size = new System.Drawing.Size(447, 74);
             this.SoundGroupBox.TabIndex = 10;
             this.SoundGroupBox.TabStop = false;
             this.SoundGroupBox.Text = "Music Assets && Settings";
             // 
             // VolumeIndicatorLabel
             // 
-            this.VolumeIndicatorLabel.Location = new System.Drawing.Point(400, 51);
+            this.VolumeIndicatorLabel.Location = new System.Drawing.Point(400, 47);
             this.VolumeIndicatorLabel.Name = "VolumeIndicatorLabel";
-            this.VolumeIndicatorLabel.Size = new System.Drawing.Size(37, 13);
+            this.VolumeIndicatorLabel.Size = new System.Drawing.Size(37, 12);
             this.VolumeIndicatorLabel.TabIndex = 27;
             this.VolumeIndicatorLabel.Text = "91%";
             this.VolumeIndicatorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Import2DXPreviewFileButton
             // 
-            this.Import2DXPreviewFileButton.Location = new System.Drawing.Point(227, 20);
+            this.Import2DXPreviewFileButton.Location = new System.Drawing.Point(227, 18);
             this.Import2DXPreviewFileButton.Name = "Import2DXPreviewFileButton";
-            this.Import2DXPreviewFileButton.Size = new System.Drawing.Size(207, 23);
+            this.Import2DXPreviewFileButton.Size = new System.Drawing.Size(207, 21);
             this.Import2DXPreviewFileButton.TabIndex = 12;
             this.Import2DXPreviewFileButton.Text = "Import 2DX Preview";
             this.Import2DXPreviewFileButton.UseVisualStyleBackColor = true;
@@ -548,9 +556,9 @@
             // 
             // Import2DXMusicFileButton
             // 
-            this.Import2DXMusicFileButton.Location = new System.Drawing.Point(14, 20);
+            this.Import2DXMusicFileButton.Location = new System.Drawing.Point(14, 18);
             this.Import2DXMusicFileButton.Name = "Import2DXMusicFileButton";
-            this.Import2DXMusicFileButton.Size = new System.Drawing.Size(207, 23);
+            this.Import2DXMusicFileButton.Size = new System.Drawing.Size(207, 21);
             this.Import2DXMusicFileButton.TabIndex = 11;
             this.Import2DXMusicFileButton.Text = "Import 2DX Music";
             this.Import2DXMusicFileButton.UseVisualStyleBackColor = true;
@@ -560,7 +568,7 @@
             // 
             this.VolumeLabel.AutoSize = true;
             this.VolumeLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.VolumeLabel.Location = new System.Drawing.Point(17, 51);
+            this.VolumeLabel.Location = new System.Drawing.Point(17, 47);
             this.VolumeLabel.Name = "VolumeLabel";
             this.VolumeLabel.Size = new System.Drawing.Size(41, 13);
             this.VolumeLabel.TabIndex = 26;
@@ -572,10 +580,10 @@
             this.VolumeTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.VolumeTrackBar.AutoSize = false;
-            this.VolumeTrackBar.Location = new System.Drawing.Point(54, 49);
+            this.VolumeTrackBar.Location = new System.Drawing.Point(54, 45);
             this.VolumeTrackBar.Maximum = 120;
             this.VolumeTrackBar.Name = "VolumeTrackBar";
-            this.VolumeTrackBar.Size = new System.Drawing.Size(353, 25);
+            this.VolumeTrackBar.Size = new System.Drawing.Size(353, 23);
             this.VolumeTrackBar.TabIndex = 13;
             this.VolumeTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
             this.VolumeTrackBar.Value = 91;
@@ -587,7 +595,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DistributionPicker.CustomFormat = "yyyy-MM-dd";
             this.DistributionPicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DistributionPicker.Location = new System.Drawing.Point(83, 157);
+            this.DistributionPicker.Location = new System.Drawing.Point(83, 145);
             this.DistributionPicker.Name = "DistributionPicker";
             this.DistributionPicker.Size = new System.Drawing.Size(382, 21);
             this.DistributionPicker.TabIndex = 8;
@@ -597,7 +605,7 @@
             // 
             this.ReleaseLabel.AutoSize = true;
             this.ReleaseLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ReleaseLabel.Location = new System.Drawing.Point(16, 162);
+            this.ReleaseLabel.Location = new System.Drawing.Point(16, 150);
             this.ReleaseLabel.Name = "ReleaseLabel";
             this.ReleaseLabel.Size = new System.Drawing.Size(55, 13);
             this.ReleaseLabel.TabIndex = 29;
@@ -616,18 +624,18 @@
             this.LevelGroupBox.Controls.Add(this.JacketExhPictureBox);
             this.LevelGroupBox.Controls.Add(this.JacketAdvPictureBox);
             this.LevelGroupBox.Controls.Add(this.JacketNovPictureBox);
-            this.LevelGroupBox.Location = new System.Drawing.Point(19, 307);
+            this.LevelGroupBox.Location = new System.Drawing.Point(19, 283);
             this.LevelGroupBox.Name = "LevelGroupBox";
-            this.LevelGroupBox.Size = new System.Drawing.Size(447, 165);
+            this.LevelGroupBox.Size = new System.Drawing.Size(447, 152);
             this.LevelGroupBox.TabIndex = 14;
             this.LevelGroupBox.TabStop = false;
             this.LevelGroupBox.Text = "Level Assets && Metadata";
             // 
             // InfEditButton
             // 
-            this.InfEditButton.Location = new System.Drawing.Point(331, 133);
+            this.InfEditButton.Location = new System.Drawing.Point(331, 123);
             this.InfEditButton.Name = "InfEditButton";
-            this.InfEditButton.Size = new System.Drawing.Size(108, 26);
+            this.InfEditButton.Size = new System.Drawing.Size(108, 24);
             this.InfEditButton.TabIndex = 18;
             this.InfEditButton.Tag = "4";
             this.InfEditButton.Text = "--";
@@ -636,9 +644,9 @@
             // 
             // ExhEditButton
             // 
-            this.ExhEditButton.Location = new System.Drawing.Point(223, 133);
+            this.ExhEditButton.Location = new System.Drawing.Point(223, 123);
             this.ExhEditButton.Name = "ExhEditButton";
-            this.ExhEditButton.Size = new System.Drawing.Size(108, 26);
+            this.ExhEditButton.Size = new System.Drawing.Size(108, 24);
             this.ExhEditButton.TabIndex = 17;
             this.ExhEditButton.Tag = "3";
             this.ExhEditButton.Text = "EXH";
@@ -647,9 +655,9 @@
             // 
             // AdvEditButton
             // 
-            this.AdvEditButton.Location = new System.Drawing.Point(115, 133);
+            this.AdvEditButton.Location = new System.Drawing.Point(115, 123);
             this.AdvEditButton.Name = "AdvEditButton";
-            this.AdvEditButton.Size = new System.Drawing.Size(108, 26);
+            this.AdvEditButton.Size = new System.Drawing.Size(108, 24);
             this.AdvEditButton.TabIndex = 16;
             this.AdvEditButton.Tag = "2";
             this.AdvEditButton.Text = "ADV";
@@ -658,9 +666,9 @@
             // 
             // NovEditButton
             // 
-            this.NovEditButton.Location = new System.Drawing.Point(7, 133);
+            this.NovEditButton.Location = new System.Drawing.Point(7, 123);
             this.NovEditButton.Name = "NovEditButton";
-            this.NovEditButton.Size = new System.Drawing.Size(108, 26);
+            this.NovEditButton.Size = new System.Drawing.Size(108, 24);
             this.NovEditButton.TabIndex = 15;
             this.NovEditButton.Tag = "1";
             this.NovEditButton.Text = "NOV";
@@ -670,9 +678,9 @@
             // JacketInfPictureBox
             // 
             this.JacketInfPictureBox.Image = global::VoxCharger.Properties.Resources.jk_dummy_s;
-            this.JacketInfPictureBox.Location = new System.Drawing.Point(331, 19);
+            this.JacketInfPictureBox.Location = new System.Drawing.Point(331, 18);
             this.JacketInfPictureBox.Name = "JacketInfPictureBox";
-            this.JacketInfPictureBox.Size = new System.Drawing.Size(108, 108);
+            this.JacketInfPictureBox.Size = new System.Drawing.Size(108, 100);
             this.JacketInfPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.JacketInfPictureBox.TabIndex = 6;
             this.JacketInfPictureBox.TabStop = false;
@@ -682,9 +690,9 @@
             // JacketExhPictureBox
             // 
             this.JacketExhPictureBox.Image = global::VoxCharger.Properties.Resources.jk_dummy_s;
-            this.JacketExhPictureBox.Location = new System.Drawing.Point(223, 19);
+            this.JacketExhPictureBox.Location = new System.Drawing.Point(223, 18);
             this.JacketExhPictureBox.Name = "JacketExhPictureBox";
-            this.JacketExhPictureBox.Size = new System.Drawing.Size(108, 108);
+            this.JacketExhPictureBox.Size = new System.Drawing.Size(108, 100);
             this.JacketExhPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.JacketExhPictureBox.TabIndex = 29;
             this.JacketExhPictureBox.TabStop = false;
@@ -694,9 +702,9 @@
             // JacketAdvPictureBox
             // 
             this.JacketAdvPictureBox.Image = global::VoxCharger.Properties.Resources.jk_dummy_s;
-            this.JacketAdvPictureBox.Location = new System.Drawing.Point(115, 19);
+            this.JacketAdvPictureBox.Location = new System.Drawing.Point(115, 18);
             this.JacketAdvPictureBox.Name = "JacketAdvPictureBox";
-            this.JacketAdvPictureBox.Size = new System.Drawing.Size(108, 108);
+            this.JacketAdvPictureBox.Size = new System.Drawing.Size(108, 100);
             this.JacketAdvPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.JacketAdvPictureBox.TabIndex = 1;
             this.JacketAdvPictureBox.TabStop = false;
@@ -706,9 +714,9 @@
             // JacketNovPictureBox
             // 
             this.JacketNovPictureBox.Image = global::VoxCharger.Properties.Resources.jk_dummy_s;
-            this.JacketNovPictureBox.Location = new System.Drawing.Point(7, 19);
+            this.JacketNovPictureBox.Location = new System.Drawing.Point(7, 18);
             this.JacketNovPictureBox.Name = "JacketNovPictureBox";
-            this.JacketNovPictureBox.Size = new System.Drawing.Size(108, 108);
+            this.JacketNovPictureBox.Size = new System.Drawing.Size(108, 100);
             this.JacketNovPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.JacketNovPictureBox.TabIndex = 0;
             this.JacketNovPictureBox.TabStop = false;
@@ -719,7 +727,7 @@
             // 
             this.BackgroundLabel.AutoSize = true;
             this.BackgroundLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BackgroundLabel.Location = new System.Drawing.Point(16, 189);
+            this.BackgroundLabel.Location = new System.Drawing.Point(16, 174);
             this.BackgroundLabel.Name = "BackgroundLabel";
             this.BackgroundLabel.Size = new System.Drawing.Size(63, 13);
             this.BackgroundLabel.TabIndex = 23;
@@ -798,7 +806,7 @@
             "79",
             "80",
             "81"});
-            this.BackgroundDropDown.Location = new System.Drawing.Point(83, 184);
+            this.BackgroundDropDown.Location = new System.Drawing.Point(83, 170);
             this.BackgroundDropDown.Name = "BackgroundDropDown";
             this.BackgroundDropDown.Size = new System.Drawing.Size(383, 21);
             this.BackgroundDropDown.TabIndex = 9;
@@ -816,8 +824,9 @@
             "INF",
             "GRV",
             "HVN",
-            "VVD"});
-            this.InfVerDropDown.Location = new System.Drawing.Point(370, 130);
+            "VVD",
+            "XCD"});
+            this.InfVerDropDown.Location = new System.Drawing.Point(370, 120);
             this.InfVerDropDown.Name = "InfVerDropDown";
             this.InfVerDropDown.Size = new System.Drawing.Size(96, 21);
             this.InfVerDropDown.TabIndex = 7;
@@ -830,7 +839,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BpmMaxNumericBox.DecimalPlaces = 2;
             this.BpmMaxNumericBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BpmMaxNumericBox.Location = new System.Drawing.Point(277, 103);
+            this.BpmMaxNumericBox.Location = new System.Drawing.Point(277, 95);
             this.BpmMaxNumericBox.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -855,7 +864,7 @@
             // 
             this.VersionlLabel.AutoSize = true;
             this.VersionlLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.VersionlLabel.Location = new System.Drawing.Point(16, 135);
+            this.VersionlLabel.Location = new System.Drawing.Point(16, 125);
             this.VersionlLabel.Name = "VersionlLabel";
             this.VersionlLabel.Size = new System.Drawing.Size(42, 13);
             this.VersionlLabel.TabIndex = 15;
@@ -874,8 +883,9 @@
             "Sound Voltex II: Infinite Infection",
             "Sound Voltex III: Gravity Wars",
             "Sound Voltex IV: Heavenly Haven",
-            "Sound Voltex V: VividWave"});
-            this.VersionDropDown.Location = new System.Drawing.Point(83, 130);
+            "Sound Voltex V: Vivid Wave",
+            "Sound Voltex VI: Exceed Gear"});
+            this.VersionDropDown.Location = new System.Drawing.Point(83, 120);
             this.VersionDropDown.Name = "VersionDropDown";
             this.VersionDropDown.Size = new System.Drawing.Size(282, 21);
             this.VersionDropDown.TabIndex = 6;
@@ -886,7 +896,7 @@
             this.IdTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.IdTextBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.IdTextBox.Location = new System.Drawing.Point(83, 23);
+            this.IdTextBox.Location = new System.Drawing.Point(83, 21);
             this.IdTextBox.Name = "IdTextBox";
             this.IdTextBox.ReadOnly = true;
             this.IdTextBox.Size = new System.Drawing.Size(383, 21);
@@ -896,7 +906,7 @@
             // 
             this.IdLabel.AutoSize = true;
             this.IdLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.IdLabel.Location = new System.Drawing.Point(16, 28);
+            this.IdLabel.Location = new System.Drawing.Point(16, 26);
             this.IdLabel.Name = "IdLabel";
             this.IdLabel.Size = new System.Drawing.Size(18, 13);
             this.IdLabel.TabIndex = 0;
@@ -907,7 +917,7 @@
             // 
             this.BpmLabel.AutoSize = true;
             this.BpmLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BpmLabel.Location = new System.Drawing.Point(16, 106);
+            this.BpmLabel.Location = new System.Drawing.Point(16, 98);
             this.BpmLabel.Name = "BpmLabel";
             this.BpmLabel.Size = new System.Drawing.Size(27, 13);
             this.BpmLabel.TabIndex = 11;
@@ -920,7 +930,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BpmMinNumericBox.DecimalPlaces = 2;
             this.BpmMinNumericBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BpmMinNumericBox.Location = new System.Drawing.Point(83, 103);
+            this.BpmMinNumericBox.Location = new System.Drawing.Point(83, 95);
             this.BpmMinNumericBox.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -946,7 +956,7 @@
             this.ArtistTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ArtistTextBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ArtistTextBox.Location = new System.Drawing.Point(83, 76);
+            this.ArtistTextBox.Location = new System.Drawing.Point(83, 70);
             this.ArtistTextBox.Name = "ArtistTextBox";
             this.ArtistTextBox.Size = new System.Drawing.Size(383, 21);
             this.ArtistTextBox.TabIndex = 3;
@@ -956,7 +966,7 @@
             // 
             this.ArtistLabel.AutoSize = true;
             this.ArtistLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ArtistLabel.Location = new System.Drawing.Point(16, 81);
+            this.ArtistLabel.Location = new System.Drawing.Point(16, 75);
             this.ArtistLabel.Name = "ArtistLabel";
             this.ArtistLabel.Size = new System.Drawing.Size(33, 13);
             this.ArtistLabel.TabIndex = 5;
@@ -968,7 +978,7 @@
             this.TitleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TitleTextBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TitleTextBox.Location = new System.Drawing.Point(83, 49);
+            this.TitleTextBox.Location = new System.Drawing.Point(83, 45);
             this.TitleTextBox.Name = "TitleTextBox";
             this.TitleTextBox.Size = new System.Drawing.Size(383, 21);
             this.TitleTextBox.TabIndex = 2;
@@ -978,7 +988,7 @@
             // 
             this.TitleLabel.AutoSize = true;
             this.TitleLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TitleLabel.Location = new System.Drawing.Point(16, 54);
+            this.TitleLabel.Location = new System.Drawing.Point(16, 50);
             this.TitleLabel.Name = "TitleLabel";
             this.TitleLabel.Size = new System.Drawing.Size(27, 13);
             this.TitleLabel.TabIndex = 2;
@@ -988,17 +998,17 @@
             // MainStatusBar
             // 
             this.MainStatusBar.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MainStatusBar.Location = new System.Drawing.Point(0, 529);
+            this.MainStatusBar.Location = new System.Drawing.Point(0, 489);
             this.MainStatusBar.Name = "MainStatusBar";
-            this.MainStatusBar.Size = new System.Drawing.Size(764, 22);
+            this.MainStatusBar.Size = new System.Drawing.Size(764, 20);
             this.MainStatusBar.TabIndex = 5;
             this.MainStatusBar.Text = "Ready";
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(764, 551);
+            this.ClientSize = new System.Drawing.Size(764, 509);
             this.Controls.Add(this.MainStatusBar);
             this.Controls.Add(this.MetadataGroupBox);
             this.Controls.Add(this.MusicGroupBox);
@@ -1009,7 +1019,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Menu = this.MainMenu;
-            this.MinimumSize = new System.Drawing.Size(780, 590);
+            this.MinimumSize = new System.Drawing.Size(780, 548);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "VoxCharger";
@@ -1113,6 +1123,7 @@
         private System.Windows.Forms.MenuItem MenuSeparator7;
         private System.Windows.Forms.MenuItem MenuSeparator8;
         private System.Windows.Forms.MenuItem BulkImportKshMenu;
+        private System.Windows.Forms.MenuItem menuItem1;
     }
 }
 

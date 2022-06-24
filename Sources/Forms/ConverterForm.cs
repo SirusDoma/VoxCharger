@@ -22,7 +22,7 @@ namespace VoxCharger
     public partial class ConverterForm : Form
     {
         private readonly Image DummyJacket = VoxCharger.Properties.Resources.jk_dummy_s;
-        public static string LastBackground { get; private set; } = "63";
+        public static string LastBackground { get; private set; } = "02";
 
         private string target;
         private string defaultAscii;
@@ -81,7 +81,7 @@ namespace VoxCharger
 
             PathTextBox.Text                 = target;
             BackgroundDropDown.SelectedItem  = LastBackground;
-            VersionDropDown.SelectedIndex    = 4;
+            VersionDropDown.SelectedIndex    = 5;
             InfVerDropDown.SelectedIndex     = 0;
             ProcessConvertButton.Text        = "Add";
             
