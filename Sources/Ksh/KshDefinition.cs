@@ -8,13 +8,13 @@ namespace VoxCharger
 {
     public class KshDefinition
     {
-        private Dictionary<string, string> definitions;
+        private Dictionary<string, string> _definitions;
         public bool IsNormalized { get; set; } = true;
         public string Value { get; private set; }
 
         public KshDefinition(string data)
         {
-            definitions = new Dictionary<string, string>();
+            _definitions = new Dictionary<string, string>();
             foreach (string p in data.Split(';'))
             {
                 var prop = p.Split('=');
@@ -26,7 +26,7 @@ namespace VoxCharger
                     continue;
                 }
 
-                definitions.Add(
+                _definitions.Add(
                     prop[0].Trim(),
                     prop[1].Trim()
                 );
@@ -36,9 +36,9 @@ namespace VoxCharger
         public bool GetString(string pname, out string result)
         {
             result = string.Empty;
-            if (definitions.ContainsKey(pname))
+            if (_definitions.ContainsKey(pname))
             {
-                result = definitions[pname];
+                result = _definitions[pname];
                 return true;
             }
 
@@ -48,9 +48,9 @@ namespace VoxCharger
         public bool GetValue(string pname, out int result)
         {
             result = 0;
-            if (definitions.ContainsKey(pname))
+            if (_definitions.ContainsKey(pname))
             {
-                string str = GetDominantValue(definitions[pname]);
+                string str = GetDominantValue(_definitions[pname]);
                 if (str.Contains('/'))
                     return GetFraction(pname, out result);
                 else if (str.Contains('%'))
@@ -67,9 +67,9 @@ namespace VoxCharger
         public bool GetValue(string pname, out float result)
         {
             result = 0;
-            if (definitions.ContainsKey(pname))
+            if (_definitions.ContainsKey(pname))
             {
-                string str = GetDominantValue(definitions[pname]);
+                string str = GetDominantValue(_definitions[pname]);
                 if (str.Contains('/'))
                     return GetFraction(pname, out result);
                 else if (str.Contains('%'))
@@ -110,9 +110,9 @@ namespace VoxCharger
         public bool GetFraction(string pname, out int numerator, out int denominator)
         {
             denominator = numerator = 0;
-            if (definitions.ContainsKey(pname))
+            if (_definitions.ContainsKey(pname))
             {
-                var data = definitions[pname].Split('/');
+                var data = _definitions[pname].Split('/');
                 return data.Length == 2 && int.TryParse(data[0], out numerator) && int.TryParse(data[1], out denominator);
             }
 
@@ -122,9 +122,9 @@ namespace VoxCharger
         public bool GetFraction(string pname, out float numerator, out float denominator)
         {
             denominator = numerator = 0f;
-            if (definitions.ContainsKey(pname))
+            if (_definitions.ContainsKey(pname))
             {
-                var data = definitions[pname].Split('/');
+                var data = _definitions[pname].Split('/');
                 return data.Length == 2 && float.TryParse(data[0], out numerator) && float.TryParse(data[1], out denominator);
             }
 
@@ -134,9 +134,9 @@ namespace VoxCharger
         public bool GetPercentage(string pname, out int result)
         {
             result = 0;
-            if (definitions.ContainsKey(pname))
+            if (_definitions.ContainsKey(pname))
             {
-                string str = definitions[pname];
+                string str = _definitions[pname];
                 if (float.TryParse(str.Replace("%", string.Empty), out float percentage)) 
                 {
                     result = IsNormalized ? (int)(percentage / 100f) : (int)percentage;
@@ -150,9 +150,9 @@ namespace VoxCharger
         public bool GetPercentage(string pname, out float result)
         {
             result = 0f;
-            if (definitions.ContainsKey(pname))
+            if (_definitions.ContainsKey(pname))
             {
-                string str = definitions[pname];
+                string str = _definitions[pname];
                 if (float.TryParse(str.Replace("%", string.Empty), out result))
                 {
                     result = IsNormalized ? result / 100f : result;

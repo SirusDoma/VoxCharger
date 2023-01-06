@@ -64,7 +64,7 @@ namespace VoxCharger
             if (!Enum.TryParse(prop[0].Replace("Echo", "Retrigger"), out FxType type))
                 return null;
 
-             switch(type)
+            switch(type)
             {
                 case FxType.Retrigger:
                 case FxType.RetriggerEx: return Retrigger.FromKsh(data);

@@ -29,7 +29,7 @@ namespace VoxCharger
             {
             }
 
-            public static new Wobble FromVox(string data)
+            public new static Wobble FromVox(string data)
             {
                 var wobble = new Wobble();
                 var prop = data.Trim().Split(',').Select(p => p.Trim()).ToArray();
@@ -56,7 +56,7 @@ namespace VoxCharger
                 return wobble;
             }
 
-            public static new Wobble FromKsh(string data)
+            public new static Wobble FromKsh(string data)
             {
                 var wobble = new Wobble();
                 var prop = data.Trim().Split(';').Select(p => p.Trim()).ToArray();
@@ -73,7 +73,7 @@ namespace VoxCharger
                 return wobble;
             }
 
-            public static new Wobble FromKsh(KshDefinition definition)
+            public new static Wobble FromKsh(KshDefinition definition)
             {
                 var wobble = new Wobble();
 
@@ -107,7 +107,7 @@ namespace VoxCharger
                     return base.ToString();
 
                 return $"{(int)Type},"           +
-                       $"\t,0,\t{Flag},"         + // Unknown params 
+                       $"\t0,\t{Flag},"         + // Unknown params
                        $"\t{Mix:0.00},"          +
                        $"\t{LowFrequency:0.00}," +
                        $"\t{HiFrequency:0.00},"  +

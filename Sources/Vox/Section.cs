@@ -6,40 +6,40 @@ namespace VoxCharger
     {
         public enum Section
         {
-            NO_STATE        = -1,
-            FORMAT_VERSION  = 0,
-            BEAT_INFO       = 1,
-            BPM_INFO        = 2,
-            TILT            = 3,
-            LYRIC           = 4,
-            END_POSITION    = 5,
-            TAB_EFFECT      = 6,
-            FXBUTTON_EFFECT = 7,
-            TAB_PARAM       = 8,
-            REVERB          = 9,
-            TRACK1          = 10,
-            TRACK2          = 11,
-            TRACK3          = 12,
-            TRACK4          = 13,
-            TRACK5          = 14,
-            TRACK6          = 15,
-            TRACK7          = 16,
-            TRACK8          = 17,
-            TRACK_AUTO      = 18,
-            SPCONTROLER     = 19,
-            SOUND_ID        = 20,
-            BPM             = 21
+            NoState        = -1,
+            FormatVersion  = 0,
+            BeatInfo       = 1,
+            BpmInfo        = 2,
+            Tilt            = 3,
+            Lyric           = 4,
+            EndPosition    = 5,
+            TabEffect      = 6,
+            FxbuttonEffect = 7,
+            TabParam       = 8,
+            Reverb          = 9,
+            Track1          = 10,
+            Track2          = 11,
+            Track3          = 12,
+            Track4          = 13,
+            Track5          = 14,
+            Track6          = 15,
+            Track7          = 16,
+            Track8          = 17,
+            TrackAuto      = 18,
+            Spcontroler     = 19,
+            SoundId        = 20,
+            Bpm             = 21
         }
 
         public static bool IsTrackSection(Section section)
         {
             int value = (int)section;
-            return value >= (int)Section.TRACK1 && value <= (int)Section.TRACK_AUTO;
+            return value >= (int)Section.Track1 && value <= (int)Section.TrackAuto;
         }
 
         public static int GetTrackNumber(Section section)
         {
-            return IsTrackSection(section) ? ((int)section + 1) - (int)Section.TRACK1 : -1;
+            return IsTrackSection(section) ? ((int)section + 1) - (int)Section.Track1 : -1;
         }
     }
 }

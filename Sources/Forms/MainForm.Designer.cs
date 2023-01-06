@@ -50,8 +50,8 @@
             this.BulkImportKshEditMenu = new System.Windows.Forms.MenuItem();
             this.RemoveEditMenu = new System.Windows.Forms.MenuItem();
             this.MenuSeparator4 = new System.Windows.Forms.MenuItem();
-            this.Import2DXEditMenu = new System.Windows.Forms.MenuItem();
-            this.Import2DXPreviewEditMenu = new System.Windows.Forms.MenuItem();
+            this.ImportAudioEditMenu = new System.Windows.Forms.MenuItem();
+            this.ImportAudioPreviewEditMenu = new System.Windows.Forms.MenuItem();
             this.MenuSeparator5 = new System.Windows.Forms.MenuItem();
             this.ExplorerEditMenu = new System.Windows.Forms.MenuItem();
             this.MenuSeparator6 = new System.Windows.Forms.MenuItem();
@@ -61,6 +61,7 @@
             this.SingleConvertToolsMenu = new System.Windows.Forms.MenuItem();
             this.BulkConvertToolsMenu = new System.Windows.Forms.MenuItem();
             this.MusicFileBuilder = new System.Windows.Forms.MenuItem();
+            this.S3VFileBuilder = new System.Windows.Forms.MenuItem();
             this.HelpMenu = new System.Windows.Forms.MenuItem();
             this.AboutHelpMenu = new System.Windows.Forms.MenuItem();
             this.FileLabel = new System.Windows.Forms.Label();
@@ -76,10 +77,12 @@
             this.RemoveButton = new System.Windows.Forms.Button();
             this.MusicListBox = new System.Windows.Forms.ListBox();
             this.MetadataGroupBox = new System.Windows.Forms.GroupBox();
+            this.ArtistYomiganaTextBox = new System.Windows.Forms.TextBox();
+            this.TitleYomiganaTextBox = new System.Windows.Forms.TextBox();
             this.SoundGroupBox = new System.Windows.Forms.GroupBox();
             this.VolumeIndicatorLabel = new System.Windows.Forms.Label();
-            this.Import2DXPreviewFileButton = new System.Windows.Forms.Button();
-            this.Import2DXMusicFileButton = new System.Windows.Forms.Button();
+            this.ImportPreviewFileButton = new System.Windows.Forms.Button();
+            this.ImportMusicFileButton = new System.Windows.Forms.Button();
             this.VolumeLabel = new System.Windows.Forms.Label();
             this.VolumeTrackBar = new System.Windows.Forms.TrackBar();
             this.DistributionPicker = new System.Windows.Forms.DateTimePicker();
@@ -123,26 +126,12 @@
             // 
             // MainMenu
             // 
-            this.MainMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.FileMenu,
-            this.EditMenu,
-            this.ToolsMenu,
-            this.HelpMenu});
+            this.MainMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] { this.FileMenu, this.EditMenu, this.ToolsMenu, this.HelpMenu });
             // 
             // FileMenu
             // 
             this.FileMenu.Index = 0;
-            this.FileMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.NewFileMenu,
-            this.OpenFileMenu,
-            this.MenuSeparator1,
-            this.SaveFileMenu,
-            this.SaveAsFileMenu,
-            this.MenuSeparator2,
-            this.ChangeMixFileMenu,
-            this.DeleteMixFileMenu,
-            this.MenuSeparator3,
-            this.ExitFileMenu});
+            this.FileMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] { this.NewFileMenu, this.OpenFileMenu, this.MenuSeparator1, this.SaveFileMenu, this.SaveAsFileMenu, this.MenuSeparator2, this.ChangeMixFileMenu, this.DeleteMixFileMenu, this.MenuSeparator3, this.ExitFileMenu });
             this.FileMenu.Text = "File";
             // 
             // NewFileMenu
@@ -215,26 +204,13 @@
             // 
             this.EditMenu.Enabled = false;
             this.EditMenu.Index = 1;
-            this.EditMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.AddEditMenu,
-            this.RemoveEditMenu,
-            this.MenuSeparator4,
-            this.Import2DXEditMenu,
-            this.Import2DXPreviewEditMenu,
-            this.MenuSeparator5,
-            this.ExplorerEditMenu,
-            this.MenuSeparator6,
-            this.AutosaveEditMenu});
+            this.EditMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] { this.AddEditMenu, this.RemoveEditMenu, this.MenuSeparator4, this.ImportAudioEditMenu, this.ImportAudioPreviewEditMenu, this.MenuSeparator5, this.ExplorerEditMenu, this.MenuSeparator6, this.AutosaveEditMenu });
             this.EditMenu.Text = "Edit";
             // 
             // AddEditMenu
             // 
             this.AddEditMenu.Index = 0;
-            this.AddEditMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.AddNewEditMenu,
-            this.ImportKshEditMenu,
-            this.MenuSeparator7,
-            this.BulkImportKshEditMenu});
+            this.AddEditMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] { this.AddNewEditMenu, this.ImportKshEditMenu, this.MenuSeparator7, this.BulkImportKshEditMenu });
             this.AddEditMenu.Shortcut = System.Windows.Forms.Shortcut.Ins;
             this.AddEditMenu.Text = "Add";
             // 
@@ -273,19 +249,19 @@
             this.MenuSeparator4.Index = 2;
             this.MenuSeparator4.Text = "-";
             // 
-            // Import2DXEditMenu
+            // ImportAudioEditMenu
             // 
-            this.Import2DXEditMenu.Enabled = false;
-            this.Import2DXEditMenu.Index = 3;
-            this.Import2DXEditMenu.Text = "Import 2DX Music..";
-            this.Import2DXEditMenu.Click += new System.EventHandler(this.OnImport2DXMusicFileButtonClick);
+            this.ImportAudioEditMenu.Enabled = false;
+            this.ImportAudioEditMenu.Index = 3;
+            this.ImportAudioEditMenu.Text = "Import Music..";
+            this.ImportAudioEditMenu.Click += new System.EventHandler(this.OnImportMusicFileButtonClick);
             // 
-            // Import2DXPreviewEditMenu
+            // ImportAudioPreviewEditMenu
             // 
-            this.Import2DXPreviewEditMenu.Enabled = false;
-            this.Import2DXPreviewEditMenu.Index = 4;
-            this.Import2DXPreviewEditMenu.Text = "Import 2DX Preview..";
-            this.Import2DXPreviewEditMenu.Click += new System.EventHandler(this.OnImport2DXPreviewFileButtonClick);
+            this.ImportAudioPreviewEditMenu.Enabled = false;
+            this.ImportAudioPreviewEditMenu.Index = 4;
+            this.ImportAudioPreviewEditMenu.Text = "Import Preview..";
+            this.ImportAudioPreviewEditMenu.Click += new System.EventHandler(this.OnImportPreviewFileButtonClick);
             // 
             // MenuSeparator5
             // 
@@ -315,17 +291,13 @@
             // ToolsMenu
             // 
             this.ToolsMenu.Index = 2;
-            this.ToolsMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.ConvertToolsMenu,
-            this.MusicFileBuilder});
+            this.ToolsMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] { this.ConvertToolsMenu, this.MusicFileBuilder, this.S3VFileBuilder });
             this.ToolsMenu.Text = "Tools";
             // 
             // ConvertToolsMenu
             // 
             this.ConvertToolsMenu.Index = 0;
-            this.ConvertToolsMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.SingleConvertToolsMenu,
-            this.BulkConvertToolsMenu});
+            this.ConvertToolsMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] { this.SingleConvertToolsMenu, this.BulkConvertToolsMenu });
             this.ConvertToolsMenu.Text = "KSH Converter";
             // 
             // SingleConvertToolsMenu
@@ -345,22 +317,28 @@
             this.MusicFileBuilder.Index = 1;
             this.MusicFileBuilder.Text = "2DX Builder";
             this.MusicFileBuilder.Click += new System.EventHandler(this.OnMusicFileBuilderClick);
-            // 
+            //
+            // S3VFileBuilder
+            //
+            this.S3VFileBuilder.Enabled = false;
+            this.S3VFileBuilder.Index = 2;
+            this.S3VFileBuilder.Text = "S3V Builder";
+            this.S3VFileBuilder.Click += new System.EventHandler(this.OnS3VFileBuilderClick);
+            //
             // HelpMenu
-            // 
+            //
             this.HelpMenu.Index = 3;
-            this.HelpMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.AboutHelpMenu});
+            this.HelpMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] { this.AboutHelpMenu });
             this.HelpMenu.Text = "Help";
-            // 
+            //
             // AboutHelpMenu
-            // 
+            //
             this.AboutHelpMenu.Index = 0;
             this.AboutHelpMenu.Text = "About";
             this.AboutHelpMenu.Click += new System.EventHandler(this.OnAboutHelpMenuClick);
-            // 
+            //
             // FileLabel
-            // 
+            //
             this.FileLabel.AutoSize = true;
             this.FileLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FileLabel.Location = new System.Drawing.Point(12, 15);
@@ -368,11 +346,10 @@
             this.FileLabel.Size = new System.Drawing.Size(48, 13);
             this.FileLabel.TabIndex = 0;
             this.FileLabel.Text = "Mix Path";
-            // 
+            //
             // PathTextBox
-            // 
-            this.PathTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            //
+            this.PathTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.PathTextBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PathTextBox.Location = new System.Drawing.Point(66, 12);
             this.PathTextBox.Name = "PathTextBox";
@@ -380,9 +357,9 @@
             this.PathTextBox.Size = new System.Drawing.Size(605, 21);
             this.PathTextBox.TabIndex = 1;
             this.PathTextBox.TextChanged += new System.EventHandler(this.OnPathTextBoxTextChanged);
-            // 
+            //
             // OpenButton
-            // 
+            //
             this.OpenButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.OpenButton.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OpenButton.Location = new System.Drawing.Point(677, 10);
@@ -392,12 +369,10 @@
             this.OpenButton.Text = "Open";
             this.OpenButton.UseVisualStyleBackColor = true;
             this.OpenButton.Click += new System.EventHandler(this.OnOpenButtonClick);
-            // 
+            //
             // MusicGroupBox
-            // 
-            this.MusicGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            //
+            this.MusicGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.MusicGroupBox.Controls.Add(this.AddButton);
             this.MusicGroupBox.Controls.Add(this.RemoveButton);
             this.MusicGroupBox.Controls.Add(this.MusicListBox);
@@ -405,16 +380,15 @@
             this.MusicGroupBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MusicGroupBox.Location = new System.Drawing.Point(15, 40);
             this.MusicGroupBox.Name = "MusicGroupBox";
-            this.MusicGroupBox.Size = new System.Drawing.Size(258, 478);
+            this.MusicGroupBox.Size = new System.Drawing.Size(258, 498);
             this.MusicGroupBox.TabIndex = 3;
             this.MusicGroupBox.TabStop = false;
             this.MusicGroupBox.Text = "Music";
-            // 
+            //
             // AddButton
-            // 
-            this.AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.AddButton.Location = new System.Drawing.Point(6, 447);
+            //
+            this.AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.AddButton.Location = new System.Drawing.Point(6, 467);
             this.AddButton.Menu = this.ImportContextMenu;
             this.AddButton.Name = "AddButton";
             this.AddButton.Size = new System.Drawing.Size(120, 25);
@@ -422,68 +396,63 @@
             this.AddButton.TabIndex = 5;
             this.AddButton.Text = "Add";
             this.AddButton.UseVisualStyleBackColor = true;
-            // 
+            //
             // ImportContextMenu
-            // 
-            this.ImportContextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
-            this.ImportVoxMenu,
-            this.ImportKshMenu,
-            this.MenuSeparator8,
-            this.BulkImportKshMenu});
-            // 
+            //
+            this.ImportContextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] { this.ImportVoxMenu, this.ImportKshMenu, this.MenuSeparator8, this.BulkImportKshMenu });
+            //
             // ImportVoxMenu
-            // 
+            //
             this.ImportVoxMenu.Index = 0;
             this.ImportVoxMenu.Text = "Add New";
             this.ImportVoxMenu.Click += new System.EventHandler(this.OnAddNewMenuClick);
-            // 
+            //
             // ImportKshMenu
-            // 
+            //
             this.ImportKshMenu.Index = 1;
             this.ImportKshMenu.Text = "Import Ksh..";
             this.ImportKshMenu.Click += new System.EventHandler(this.OnSingleImportMenuClick);
-            // 
+            //
             // MenuSeparator8
-            // 
+            //
             this.MenuSeparator8.Index = 2;
             this.MenuSeparator8.Text = "-";
-            // 
+            //
             // BulkImportKshMenu
-            // 
+            //
             this.BulkImportKshMenu.Index = 3;
             this.BulkImportKshMenu.Text = "Bulk Import Ksh..";
             this.BulkImportKshMenu.Click += new System.EventHandler(this.OnBulkImportKshMenuClick);
-            // 
+            //
             // RemoveButton
-            // 
+            //
             this.RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.RemoveButton.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RemoveButton.Location = new System.Drawing.Point(132, 447);
+            this.RemoveButton.Location = new System.Drawing.Point(132, 467);
             this.RemoveButton.Name = "RemoveButton";
             this.RemoveButton.Size = new System.Drawing.Size(120, 25);
             this.RemoveButton.TabIndex = 4;
             this.RemoveButton.Text = "Remove";
             this.RemoveButton.UseVisualStyleBackColor = true;
             this.RemoveButton.Click += new System.EventHandler(this.OnRemoveButtonClick);
-            // 
+            //
             // MusicListBox
-            // 
-            this.MusicListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            //
+            this.MusicListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.MusicListBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MusicListBox.FormattingEnabled = true;
             this.MusicListBox.Location = new System.Drawing.Point(6, 19);
             this.MusicListBox.Name = "MusicListBox";
-            this.MusicListBox.Size = new System.Drawing.Size(246, 420);
+            this.MusicListBox.Size = new System.Drawing.Size(246, 433);
             this.MusicListBox.Sorted = true;
             this.MusicListBox.TabIndex = 2;
             this.MusicListBox.SelectedIndexChanged += new System.EventHandler(this.OnMusicListBoxSelectedIndexChanged);
-            // 
+            //
             // MetadataGroupBox
-            // 
-            this.MetadataGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            //
+            this.MetadataGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Right)));
+            this.MetadataGroupBox.Controls.Add(this.ArtistYomiganaTextBox);
+            this.MetadataGroupBox.Controls.Add(this.TitleYomiganaTextBox);
             this.MetadataGroupBox.Controls.Add(this.SoundGroupBox);
             this.MetadataGroupBox.Controls.Add(this.DistributionPicker);
             this.MetadataGroupBox.Controls.Add(this.ReleaseLabel);
@@ -506,58 +475,75 @@
             this.MetadataGroupBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MetadataGroupBox.Location = new System.Drawing.Point(279, 40);
             this.MetadataGroupBox.Name = "MetadataGroupBox";
-            this.MetadataGroupBox.Size = new System.Drawing.Size(473, 478);
+            this.MetadataGroupBox.Size = new System.Drawing.Size(473, 498);
             this.MetadataGroupBox.TabIndex = 4;
             this.MetadataGroupBox.TabStop = false;
             this.MetadataGroupBox.Text = "Metadata";
-            // 
+            //
+            // ArtistYomiganaTextBox
+            //
+            this.ArtistYomiganaTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.ArtistYomiganaTextBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ArtistYomiganaTextBox.Location = new System.Drawing.Point(314, 76);
+            this.ArtistYomiganaTextBox.Name = "ArtistYomiganaTextBox";
+            this.ArtistYomiganaTextBox.Size = new System.Drawing.Size(152, 21);
+            this.ArtistYomiganaTextBox.TabIndex = 31;
+            //
+            // TitleYomiganaTextBox
+            //
+            this.TitleYomiganaTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.TitleYomiganaTextBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TitleYomiganaTextBox.Location = new System.Drawing.Point(314, 49);
+            this.TitleYomiganaTextBox.Name = "TitleYomiganaTextBox";
+            this.TitleYomiganaTextBox.Size = new System.Drawing.Size(151, 21);
+            this.TitleYomiganaTextBox.TabIndex = 30;
+            //
             // SoundGroupBox
-            // 
-            this.SoundGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            //
+            this.SoundGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.SoundGroupBox.Controls.Add(this.VolumeIndicatorLabel);
-            this.SoundGroupBox.Controls.Add(this.Import2DXPreviewFileButton);
-            this.SoundGroupBox.Controls.Add(this.Import2DXMusicFileButton);
+            this.SoundGroupBox.Controls.Add(this.ImportPreviewFileButton);
+            this.SoundGroupBox.Controls.Add(this.ImportMusicFileButton);
             this.SoundGroupBox.Controls.Add(this.VolumeLabel);
             this.SoundGroupBox.Controls.Add(this.VolumeTrackBar);
-            this.SoundGroupBox.Location = new System.Drawing.Point(19, 217);
+            this.SoundGroupBox.Location = new System.Drawing.Point(19, 237);
             this.SoundGroupBox.Name = "SoundGroupBox";
             this.SoundGroupBox.Size = new System.Drawing.Size(447, 80);
             this.SoundGroupBox.TabIndex = 10;
             this.SoundGroupBox.TabStop = false;
             this.SoundGroupBox.Text = "Music Assets && Settings";
-            // 
+            //
             // VolumeIndicatorLabel
-            // 
+            //
             this.VolumeIndicatorLabel.Location = new System.Drawing.Point(400, 51);
             this.VolumeIndicatorLabel.Name = "VolumeIndicatorLabel";
             this.VolumeIndicatorLabel.Size = new System.Drawing.Size(37, 13);
             this.VolumeIndicatorLabel.TabIndex = 27;
             this.VolumeIndicatorLabel.Text = "91%";
             this.VolumeIndicatorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // Import2DXPreviewFileButton
-            // 
-            this.Import2DXPreviewFileButton.Location = new System.Drawing.Point(227, 20);
-            this.Import2DXPreviewFileButton.Name = "Import2DXPreviewFileButton";
-            this.Import2DXPreviewFileButton.Size = new System.Drawing.Size(207, 23);
-            this.Import2DXPreviewFileButton.TabIndex = 12;
-            this.Import2DXPreviewFileButton.Text = "Import 2DX Preview";
-            this.Import2DXPreviewFileButton.UseVisualStyleBackColor = true;
-            this.Import2DXPreviewFileButton.Click += new System.EventHandler(this.OnImport2DXPreviewFileButtonClick);
-            // 
-            // Import2DXMusicFileButton
-            // 
-            this.Import2DXMusicFileButton.Location = new System.Drawing.Point(14, 20);
-            this.Import2DXMusicFileButton.Name = "Import2DXMusicFileButton";
-            this.Import2DXMusicFileButton.Size = new System.Drawing.Size(207, 23);
-            this.Import2DXMusicFileButton.TabIndex = 11;
-            this.Import2DXMusicFileButton.Text = "Import 2DX Music";
-            this.Import2DXMusicFileButton.UseVisualStyleBackColor = true;
-            this.Import2DXMusicFileButton.Click += new System.EventHandler(this.OnImport2DXMusicFileButtonClick);
-            // 
+            //
+            // ImportPreviewFileButton
+            //
+            this.ImportPreviewFileButton.Location = new System.Drawing.Point(227, 20);
+            this.ImportPreviewFileButton.Name = "ImportPreviewFileButton";
+            this.ImportPreviewFileButton.Size = new System.Drawing.Size(207, 23);
+            this.ImportPreviewFileButton.TabIndex = 12;
+            this.ImportPreviewFileButton.Text = "Import Preview";
+            this.ImportPreviewFileButton.UseVisualStyleBackColor = true;
+            this.ImportPreviewFileButton.Click += new System.EventHandler(this.OnImportPreviewFileButtonClick);
+            //
+            // ImportMusicFileButton
+            //
+            this.ImportMusicFileButton.Location = new System.Drawing.Point(14, 20);
+            this.ImportMusicFileButton.Name = "ImportMusicFileButton";
+            this.ImportMusicFileButton.Size = new System.Drawing.Size(207, 23);
+            this.ImportMusicFileButton.TabIndex = 11;
+            this.ImportMusicFileButton.Text = "Import Music";
+            this.ImportMusicFileButton.UseVisualStyleBackColor = true;
+            this.ImportMusicFileButton.Click += new System.EventHandler(this.OnImportMusicFileButtonClick);
+            //
             // VolumeLabel
-            // 
+            //
             this.VolumeLabel.AutoSize = true;
             this.VolumeLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.VolumeLabel.Location = new System.Drawing.Point(17, 51);
@@ -566,11 +552,10 @@
             this.VolumeLabel.TabIndex = 26;
             this.VolumeLabel.Text = "Volume";
             this.VolumeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
+            //
             // VolumeTrackBar
-            // 
-            this.VolumeTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            //
+            this.VolumeTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.VolumeTrackBar.AutoSize = false;
             this.VolumeTrackBar.Location = new System.Drawing.Point(54, 49);
             this.VolumeTrackBar.Maximum = 120;
@@ -580,11 +565,10 @@
             this.VolumeTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
             this.VolumeTrackBar.Value = 91;
             this.VolumeTrackBar.ValueChanged += new System.EventHandler(this.OnMetadataChanged);
-            // 
+            //
             // DistributionPicker
-            // 
-            this.DistributionPicker.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            //
+            this.DistributionPicker.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.DistributionPicker.CustomFormat = "yyyy-MM-dd";
             this.DistributionPicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.DistributionPicker.Location = new System.Drawing.Point(83, 157);
@@ -592,9 +576,9 @@
             this.DistributionPicker.Size = new System.Drawing.Size(382, 21);
             this.DistributionPicker.TabIndex = 8;
             this.DistributionPicker.ValueChanged += new System.EventHandler(this.OnMetadataChanged);
-            // 
+            //
             // ReleaseLabel
-            // 
+            //
             this.ReleaseLabel.AutoSize = true;
             this.ReleaseLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ReleaseLabel.Location = new System.Drawing.Point(16, 162);
@@ -603,11 +587,10 @@
             this.ReleaseLabel.TabIndex = 29;
             this.ReleaseLabel.Text = "Dist. Date";
             this.ReleaseLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
+            //
             // LevelGroupBox
-            // 
-            this.LevelGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            //
+            this.LevelGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.LevelGroupBox.Controls.Add(this.InfEditButton);
             this.LevelGroupBox.Controls.Add(this.ExhEditButton);
             this.LevelGroupBox.Controls.Add(this.AdvEditButton);
@@ -616,15 +599,15 @@
             this.LevelGroupBox.Controls.Add(this.JacketExhPictureBox);
             this.LevelGroupBox.Controls.Add(this.JacketAdvPictureBox);
             this.LevelGroupBox.Controls.Add(this.JacketNovPictureBox);
-            this.LevelGroupBox.Location = new System.Drawing.Point(19, 307);
+            this.LevelGroupBox.Location = new System.Drawing.Point(19, 327);
             this.LevelGroupBox.Name = "LevelGroupBox";
             this.LevelGroupBox.Size = new System.Drawing.Size(447, 165);
             this.LevelGroupBox.TabIndex = 14;
             this.LevelGroupBox.TabStop = false;
             this.LevelGroupBox.Text = "Level Assets && Metadata";
-            // 
+            //
             // InfEditButton
-            // 
+            //
             this.InfEditButton.Location = new System.Drawing.Point(331, 133);
             this.InfEditButton.Name = "InfEditButton";
             this.InfEditButton.Size = new System.Drawing.Size(108, 26);
@@ -633,9 +616,9 @@
             this.InfEditButton.Text = "--";
             this.InfEditButton.UseVisualStyleBackColor = true;
             this.InfEditButton.Click += new System.EventHandler(this.OnLevelEditButtonClick);
-            // 
+            //
             // ExhEditButton
-            // 
+            //
             this.ExhEditButton.Location = new System.Drawing.Point(223, 133);
             this.ExhEditButton.Name = "ExhEditButton";
             this.ExhEditButton.Size = new System.Drawing.Size(108, 26);
@@ -644,9 +627,9 @@
             this.ExhEditButton.Text = "EXH";
             this.ExhEditButton.UseVisualStyleBackColor = true;
             this.ExhEditButton.Click += new System.EventHandler(this.OnLevelEditButtonClick);
-            // 
+            //
             // AdvEditButton
-            // 
+            //
             this.AdvEditButton.Location = new System.Drawing.Point(115, 133);
             this.AdvEditButton.Name = "AdvEditButton";
             this.AdvEditButton.Size = new System.Drawing.Size(108, 26);
@@ -655,9 +638,9 @@
             this.AdvEditButton.Text = "ADV";
             this.AdvEditButton.UseVisualStyleBackColor = true;
             this.AdvEditButton.Click += new System.EventHandler(this.OnLevelEditButtonClick);
-            // 
+            //
             // NovEditButton
-            // 
+            //
             this.NovEditButton.Location = new System.Drawing.Point(7, 133);
             this.NovEditButton.Name = "NovEditButton";
             this.NovEditButton.Size = new System.Drawing.Size(108, 26);
@@ -666,9 +649,9 @@
             this.NovEditButton.Text = "NOV";
             this.NovEditButton.UseVisualStyleBackColor = true;
             this.NovEditButton.Click += new System.EventHandler(this.OnLevelEditButtonClick);
-            // 
+            //
             // JacketInfPictureBox
-            // 
+            //
             this.JacketInfPictureBox.Image = global::VoxCharger.Properties.Resources.jk_dummy_s;
             this.JacketInfPictureBox.Location = new System.Drawing.Point(331, 19);
             this.JacketInfPictureBox.Name = "JacketInfPictureBox";
@@ -678,9 +661,9 @@
             this.JacketInfPictureBox.TabStop = false;
             this.JacketInfPictureBox.Tag = "4";
             this.JacketInfPictureBox.Click += new System.EventHandler(this.OnJacketPictureBoxClick);
-            // 
+            //
             // JacketExhPictureBox
-            // 
+            //
             this.JacketExhPictureBox.Image = global::VoxCharger.Properties.Resources.jk_dummy_s;
             this.JacketExhPictureBox.Location = new System.Drawing.Point(223, 19);
             this.JacketExhPictureBox.Name = "JacketExhPictureBox";
@@ -690,9 +673,9 @@
             this.JacketExhPictureBox.TabStop = false;
             this.JacketExhPictureBox.Tag = "3";
             this.JacketExhPictureBox.Click += new System.EventHandler(this.OnJacketPictureBoxClick);
-            // 
+            //
             // JacketAdvPictureBox
-            // 
+            //
             this.JacketAdvPictureBox.Image = global::VoxCharger.Properties.Resources.jk_dummy_s;
             this.JacketAdvPictureBox.Location = new System.Drawing.Point(115, 19);
             this.JacketAdvPictureBox.Name = "JacketAdvPictureBox";
@@ -702,9 +685,9 @@
             this.JacketAdvPictureBox.TabStop = false;
             this.JacketAdvPictureBox.Tag = "2";
             this.JacketAdvPictureBox.Click += new System.EventHandler(this.OnJacketPictureBoxClick);
-            // 
+            //
             // JacketNovPictureBox
-            // 
+            //
             this.JacketNovPictureBox.Image = global::VoxCharger.Properties.Resources.jk_dummy_s;
             this.JacketNovPictureBox.Location = new System.Drawing.Point(7, 19);
             this.JacketNovPictureBox.Name = "JacketNovPictureBox";
@@ -714,9 +697,9 @@
             this.JacketNovPictureBox.TabStop = false;
             this.JacketNovPictureBox.Tag = "1";
             this.JacketNovPictureBox.Click += new System.EventHandler(this.OnJacketPictureBoxClick);
-            // 
+            //
             // BackgroundLabel
-            // 
+            //
             this.BackgroundLabel.AutoSize = true;
             this.BackgroundLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BackgroundLabel.Location = new System.Drawing.Point(16, 189);
@@ -725,134 +708,50 @@
             this.BackgroundLabel.TabIndex = 23;
             this.BackgroundLabel.Text = "Background";
             this.BackgroundLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
+            //
             // BackgroundDropDown
-            // 
-            this.BackgroundDropDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            //
+            this.BackgroundDropDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.BackgroundDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.BackgroundDropDown.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BackgroundDropDown.FormattingEnabled = true;
-            this.BackgroundDropDown.Items.AddRange(new object[] {
-            "00",
-            "01",
-            "02",
-            "03",
-            "04",
-            "05",
-            "06",
-            "07",
-            "08",
-            "09",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14",
-            "15",
-            "16",
-            "18",
-            "19",
-            "27",
-            "29",
-            "30",
-            "31",
-            "34",
-            "36",
-            "38",
-            "39",
-            "40",
-            "41",
-            "42",
-            "43",
-            "44",
-            "45",
-            "46",
-            "47",
-            "48",
-            "49",
-            "50",
-            "51",
-            "53",
-            "54",
-            "57",
-            "58",
-            "59",
-            "60",
-            "61",
-            "63",
-            "65",
-            "66",
-            "67",
-            "68",
-            "69",
-            "70",
-            "71",
-            "72",
-            "73",
-            "74",
-            "75",
-            "76",
-            "77",
-            "78",
-            "79",
-            "80",
-            "81"});
+            this.BackgroundDropDown.Items.AddRange(new object[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "18", "19", "27", "29", "30", "31", "34", "36", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "53", "54", "57", "58", "59", "60", "61", "63", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "80", "81", "82", "83", "84", "86", "87", "88", "89", "90", "91", "92", "93", "92", "95", "96", "97", "98" });
             this.BackgroundDropDown.Location = new System.Drawing.Point(83, 184);
             this.BackgroundDropDown.Name = "BackgroundDropDown";
             this.BackgroundDropDown.Size = new System.Drawing.Size(383, 21);
             this.BackgroundDropDown.TabIndex = 9;
             this.BackgroundDropDown.SelectionChangeCommitted += new System.EventHandler(this.OnMetadataChanged);
-            // 
+            //
             // InfVerDropDown
-            // 
-            this.InfVerDropDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            //
+            this.InfVerDropDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.InfVerDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.InfVerDropDown.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.InfVerDropDown.FormattingEnabled = true;
-            this.InfVerDropDown.Items.AddRange(new object[] {
-            "MXM",
-            "INF",
-            "GRV",
-            "HVN",
-            "VVD"});
+            this.InfVerDropDown.Items.AddRange(new object[] { "MXM", "INF", "GRV", "HVN", "VVD", "XCD" });
             this.InfVerDropDown.Location = new System.Drawing.Point(370, 130);
             this.InfVerDropDown.Name = "InfVerDropDown";
             this.InfVerDropDown.Size = new System.Drawing.Size(96, 21);
             this.InfVerDropDown.TabIndex = 7;
             this.InfVerDropDown.SelectedIndexChanged += new System.EventHandler(this.OnInfVerDropDownSelectedIndexChanged);
             this.InfVerDropDown.SelectionChangeCommitted += new System.EventHandler(this.OnMetadataChanged);
-            // 
+            //
             // BpmMaxNumericBox
-            // 
-            this.BpmMaxNumericBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            //
+            this.BpmMaxNumericBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.BpmMaxNumericBox.DecimalPlaces = 2;
             this.BpmMaxNumericBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BpmMaxNumericBox.Location = new System.Drawing.Point(277, 103);
-            this.BpmMaxNumericBox.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.BpmMaxNumericBox.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.BpmMaxNumericBox.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            this.BpmMaxNumericBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             this.BpmMaxNumericBox.Name = "BpmMaxNumericBox";
             this.BpmMaxNumericBox.Size = new System.Drawing.Size(189, 21);
             this.BpmMaxNumericBox.TabIndex = 5;
-            this.BpmMaxNumericBox.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.BpmMaxNumericBox.Value = new decimal(new int[] { 1, 0, 0, 0 });
             this.BpmMaxNumericBox.ValueChanged += new System.EventHandler(this.OnMetadataChanged);
-            // 
+            //
             // VersionlLabel
-            // 
+            //
             this.VersionlLabel.AutoSize = true;
             this.VersionlLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.VersionlLabel.Location = new System.Drawing.Point(16, 135);
@@ -861,39 +760,32 @@
             this.VersionlLabel.TabIndex = 15;
             this.VersionlLabel.Text = "Version";
             this.VersionlLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
+            //
             // VersionDropDown
-            // 
-            this.VersionDropDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            //
+            this.VersionDropDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.VersionDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.VersionDropDown.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.VersionDropDown.FormattingEnabled = true;
-            this.VersionDropDown.Items.AddRange(new object[] {
-            "Sound Voltex: Booth",
-            "Sound Voltex II: Infinite Infection",
-            "Sound Voltex III: Gravity Wars",
-            "Sound Voltex IV: Heavenly Haven",
-            "Sound Voltex V: VividWave"});
+            this.VersionDropDown.Items.AddRange(new object[] { "Sound Voltex: Booth", "Sound Voltex II: Infinite Infection", "Sound Voltex III: Gravity Wars", "Sound Voltex IV: Heavenly Haven", "Sound Voltex V: Vivid Wave", "Sound Voltex VI: Exceed Gear" });
             this.VersionDropDown.Location = new System.Drawing.Point(83, 130);
             this.VersionDropDown.Name = "VersionDropDown";
             this.VersionDropDown.Size = new System.Drawing.Size(282, 21);
             this.VersionDropDown.TabIndex = 6;
             this.VersionDropDown.SelectionChangeCommitted += new System.EventHandler(this.OnMetadataChanged);
-            // 
+            //
             // IdTextBox
-            // 
-            this.IdTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            //
+            this.IdTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.IdTextBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.IdTextBox.Location = new System.Drawing.Point(83, 23);
             this.IdTextBox.Name = "IdTextBox";
             this.IdTextBox.ReadOnly = true;
             this.IdTextBox.Size = new System.Drawing.Size(383, 21);
             this.IdTextBox.TabIndex = 1;
-            // 
+            //
             // IdLabel
-            // 
+            //
             this.IdLabel.AutoSize = true;
             this.IdLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.IdLabel.Location = new System.Drawing.Point(16, 28);
@@ -902,9 +794,9 @@
             this.IdLabel.TabIndex = 0;
             this.IdLabel.Text = "ID";
             this.IdLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
+            //
             // BpmLabel
-            // 
+            //
             this.BpmLabel.AutoSize = true;
             this.BpmLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BpmLabel.Location = new System.Drawing.Point(16, 106);
@@ -913,47 +805,33 @@
             this.BpmLabel.TabIndex = 11;
             this.BpmLabel.Text = "BPM";
             this.BpmLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
+            //
             // BpmMinNumericBox
-            // 
-            this.BpmMinNumericBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            //
+            this.BpmMinNumericBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.BpmMinNumericBox.DecimalPlaces = 2;
             this.BpmMinNumericBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BpmMinNumericBox.Location = new System.Drawing.Point(83, 103);
-            this.BpmMinNumericBox.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.BpmMinNumericBox.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.BpmMinNumericBox.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            this.BpmMinNumericBox.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             this.BpmMinNumericBox.Name = "BpmMinNumericBox";
             this.BpmMinNumericBox.Size = new System.Drawing.Size(188, 21);
             this.BpmMinNumericBox.TabIndex = 4;
-            this.BpmMinNumericBox.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
+            this.BpmMinNumericBox.Value = new decimal(new int[] { 1, 0, 0, 0 });
             this.BpmMinNumericBox.ValueChanged += new System.EventHandler(this.OnMetadataChanged);
-            // 
+            //
             // ArtistTextBox
-            // 
-            this.ArtistTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            //
+            this.ArtistTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.ArtistTextBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ArtistTextBox.Location = new System.Drawing.Point(83, 76);
             this.ArtistTextBox.Name = "ArtistTextBox";
-            this.ArtistTextBox.Size = new System.Drawing.Size(383, 21);
+            this.ArtistTextBox.Size = new System.Drawing.Size(225, 21);
             this.ArtistTextBox.TabIndex = 3;
             this.ArtistTextBox.TextChanged += new System.EventHandler(this.OnMetadataChanged);
-            // 
+            //
             // ArtistLabel
-            // 
+            //
             this.ArtistLabel.AutoSize = true;
             this.ArtistLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ArtistLabel.Location = new System.Drawing.Point(16, 81);
@@ -962,20 +840,19 @@
             this.ArtistLabel.TabIndex = 5;
             this.ArtistLabel.Text = "Artist";
             this.ArtistLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
+            //
             // TitleTextBox
-            // 
-            this.TitleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            //
+            this.TitleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.TitleTextBox.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TitleTextBox.Location = new System.Drawing.Point(83, 49);
             this.TitleTextBox.Name = "TitleTextBox";
-            this.TitleTextBox.Size = new System.Drawing.Size(383, 21);
+            this.TitleTextBox.Size = new System.Drawing.Size(225, 21);
             this.TitleTextBox.TabIndex = 2;
             this.TitleTextBox.TextChanged += new System.EventHandler(this.OnMetadataChanged);
-            // 
+            //
             // TitleLabel
-            // 
+            //
             this.TitleLabel.AutoSize = true;
             this.TitleLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TitleLabel.Location = new System.Drawing.Point(16, 54);
@@ -984,21 +861,21 @@
             this.TitleLabel.TabIndex = 2;
             this.TitleLabel.Text = "Title";
             this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
+            //
             // MainStatusBar
-            // 
+            //
             this.MainStatusBar.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.MainStatusBar.Location = new System.Drawing.Point(0, 529);
+            this.MainStatusBar.Location = new System.Drawing.Point(0, 559);
             this.MainStatusBar.Name = "MainStatusBar";
-            this.MainStatusBar.Size = new System.Drawing.Size(764, 22);
+            this.MainStatusBar.Size = new System.Drawing.Size(774, 22);
             this.MainStatusBar.TabIndex = 5;
             this.MainStatusBar.Text = "Ready";
-            // 
+            //
             // MainForm
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(764, 551);
+            this.ClientSize = new System.Drawing.Size(774, 581);
             this.Controls.Add(this.MainStatusBar);
             this.Controls.Add(this.MetadataGroupBox);
             this.Controls.Add(this.MusicGroupBox);
@@ -1030,8 +907,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.BpmMinNumericBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
+
+        private System.Windows.Forms.TextBox TitleYomiganaTextBox;
+        private System.Windows.Forms.TextBox ArtistYomiganaTextBox;
 
         #endregion
 
@@ -1090,15 +969,16 @@
         private System.Windows.Forms.MenuItem SaveAsFileMenu;
         private System.Windows.Forms.StatusBar MainStatusBar;
         private System.Windows.Forms.GroupBox SoundGroupBox;
-        private System.Windows.Forms.Button Import2DXPreviewFileButton;
-        private System.Windows.Forms.Button Import2DXMusicFileButton;
+        private System.Windows.Forms.Button ImportPreviewFileButton;
+        private System.Windows.Forms.Button ImportMusicFileButton;
         private System.Windows.Forms.Label VolumeIndicatorLabel;
         private System.Windows.Forms.MenuItem MenuSeparator4;
-        private System.Windows.Forms.MenuItem Import2DXEditMenu;
-        private System.Windows.Forms.MenuItem Import2DXPreviewEditMenu;
+        private System.Windows.Forms.MenuItem ImportAudioEditMenu;
+        private System.Windows.Forms.MenuItem ImportAudioPreviewEditMenu;
         private System.Windows.Forms.MenuItem MenuSeparator5;
         private System.Windows.Forms.MenuItem ExplorerEditMenu;
         private System.Windows.Forms.MenuItem MusicFileBuilder;
+        private System.Windows.Forms.MenuItem S3VFileBuilder;
         private MenuButton AddButton;
         private System.Windows.Forms.ContextMenu ImportContextMenu;
         private System.Windows.Forms.MenuItem ImportKshMenu;

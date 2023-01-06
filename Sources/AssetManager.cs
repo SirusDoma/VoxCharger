@@ -8,12 +8,47 @@ using System.Text;
 
 namespace VoxCharger
 {
+    public enum AudioFormat
+    {
+        Iidx,
+        S3V
+    }
+
+    public class AudioImportOptions
+    {
+        public static readonly AudioImportOptions Default = new AudioImportOptions();
+
+        public AudioFormat Format { get; set; } = AudioFormat.Iidx;
+        public bool IsPreview     { get; set; } = false;
+        public int PreviewOffset  { get; set; } = 0;
+
+        public static AudioImportOptions WithFormat(AudioFormat format)
+        {
+            return new AudioImportOptions
+            {
+                Format        = format,
+                IsPreview     = false,
+                PreviewOffset = 0
+            };
+        }
+
+        public AudioImportOptions AsPreview()
+        {
+            return new AudioImportOptions
+            {
+                Format        = Format,
+                IsPreview     = true,
+                PreviewOffset = PreviewOffset
+            };
+        }
+    }
+
     public static class AssetManager
     {
         #region --- Properties ---
-        private static List<string> MixList = new List<string>();
-        private static MusicDb InternalHeaders = null;
-        private static int LastOriginalID = 0;
+        private static List<string> _mixList = new List<string>();
+        private static MusicDb _internalHeaders = null;
+        private static int _lastOriginalId = 0;
 
         public static string MixName { get; private set; }
 
@@ -35,7 +70,7 @@ namespace VoxCharger
                 throw new FormatException("Invalid Game Directory");
 
             // Look for other mixes
-            MixList.Clear();
+            _mixList.Clear();
             string modsPath = Path.Combine(gamePath, @"data_mods\");
             foreach (var modDir in Directory.GetDirectories(modsPath))
             {
@@ -54,10 +89,10 @@ namespace VoxCharger
                     continue;
 
                 // Confirmed mod path, append into music db, ignore cache to avoid uncached mix being excluded
-                MixList.Add(modName);
+                _mixList.Add(modName);
             }
 
-            LastOriginalID = 0;
+            _lastOriginalId = 0;
             GamePath = gamePath;
         }
 
@@ -93,8 +128,8 @@ namespace VoxCharger
 
             // Load Existing song DB to avoid duplicate id
             LoadInternalDb(mixName);
-            if (!string.IsNullOrEmpty(mixName) && !MixList.Contains(mixName))
-                MixList.Add(mixName);
+            if (!string.IsNullOrEmpty(mixName) && !_mixList.Contains(mixName))
+                _mixList.Add(mixName);
 
             // Locate the music db, if unavailable, create it
             MdbFilename = Path.Combine(mixPath, @"others\", string.IsNullOrEmpty(mixName) ? "music_db.xml" : "music_db.merged.xml");
@@ -106,7 +141,7 @@ namespace VoxCharger
 
         public static string[] GetMixes()
         {
-            return MixList.ToArray();
+            return _mixList.ToArray();
         }
 
         private static void LoadInternalDb(string mixName)
@@ -119,9 +154,9 @@ namespace VoxCharger
             string modsPath = Path.Combine(GamePath, @"data_mods\");
 
             // Load original headers data
-            InternalHeaders = new MusicDb();
-            InternalHeaders.Load(dbFilename);
-            LastOriginalID  = InternalHeaders.LastID;
+            _internalHeaders = new MusicDb();
+            _internalHeaders.Load(dbFilename);
+            _lastOriginalId  = _internalHeaders.LastId;
 
             // Load other music db
             foreach (var modDir in Directory.GetDirectories(modsPath))
@@ -138,40 +173,53 @@ namespace VoxCharger
                     continue;
 
                 // Confirmed mod path, append into music db
-                InternalHeaders.Load(dbFilename, true);
+                _internalHeaders.Load(dbFilename, true);
             }
         }
         #endregion
 
         #region --- Asset Management ---
 
-        public static void Import2DX(string source, VoxHeader header, bool preview = false)
+        public static void ImportAudio(string source, VoxHeader header, AudioImportOptions opt = null)
         {
+            opt = opt ?? AudioImportOptions.Default;
             if (!File.Exists(source))
                 throw new FileNotFoundException($"{source} not found", source);
 
-            Import2DX(source, Get2DXPath(header, preview), preview);
+            ImportAudio(source, GetAudioPath(header, opt.Format, opt.IsPreview), opt);
         }
 
-        public static void Import2DX(string source, VoxHeader header, Difficulty difficulty, bool preview = false)
+        public static void ImportAudio(string source, VoxHeader header, Difficulty difficulty, AudioImportOptions opt = null)
         {
+            opt = opt ?? AudioImportOptions.Default;
             if (!File.Exists(source))
                 throw new FileNotFoundException($"{source} not found", source);
 
-            Import2DX(source, Get2DXPath(header, difficulty, preview), preview);
+            ImportAudio(source, GetAudioPath(header, difficulty, opt.Format, opt.IsPreview), opt);
         }
 
-        private static void Import2DX(string source, string output, bool preview = false)
+        private static void ImportAudio(string source, string output, AudioImportOptions opt = null)
         {
-            if (!source.EndsWith(".2dx") && !source.EndsWith(".s3v"))
+            opt = opt ?? AudioImportOptions.Default;
+            source = source.ToLower(); // Just in case something wrong with extension casing
+            if (!source.ToLower().EndsWith(".2dx") && !source.EndsWith(".s3v") && !source.EndsWith(".asf"))
             {
-                string tmp = DxTool.ConvertToWave(source, preview);
-                DxTool.Build(tmp, output);
+                if (output.EndsWith(".s3v"))
+                    throw new NotSupportedException("S3V Encoder is not supported (yet).");
 
-                Directory.Delete(tmp, true);
+                // Encode 2dx file
+                DxEncoder.Encode(new[] { source }, output, opt);
+
+                // Remove conflicting file, in case s3v file is exists before hand
+                string s3VFile = Path.ChangeExtension(output, ".s3v");
+                if (File.Exists(s3VFile))
+                    File.Delete(s3VFile);
             }
             else
             {
+                if (source.EndsWith(".asf"))
+                    output = $"{output.Substring(0, output.Length - 4)}.s3v";
+                
                 File.Copy(source, output);
             }
         }
@@ -238,7 +286,7 @@ namespace VoxCharger
                 $"graphics\\s_jacket00_ifs\\"
             );
 
-            string pattern = $"jk_{header.ID:D4}*";
+            string pattern = $"jk_{header.Id:D4}*";
             foreach (string jacket in Directory.GetFiles(jacketPath, pattern))
             {
                 if (File.Exists(jacket))
@@ -248,22 +296,22 @@ namespace VoxCharger
         #endregion
 
         #region --- Asset Identifier ---
-        public static int GetNextMusicID()
+        public static int GetNextMusicId()
         {
             // TODO: This probably inefficient in scenario where one or more mix has gap between each ids
             // This could be waste to those gaps, and eat up our precious limited id
             // However, these gaps may indicate deleted song, which should be taken by omnimix
 
-            int id = InternalHeaders.LastID + 1;
-            while (InternalHeaders.Contains(id) || Headers.Contains(id)) // Contains is O(1) so its should be fine
+            int id = _internalHeaders.LastId + 1;
+            while (_internalHeaders.Contains(id) || Headers.Contains(id)) // Contains is O(1) so its should be fine
                 id++;
 
             return id;
         }
 
-        public static bool ValidateMusicID(int id)
+        public static bool ValidateMusicId(int id)
         {
-            return !InternalHeaders.Contains(id);
+            return !_internalHeaders.Contains(id);
         }
 
         public static string GetDifficultyCodes(VoxHeader header, Difficulty difficulty)
@@ -274,7 +322,7 @@ namespace VoxCharger
                 case Difficulty.Advanced: return "2a";
                 case Difficulty.Exhaust:  return "3e";
                 default:
-                    if (header.InfVersion == InfiniteVersion.MXM)
+                    if (header.InfVersion == InfiniteVersion.Mxm)
                         return "5m";
 
                     return "4i";
@@ -297,18 +345,20 @@ namespace VoxCharger
             );
         }
 
-        public static string Get2DXPath(VoxHeader header, bool preview = false)
+        public static string GetAudioPath(VoxHeader header, AudioFormat format = AudioFormat.S3V, bool preview = false)
         {
-            string ext = preview ? "_pre.2dx" : ".2dx";
+            string prefix = preview ? "_pre" : string.Empty;
+            string ext    = $"{prefix}" + (format == AudioFormat.S3V ? ".s3v" : ".2dx");
             return Path.Combine(
                 GetMusicPath(header),
                 $"{header.CodeName}{ext}"
             );
         }
 
-        public static string Get2DXPath(VoxHeader header, Difficulty difficulty, bool preview = false)
+        public static string GetAudioPath(VoxHeader header, Difficulty difficulty, AudioFormat format = AudioFormat.S3V, bool preview = false)
         {
-            string ext = preview ? "_pre.2dx" : ".2dx";
+            string prefix = preview ? "_pre" : string.Empty;
+            string ext    = $"{prefix}" + (format == AudioFormat.S3V ? ".s3v" : ".2dx");
             return Path.Combine(
                 GetMusicPath(header),
                 $"{header.CodeName}_{GetDifficultyCodes(header, difficulty)}{ext}"
@@ -318,10 +368,10 @@ namespace VoxCharger
         public static string GetJacketPath(VoxHeader header, Difficulty difficulty)
         {
             int index = (int)difficulty;
-            if (difficulty == Difficulty.Infinite && header.InfVersion == InfiniteVersion.MXM)
+            if (difficulty == Difficulty.Infinite && header.InfVersion == InfiniteVersion.Mxm)
                 index = 5;
 
-            return Path.Combine(GetMusicPath(header), $"jk_{header.ID:D4}_{index}");
+            return Path.Combine(GetMusicPath(header), $"jk_{header.Id:D4}_{index}");
         }
 
         public static string GetDefaultJacketPath(VoxHeader header)
@@ -332,7 +382,7 @@ namespace VoxCharger
         public static string GetThumbnailJacketPath(VoxHeader header, Difficulty difficulty)
         {
             int index = (int)difficulty;
-            if (difficulty == Difficulty.Infinite && header.InfVersion == InfiniteVersion.MXM)
+            if (difficulty == Difficulty.Infinite && header.InfVersion == InfiniteVersion.Mxm)
                 index = 5;
 
             string thumbnailDir = "s_jacket00_ifs";
@@ -354,7 +404,7 @@ namespace VoxCharger
             return Path.Combine(
                 graphicsDir,
                 $"{thumbnailDir}\\",
-                $"jk_{header.ID:D4}_{index}_t"
+                $"jk_{header.Id:D4}_{index}_t"
             );
         }
 

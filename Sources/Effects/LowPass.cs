@@ -22,7 +22,7 @@ namespace VoxCharger
             {
             }
 
-            public static new LowPass FromVox(string data)
+            public new static LowPass FromVox(string data)
             {
                 var lowPass = new LowPass();
                 var prop = data.Trim().Split(',').Select(p => p.Trim()).ToArray();
@@ -47,7 +47,7 @@ namespace VoxCharger
             }
 
             
-            public static new LowPass FromKsh(KshDefinition definition)
+            public new static LowPass FromKsh(KshDefinition definition)
             {
                 var lowPass = new LowPass();
 

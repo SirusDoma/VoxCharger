@@ -23,7 +23,7 @@ namespace VoxCharger
             {
             }
 
-            public static new BitCrusher FromVox(string data)
+            public new static BitCrusher FromVox(string data)
             {
                 var bitCrusher = new BitCrusher();
                 var prop = data.Trim().Split(',').Select(p => p.Trim()).ToArray();
@@ -47,7 +47,7 @@ namespace VoxCharger
                 return bitCrusher;
             }
 
-            public static new BitCrusher FromKsh(KshDefinition definition)
+            public new static BitCrusher FromKsh(KshDefinition definition)
             {
                 var bitCrusher = new BitCrusher();
 

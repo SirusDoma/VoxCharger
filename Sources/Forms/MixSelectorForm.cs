@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace VoxCharger
 {
     public partial class MixSelectorForm : Form
     {
-        public int EXPANDED_HEIGHT  = 165;
-        public int COLLAPSED_HEIGHT = 140;
+        public int ExpandedHeight  = 165;
+        public int CollapsedHeight = 140;
 
         public MixSelectorForm(bool createMode = false)
         {
@@ -27,7 +22,7 @@ namespace VoxCharger
                 MixSelectorDropDown.Visible       = MixSelectorDropDown.Enabled = false;
 
                 ModSelectorLabel.Text = "Enter mix name:";
-                Size = new Size(Size.Width, COLLAPSED_HEIGHT);
+                Size = new Size(Size.Width, CollapsedHeight);
             }
         }
 
@@ -40,9 +35,9 @@ namespace VoxCharger
         private void OnModSelectorDropDownSelectedIndexChanged(object sender, EventArgs e)
         {
             if (MixSelectorDropDown.SelectedIndex == 0)
-                Size = new Size(Size.Width, EXPANDED_HEIGHT);
+                Size = new Size(Size.Width, ExpandedHeight);
             else
-                Size = new Size(Size.Width, COLLAPSED_HEIGHT);
+                Size = new Size(Size.Width, CollapsedHeight);
 
             NameTextBox.Visible    = MixSelectorDropDown.SelectedIndex == 0;
             ContinueButton.Enabled = true;

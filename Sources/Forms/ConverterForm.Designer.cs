@@ -1,4 +1,6 @@
-﻿namespace VoxCharger
+﻿using System.Windows.Forms;
+
+namespace VoxCharger
 {
     partial class ConverterForm
     {
@@ -39,7 +41,23 @@
             this.JacketNovPictureBox = new System.Windows.Forms.PictureBox();
             this.PathTextBox = new System.Windows.Forms.TextBox();
             this.OptionsGroupBox = new System.Windows.Forms.GroupBox();
-            this.SlamImpactCheckBox = new System.Windows.Forms.CheckBox();
+            this.SoundEffectsCheckBox = new System.Windows.Forms.CheckBox();
+            this.CameraEffectsCheckBox = new System.Windows.Forms.CheckBox();
+            this.CameraEffectsGroupBox = new System.Windows.Forms.GroupBox();
+            this.CameraMappingButton = new System.Windows.Forms.Button();
+            this.CameraEffectsCheckedListBox = new System.Windows.Forms.CheckedListBox();
+            this.TracksGroupBox = new System.Windows.Forms.GroupBox();
+            this.TrackFXRCheckBox = new System.Windows.Forms.CheckBox();
+            this.TrackFXLCheckBox = new System.Windows.Forms.CheckBox();
+            this.TrackVolRCheckBox = new System.Windows.Forms.CheckBox();
+            this.TrackButtonDCheckBox = new System.Windows.Forms.CheckBox();
+            this.TrackButtonCCheckBox = new System.Windows.Forms.CheckBox();
+            this.TrackButtonBCheckBox = new System.Windows.Forms.CheckBox();
+            this.TrackButtonACheckBox = new System.Windows.Forms.CheckBox();
+            this.TrackVolLCheckBox = new System.Windows.Forms.CheckBox();
+            this.SoundEffectGroupBox = new System.Windows.Forms.GroupBox();
+            this.SoundMappingButton = new System.Windows.Forms.Button();
+            this.SoundEffectsCheckedListBox = new System.Windows.Forms.CheckedListBox();
             this.VersionDropDown = new System.Windows.Forms.ComboBox();
             this.InfVerDropDown = new System.Windows.Forms.ComboBox();
             this.BackgroundDropDown = new System.Windows.Forms.ComboBox();
@@ -47,25 +65,27 @@
             this.RealignOffsetCheckBox = new System.Windows.Forms.CheckBox();
             this.AsciiAutoCheckBox = new System.Windows.Forms.CheckBox();
             this.InfVerLabel = new System.Windows.Forms.Label();
-            this.CameraCheckBox = new System.Windows.Forms.CheckBox();
-            this.TrackButtonCheckBox = new System.Windows.Forms.CheckBox();
-            this.TrackLaserCheckBox = new System.Windows.Forms.CheckBox();
-            this.TrackLabel = new System.Windows.Forms.Label();
-            this.EffectsLabel = new System.Windows.Forms.Label();
             this.MeasureLabel = new System.Windows.Forms.Label();
             this.AsciiTextBox = new System.Windows.Forms.TextBox();
-            this.LongFxCheckBox = new System.Windows.Forms.CheckBox();
-            this.ChipFxCheckBox = new System.Windows.Forms.CheckBox();
             this.MusicCodeLabel = new System.Windows.Forms.Label();
             this.CancelConvertButton = new System.Windows.Forms.Button();
             this.ProcessConvertButton = new System.Windows.Forms.Button();
             this.TargetLabel = new System.Windows.Forms.Label();
+            this.MusicGroupBox = new System.Windows.Forms.GroupBox();
+            this.FormatLabel = new System.Windows.Forms.Label();
+            this.PreviewTimePicker = new System.Windows.Forms.DateTimePicker();
+            this.MusicFormatDropDown = new System.Windows.Forms.ComboBox();
+            this.PreviewOffsetLabel = new System.Windows.Forms.Label();
             this.LevelGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.JacketInfPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.JacketExhPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.JacketAdvPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.JacketNovPictureBox)).BeginInit();
             this.OptionsGroupBox.SuspendLayout();
+            this.CameraEffectsGroupBox.SuspendLayout();
+            this.TracksGroupBox.SuspendLayout();
+            this.SoundEffectGroupBox.SuspendLayout();
+            this.MusicGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // LevelGroupBox
@@ -81,7 +101,7 @@
             this.LevelGroupBox.Location = new System.Drawing.Point(12, 44);
             this.LevelGroupBox.Name = "LevelGroupBox";
             this.LevelGroupBox.Size = new System.Drawing.Size(447, 165);
-            this.LevelGroupBox.TabIndex = 15;
+            this.LevelGroupBox.TabIndex = 1;
             this.LevelGroupBox.TabStop = false;
             this.LevelGroupBox.Text = "Levels";
             // 
@@ -90,7 +110,7 @@
             this.InfEditButton.Location = new System.Drawing.Point(331, 133);
             this.InfEditButton.Name = "InfEditButton";
             this.InfEditButton.Size = new System.Drawing.Size(108, 26);
-            this.InfEditButton.TabIndex = 18;
+            this.InfEditButton.TabIndex = 3;
             this.InfEditButton.Tag = "4";
             this.InfEditButton.Text = "--";
             this.InfEditButton.UseVisualStyleBackColor = true;
@@ -101,7 +121,7 @@
             this.ExhEditButton.Location = new System.Drawing.Point(223, 133);
             this.ExhEditButton.Name = "ExhEditButton";
             this.ExhEditButton.Size = new System.Drawing.Size(108, 26);
-            this.ExhEditButton.TabIndex = 17;
+            this.ExhEditButton.TabIndex = 2;
             this.ExhEditButton.Tag = "3";
             this.ExhEditButton.Text = "EXH";
             this.ExhEditButton.UseVisualStyleBackColor = true;
@@ -112,7 +132,7 @@
             this.AdvEditButton.Location = new System.Drawing.Point(115, 133);
             this.AdvEditButton.Name = "AdvEditButton";
             this.AdvEditButton.Size = new System.Drawing.Size(108, 26);
-            this.AdvEditButton.TabIndex = 16;
+            this.AdvEditButton.TabIndex = 1;
             this.AdvEditButton.Tag = "2";
             this.AdvEditButton.Text = "ADV";
             this.AdvEditButton.UseVisualStyleBackColor = true;
@@ -123,7 +143,7 @@
             this.NovEditButton.Location = new System.Drawing.Point(7, 133);
             this.NovEditButton.Name = "NovEditButton";
             this.NovEditButton.Size = new System.Drawing.Size(108, 26);
-            this.NovEditButton.TabIndex = 15;
+            this.NovEditButton.TabIndex = 0;
             this.NovEditButton.Tag = "1";
             this.NovEditButton.Text = "NOV";
             this.NovEditButton.UseVisualStyleBackColor = true;
@@ -179,11 +199,15 @@
             this.PathTextBox.Name = "PathTextBox";
             this.PathTextBox.ReadOnly = true;
             this.PathTextBox.Size = new System.Drawing.Size(409, 20);
-            this.PathTextBox.TabIndex = 16;
+            this.PathTextBox.TabIndex = 0;
             // 
             // OptionsGroupBox
             // 
-            this.OptionsGroupBox.Controls.Add(this.SlamImpactCheckBox);
+            this.OptionsGroupBox.Controls.Add(this.SoundEffectsCheckBox);
+            this.OptionsGroupBox.Controls.Add(this.CameraEffectsCheckBox);
+            this.OptionsGroupBox.Controls.Add(this.CameraEffectsGroupBox);
+            this.OptionsGroupBox.Controls.Add(this.TracksGroupBox);
+            this.OptionsGroupBox.Controls.Add(this.SoundEffectGroupBox);
             this.OptionsGroupBox.Controls.Add(this.VersionDropDown);
             this.OptionsGroupBox.Controls.Add(this.InfVerDropDown);
             this.OptionsGroupBox.Controls.Add(this.BackgroundDropDown);
@@ -191,148 +215,260 @@
             this.OptionsGroupBox.Controls.Add(this.RealignOffsetCheckBox);
             this.OptionsGroupBox.Controls.Add(this.AsciiAutoCheckBox);
             this.OptionsGroupBox.Controls.Add(this.InfVerLabel);
-            this.OptionsGroupBox.Controls.Add(this.CameraCheckBox);
-            this.OptionsGroupBox.Controls.Add(this.TrackButtonCheckBox);
-            this.OptionsGroupBox.Controls.Add(this.TrackLaserCheckBox);
-            this.OptionsGroupBox.Controls.Add(this.TrackLabel);
-            this.OptionsGroupBox.Controls.Add(this.EffectsLabel);
             this.OptionsGroupBox.Controls.Add(this.MeasureLabel);
             this.OptionsGroupBox.Controls.Add(this.AsciiTextBox);
-            this.OptionsGroupBox.Controls.Add(this.LongFxCheckBox);
-            this.OptionsGroupBox.Controls.Add(this.ChipFxCheckBox);
             this.OptionsGroupBox.Controls.Add(this.MusicCodeLabel);
             this.OptionsGroupBox.Location = new System.Drawing.Point(12, 215);
             this.OptionsGroupBox.Name = "OptionsGroupBox";
-            this.OptionsGroupBox.Size = new System.Drawing.Size(447, 170);
-            this.OptionsGroupBox.TabIndex = 1;
+            this.OptionsGroupBox.Size = new System.Drawing.Size(447, 372);
+            this.OptionsGroupBox.TabIndex = 2;
             this.OptionsGroupBox.TabStop = false;
-            this.OptionsGroupBox.Text = "Options";
+            this.OptionsGroupBox.Text = "Metadata && Charts";
             // 
-            // SlamImpactCheckBox
+            // SoundEffectsCheckBox
             // 
-            this.SlamImpactCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.SlamImpactCheckBox.AutoSize = true;
-            this.SlamImpactCheckBox.Checked = true;
-            this.SlamImpactCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.SlamImpactCheckBox.Location = new System.Drawing.Point(293, 114);
-            this.SlamImpactCheckBox.Name = "SlamImpactCheckBox";
-            this.SlamImpactCheckBox.Size = new System.Drawing.Size(84, 17);
-            this.SlamImpactCheckBox.TabIndex = 20;
-            this.SlamImpactCheckBox.Text = "Slam Impact";
-            this.SlamImpactCheckBox.UseVisualStyleBackColor = true;
+            this.SoundEffectsCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.SoundEffectsCheckBox.AutoSize = true;
+            this.SoundEffectsCheckBox.Checked = true;
+            this.SoundEffectsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.SoundEffectsCheckBox.Location = new System.Drawing.Point(17, 119);
+            this.SoundEffectsCheckBox.Name = "SoundEffectsCheckBox";
+            this.SoundEffectsCheckBox.Size = new System.Drawing.Size(93, 17);
+            this.SoundEffectsCheckBox.TabIndex = 6;
+            this.SoundEffectsCheckBox.Text = "Sound Effects";
+            this.SoundEffectsCheckBox.UseVisualStyleBackColor = true;
+            this.SoundEffectsCheckBox.CheckedChanged += new System.EventHandler(this.OnSoundEffectsCheckBoxCheckedChanged);
+            // 
+            // CameraEffectsCheckBox
+            // 
+            this.CameraEffectsCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CameraEffectsCheckBox.AutoSize = true;
+            this.CameraEffectsCheckBox.Checked = true;
+            this.CameraEffectsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CameraEffectsCheckBox.Location = new System.Drawing.Point(235, 119);
+            this.CameraEffectsCheckBox.Name = "CameraEffectsCheckBox";
+            this.CameraEffectsCheckBox.Size = new System.Drawing.Size(98, 17);
+            this.CameraEffectsCheckBox.TabIndex = 7;
+            this.CameraEffectsCheckBox.Text = "Camera Effects";
+            this.CameraEffectsCheckBox.UseVisualStyleBackColor = true;
+            this.CameraEffectsCheckBox.CheckedChanged += new System.EventHandler(this.OnCameraEffectsCheckBoxCheckedChanged);
+            // 
+            // CameraEffectsGroupBox
+            // 
+            this.CameraEffectsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.CameraEffectsGroupBox.Controls.Add(this.CameraMappingButton);
+            this.CameraEffectsGroupBox.Controls.Add(this.CameraEffectsCheckedListBox);
+            this.CameraEffectsGroupBox.Location = new System.Drawing.Point(228, 121);
+            this.CameraEffectsGroupBox.Name = "CameraEffectsGroupBox";
+            this.CameraEffectsGroupBox.Size = new System.Drawing.Size(211, 168);
+            this.CameraEffectsGroupBox.TabIndex = 9;
+            this.CameraEffectsGroupBox.TabStop = false;
+            // 
+            // CameraMappingButton
+            // 
+            this.CameraMappingButton.Location = new System.Drawing.Point(6, 134);
+            this.CameraMappingButton.Name = "CameraMappingButton";
+            this.CameraMappingButton.Size = new System.Drawing.Size(199, 28);
+            this.CameraMappingButton.TabIndex = 1;
+            this.CameraMappingButton.Text = "Configure Mappings..";
+            this.CameraMappingButton.UseVisualStyleBackColor = true;
+            this.CameraMappingButton.Click += new System.EventHandler(this.OnMappingButtonClick);
+            // 
+            // CameraEffectsCheckedListBox
+            // 
+            this.CameraEffectsCheckedListBox.BackColor = System.Drawing.SystemColors.Control;
+            this.CameraEffectsCheckedListBox.CheckOnClick = true;
+            this.CameraEffectsCheckedListBox.FormattingEnabled = true;
+            this.CameraEffectsCheckedListBox.Location = new System.Drawing.Point(6, 19);
+            this.CameraEffectsCheckedListBox.Name = "CameraEffectsCheckedListBox";
+            this.CameraEffectsCheckedListBox.ScrollAlwaysVisible = true;
+            this.CameraEffectsCheckedListBox.Size = new System.Drawing.Size(199, 109);
+            this.CameraEffectsCheckedListBox.TabIndex = 0;
+            this.CameraEffectsCheckedListBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.OnCameraEffectsCheckedListBoxItemCheck);
+            // 
+            // TracksGroupBox
+            // 
+            this.TracksGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.TracksGroupBox.Controls.Add(this.TrackFXRCheckBox);
+            this.TracksGroupBox.Controls.Add(this.TrackFXLCheckBox);
+            this.TracksGroupBox.Controls.Add(this.TrackVolRCheckBox);
+            this.TracksGroupBox.Controls.Add(this.TrackButtonDCheckBox);
+            this.TracksGroupBox.Controls.Add(this.TrackButtonCCheckBox);
+            this.TracksGroupBox.Controls.Add(this.TrackButtonBCheckBox);
+            this.TracksGroupBox.Controls.Add(this.TrackButtonACheckBox);
+            this.TracksGroupBox.Controls.Add(this.TrackVolLCheckBox);
+            this.TracksGroupBox.Location = new System.Drawing.Point(10, 295);
+            this.TracksGroupBox.Name = "TracksGroupBox";
+            this.TracksGroupBox.Size = new System.Drawing.Size(429, 68);
+            this.TracksGroupBox.TabIndex = 10;
+            this.TracksGroupBox.TabStop = false;
+            this.TracksGroupBox.Text = "Tracks";
+            // 
+            // TrackFXRCheckBox
+            // 
+            this.TrackFXRCheckBox.AutoSize = true;
+            this.TrackFXRCheckBox.Checked = true;
+            this.TrackFXRCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.TrackFXRCheckBox.Location = new System.Drawing.Point(236, 42);
+            this.TrackFXRCheckBox.Name = "TrackFXRCheckBox";
+            this.TrackFXRCheckBox.Size = new System.Drawing.Size(50, 17);
+            this.TrackFXRCheckBox.TabIndex = 7;
+            this.TrackFXRCheckBox.Text = "FX-R";
+            this.TrackFXRCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TrackFXLCheckBox
+            // 
+            this.TrackFXLCheckBox.AutoSize = true;
+            this.TrackFXLCheckBox.Checked = true;
+            this.TrackFXLCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.TrackFXLCheckBox.Location = new System.Drawing.Point(124, 42);
+            this.TrackFXLCheckBox.Name = "TrackFXLCheckBox";
+            this.TrackFXLCheckBox.Size = new System.Drawing.Size(48, 17);
+            this.TrackFXLCheckBox.TabIndex = 6;
+            this.TrackFXLCheckBox.Text = "FX-L";
+            this.TrackFXLCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TrackVolRCheckBox
+            // 
+            this.TrackVolRCheckBox.AutoSize = true;
+            this.TrackVolRCheckBox.Checked = true;
+            this.TrackVolRCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.TrackVolRCheckBox.Location = new System.Drawing.Point(331, 19);
+            this.TrackVolRCheckBox.Name = "TrackVolRCheckBox";
+            this.TrackVolRCheckBox.Size = new System.Drawing.Size(52, 17);
+            this.TrackVolRCheckBox.TabIndex = 5;
+            this.TrackVolRCheckBox.Text = "Vol-R";
+            this.TrackVolRCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TrackButtonDCheckBox
+            // 
+            this.TrackButtonDCheckBox.AutoSize = true;
+            this.TrackButtonDCheckBox.Checked = true;
+            this.TrackButtonDCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.TrackButtonDCheckBox.Location = new System.Drawing.Point(274, 19);
+            this.TrackButtonDCheckBox.Name = "TrackButtonDCheckBox";
+            this.TrackButtonDCheckBox.Size = new System.Drawing.Size(51, 17);
+            this.TrackButtonDCheckBox.TabIndex = 4;
+            this.TrackButtonDCheckBox.Text = "BT-D";
+            this.TrackButtonDCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TrackButtonCCheckBox
+            // 
+            this.TrackButtonCCheckBox.AutoSize = true;
+            this.TrackButtonCCheckBox.Checked = true;
+            this.TrackButtonCCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.TrackButtonCCheckBox.Location = new System.Drawing.Point(218, 19);
+            this.TrackButtonCCheckBox.Name = "TrackButtonCCheckBox";
+            this.TrackButtonCCheckBox.Size = new System.Drawing.Size(50, 17);
+            this.TrackButtonCCheckBox.TabIndex = 3;
+            this.TrackButtonCCheckBox.Text = "BT-C";
+            this.TrackButtonCCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TrackButtonBCheckBox
+            // 
+            this.TrackButtonBCheckBox.AutoSize = true;
+            this.TrackButtonBCheckBox.Checked = true;
+            this.TrackButtonBCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.TrackButtonBCheckBox.Location = new System.Drawing.Point(162, 19);
+            this.TrackButtonBCheckBox.Name = "TrackButtonBCheckBox";
+            this.TrackButtonBCheckBox.Size = new System.Drawing.Size(50, 17);
+            this.TrackButtonBCheckBox.TabIndex = 2;
+            this.TrackButtonBCheckBox.Text = "BT-B";
+            this.TrackButtonBCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TrackButtonACheckBox
+            // 
+            this.TrackButtonACheckBox.AutoSize = true;
+            this.TrackButtonACheckBox.Checked = true;
+            this.TrackButtonACheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.TrackButtonACheckBox.Location = new System.Drawing.Point(106, 19);
+            this.TrackButtonACheckBox.Name = "TrackButtonACheckBox";
+            this.TrackButtonACheckBox.Size = new System.Drawing.Size(50, 17);
+            this.TrackButtonACheckBox.TabIndex = 1;
+            this.TrackButtonACheckBox.Text = "BT-A";
+            this.TrackButtonACheckBox.UseVisualStyleBackColor = true;
+            // 
+            // TrackVolLCheckBox
+            // 
+            this.TrackVolLCheckBox.AutoSize = true;
+            this.TrackVolLCheckBox.Checked = true;
+            this.TrackVolLCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.TrackVolLCheckBox.Location = new System.Drawing.Point(50, 19);
+            this.TrackVolLCheckBox.Name = "TrackVolLCheckBox";
+            this.TrackVolLCheckBox.Size = new System.Drawing.Size(50, 17);
+            this.TrackVolLCheckBox.TabIndex = 0;
+            this.TrackVolLCheckBox.Text = "Vol-L";
+            this.TrackVolLCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // SoundEffectGroupBox
+            // 
+            this.SoundEffectGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.SoundEffectGroupBox.Controls.Add(this.SoundMappingButton);
+            this.SoundEffectGroupBox.Controls.Add(this.SoundEffectsCheckedListBox);
+            this.SoundEffectGroupBox.Location = new System.Drawing.Point(10, 121);
+            this.SoundEffectGroupBox.Name = "SoundEffectGroupBox";
+            this.SoundEffectGroupBox.Size = new System.Drawing.Size(212, 168);
+            this.SoundEffectGroupBox.TabIndex = 8;
+            this.SoundEffectGroupBox.TabStop = false;
+            // 
+            // SoundMappingButton
+            // 
+            this.SoundMappingButton.Location = new System.Drawing.Point(6, 134);
+            this.SoundMappingButton.Name = "SoundMappingButton";
+            this.SoundMappingButton.Size = new System.Drawing.Size(200, 28);
+            this.SoundMappingButton.TabIndex = 1;
+            this.SoundMappingButton.Text = "Configure Mappings..";
+            this.SoundMappingButton.UseVisualStyleBackColor = true;
+            this.SoundMappingButton.Click += new System.EventHandler(this.OnMappingButtonClick);
+            // 
+            // SoundEffectsCheckedListBox
+            // 
+            this.SoundEffectsCheckedListBox.BackColor = System.Drawing.SystemColors.Control;
+            this.SoundEffectsCheckedListBox.CheckOnClick = true;
+            this.SoundEffectsCheckedListBox.FormattingEnabled = true;
+            this.SoundEffectsCheckedListBox.Location = new System.Drawing.Point(6, 19);
+            this.SoundEffectsCheckedListBox.Name = "SoundEffectsCheckedListBox";
+            this.SoundEffectsCheckedListBox.ScrollAlwaysVisible = true;
+            this.SoundEffectsCheckedListBox.Size = new System.Drawing.Size(200, 109);
+            this.SoundEffectsCheckedListBox.TabIndex = 0;
+            this.SoundEffectsCheckedListBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.OnSoundEffectsCheckedListBoxItemCheck);
             // 
             // VersionDropDown
             // 
-            this.VersionDropDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.VersionDropDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.VersionDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.VersionDropDown.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.VersionDropDown.FormattingEnabled = true;
-            this.VersionDropDown.Items.AddRange(new object[] {
-            "Sound Voltex: Booth",
-            "Sound Voltex II: Infinite Infection",
-            "Sound Voltex III: Gravity Wars",
-            "Sound Voltex IV: Heavenly Haven",
-            "Sound Voltex V: VividWave"});
+            this.VersionDropDown.Items.AddRange(new object[] { "Sound Voltex: Booth", "Sound Voltex II: Infinite Infection", "Sound Voltex III: Gravity Wars", "Sound Voltex IV: Heavenly Haven", "Sound Voltex V: Vivid Wave", "Sound Voltex VI: Exceed Gear" });
             this.VersionDropDown.Location = new System.Drawing.Point(90, 42);
             this.VersionDropDown.Name = "VersionDropDown";
             this.VersionDropDown.Size = new System.Drawing.Size(247, 21);
-            this.VersionDropDown.TabIndex = 19;
+            this.VersionDropDown.TabIndex = 2;
             // 
             // InfVerDropDown
             // 
-            this.InfVerDropDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.InfVerDropDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.InfVerDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.InfVerDropDown.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.InfVerDropDown.FormattingEnabled = true;
-            this.InfVerDropDown.Items.AddRange(new object[] {
-            "MXM",
-            "INF",
-            "GRV",
-            "HVN",
-            "VVD"});
+            this.InfVerDropDown.Items.AddRange(new object[] { "MXM", "INF", "GRV", "HVN", "VVD", "XCD" });
             this.InfVerDropDown.Location = new System.Drawing.Point(343, 42);
             this.InfVerDropDown.Name = "InfVerDropDown";
             this.InfVerDropDown.Size = new System.Drawing.Size(96, 21);
-            this.InfVerDropDown.TabIndex = 18;
+            this.InfVerDropDown.TabIndex = 3;
             this.InfVerDropDown.SelectedIndexChanged += new System.EventHandler(this.OnInfVerDropDownSelectedIndexChanged);
             // 
             // BackgroundDropDown
             // 
-            this.BackgroundDropDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.BackgroundDropDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.BackgroundDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.BackgroundDropDown.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BackgroundDropDown.FormattingEnabled = true;
-            this.BackgroundDropDown.Items.AddRange(new object[] {
-            "00",
-            "01",
-            "02",
-            "03",
-            "04",
-            "05",
-            "06",
-            "07",
-            "08",
-            "09",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14",
-            "15",
-            "16",
-            "18",
-            "19",
-            "27",
-            "29",
-            "30",
-            "31",
-            "34",
-            "36",
-            "38",
-            "39",
-            "40",
-            "41",
-            "42",
-            "43",
-            "44",
-            "45",
-            "46",
-            "47",
-            "48",
-            "49",
-            "50",
-            "51",
-            "53",
-            "54",
-            "57",
-            "58",
-            "59",
-            "60",
-            "61",
-            "63",
-            "65",
-            "66",
-            "67",
-            "68",
-            "69",
-            "70",
-            "71",
-            "72",
-            "73",
-            "74",
-            "75",
-            "76",
-            "77",
-            "78",
-            "79",
-            "80",
-            "81"});
+            this.BackgroundDropDown.Items.AddRange(new object[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "18", "19", "27", "29", "30", "31", "34", "36", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "53", "54", "57", "58", "59", "60", "61", "63", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "80", "81", "82", "83", "84", "86", "87", "88", "89", "90", "91", "92", "93", "92", "95", "96", "97", "98" });
             this.BackgroundDropDown.Location = new System.Drawing.Point(90, 65);
             this.BackgroundDropDown.Name = "BackgroundDropDown";
             this.BackgroundDropDown.Size = new System.Drawing.Size(349, 21);
-            this.BackgroundDropDown.TabIndex = 17;
+            this.BackgroundDropDown.TabIndex = 4;
             this.BackgroundDropDown.SelectedIndexChanged += new System.EventHandler(this.OnBackgroundDropDownSelectedIndexChanged);
             // 
             // BackgroundLabel
@@ -341,7 +477,7 @@
             this.BackgroundLabel.Location = new System.Drawing.Point(10, 65);
             this.BackgroundLabel.Name = "BackgroundLabel";
             this.BackgroundLabel.Size = new System.Drawing.Size(74, 20);
-            this.BackgroundLabel.TabIndex = 16;
+            this.BackgroundLabel.TabIndex = 0;
             this.BackgroundLabel.Text = "Background";
             this.BackgroundLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -351,9 +487,9 @@
             this.RealignOffsetCheckBox.AutoSize = true;
             this.RealignOffsetCheckBox.Location = new System.Drawing.Point(90, 91);
             this.RealignOffsetCheckBox.Name = "RealignOffsetCheckBox";
-            this.RealignOffsetCheckBox.Size = new System.Drawing.Size(141, 17);
-            this.RealignOffsetCheckBox.TabIndex = 15;
-            this.RealignOffsetCheckBox.Text = "Adapt Start Music Offset";
+            this.RealignOffsetCheckBox.Size = new System.Drawing.Size(195, 17);
+            this.RealignOffsetCheckBox.TabIndex = 5;
+            this.RealignOffsetCheckBox.Text = "Adapt Start Music Offset (Unstable!)";
             this.RealignOffsetCheckBox.UseVisualStyleBackColor = true;
             // 
             // AsciiAutoCheckBox
@@ -361,10 +497,10 @@
             this.AsciiAutoCheckBox.AutoSize = true;
             this.AsciiAutoCheckBox.Checked = true;
             this.AsciiAutoCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.AsciiAutoCheckBox.Location = new System.Drawing.Point(391, 23);
+            this.AsciiAutoCheckBox.Location = new System.Drawing.Point(391, 21);
             this.AsciiAutoCheckBox.Name = "AsciiAutoCheckBox";
             this.AsciiAutoCheckBox.Size = new System.Drawing.Size(48, 17);
-            this.AsciiAutoCheckBox.TabIndex = 14;
+            this.AsciiAutoCheckBox.TabIndex = 1;
             this.AsciiAutoCheckBox.Text = "Auto";
             this.AsciiAutoCheckBox.UseVisualStyleBackColor = true;
             this.AsciiAutoCheckBox.CheckedChanged += new System.EventHandler(this.OnAsciiAutoCheckBoxCheckedChanged);
@@ -375,68 +511,9 @@
             this.InfVerLabel.Location = new System.Drawing.Point(10, 42);
             this.InfVerLabel.Name = "InfVerLabel";
             this.InfVerLabel.Size = new System.Drawing.Size(74, 20);
-            this.InfVerLabel.TabIndex = 12;
+            this.InfVerLabel.TabIndex = 0;
             this.InfVerLabel.Text = "Version";
             this.InfVerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // CameraCheckBox
-            // 
-            this.CameraCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CameraCheckBox.AutoSize = true;
-            this.CameraCheckBox.Checked = true;
-            this.CameraCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CameraCheckBox.Location = new System.Drawing.Point(225, 114);
-            this.CameraCheckBox.Name = "CameraCheckBox";
-            this.CameraCheckBox.Size = new System.Drawing.Size(62, 17);
-            this.CameraCheckBox.TabIndex = 5;
-            this.CameraCheckBox.Text = "Camera";
-            this.CameraCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // TrackButtonCheckBox
-            // 
-            this.TrackButtonCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.TrackButtonCheckBox.AutoSize = true;
-            this.TrackButtonCheckBox.Checked = true;
-            this.TrackButtonCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.TrackButtonCheckBox.Location = new System.Drawing.Point(157, 137);
-            this.TrackButtonCheckBox.Name = "TrackButtonCheckBox";
-            this.TrackButtonCheckBox.Size = new System.Drawing.Size(62, 17);
-            this.TrackButtonCheckBox.TabIndex = 7;
-            this.TrackButtonCheckBox.Text = "Buttons";
-            this.TrackButtonCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // TrackLaserCheckBox
-            // 
-            this.TrackLaserCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.TrackLaserCheckBox.AutoSize = true;
-            this.TrackLaserCheckBox.Checked = true;
-            this.TrackLaserCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.TrackLaserCheckBox.Location = new System.Drawing.Point(90, 137);
-            this.TrackLaserCheckBox.Name = "TrackLaserCheckBox";
-            this.TrackLaserCheckBox.Size = new System.Drawing.Size(57, 17);
-            this.TrackLaserCheckBox.TabIndex = 6;
-            this.TrackLaserCheckBox.Text = "Lasers";
-            this.TrackLaserCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // TrackLabel
-            // 
-            this.TrackLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.TrackLabel.Location = new System.Drawing.Point(10, 134);
-            this.TrackLabel.Name = "TrackLabel";
-            this.TrackLabel.Size = new System.Drawing.Size(74, 20);
-            this.TrackLabel.TabIndex = 11;
-            this.TrackLabel.Text = "Tracks";
-            this.TrackLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // EffectsLabel
-            // 
-            this.EffectsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.EffectsLabel.Location = new System.Drawing.Point(10, 111);
-            this.EffectsLabel.Name = "EffectsLabel";
-            this.EffectsLabel.Size = new System.Drawing.Size(74, 20);
-            this.EffectsLabel.TabIndex = 10;
-            this.EffectsLabel.Text = "Effects";
-            this.EffectsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // MeasureLabel
             // 
@@ -444,7 +521,7 @@
             this.MeasureLabel.Location = new System.Drawing.Point(10, 88);
             this.MeasureLabel.Name = "MeasureLabel";
             this.MeasureLabel.Size = new System.Drawing.Size(74, 20);
-            this.MeasureLabel.TabIndex = 6;
+            this.MeasureLabel.TabIndex = 0;
             this.MeasureLabel.Text = "Offset";
             this.MeasureLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -455,32 +532,6 @@
             this.AsciiTextBox.ReadOnly = true;
             this.AsciiTextBox.Size = new System.Drawing.Size(295, 20);
             this.AsciiTextBox.TabIndex = 0;
-            // 
-            // LongFxCheckBox
-            // 
-            this.LongFxCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LongFxCheckBox.AutoSize = true;
-            this.LongFxCheckBox.Checked = true;
-            this.LongFxCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.LongFxCheckBox.Location = new System.Drawing.Point(157, 114);
-            this.LongFxCheckBox.Name = "LongFxCheckBox";
-            this.LongFxCheckBox.Size = new System.Drawing.Size(64, 17);
-            this.LongFxCheckBox.TabIndex = 4;
-            this.LongFxCheckBox.Text = "Long Fx";
-            this.LongFxCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // ChipFxCheckBox
-            // 
-            this.ChipFxCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.ChipFxCheckBox.AutoSize = true;
-            this.ChipFxCheckBox.Checked = true;
-            this.ChipFxCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ChipFxCheckBox.Location = new System.Drawing.Point(90, 114);
-            this.ChipFxCheckBox.Name = "ChipFxCheckBox";
-            this.ChipFxCheckBox.Size = new System.Drawing.Size(61, 17);
-            this.ChipFxCheckBox.TabIndex = 3;
-            this.ChipFxCheckBox.Text = "Chip Fx";
-            this.ChipFxCheckBox.UseVisualStyleBackColor = true;
             // 
             // MusicCodeLabel
             // 
@@ -495,10 +546,10 @@
             // 
             this.CancelConvertButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CancelConvertButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelConvertButton.Location = new System.Drawing.Point(343, 401);
+            this.CancelConvertButton.Location = new System.Drawing.Point(343, 687);
             this.CancelConvertButton.Name = "CancelConvertButton";
             this.CancelConvertButton.Size = new System.Drawing.Size(116, 28);
-            this.CancelConvertButton.TabIndex = 20;
+            this.CancelConvertButton.TabIndex = 4;
             this.CancelConvertButton.Text = "Cancel";
             this.CancelConvertButton.UseVisualStyleBackColor = true;
             this.CancelConvertButton.Click += new System.EventHandler(this.OnCancelConvertButtonClick);
@@ -506,10 +557,10 @@
             // ProcessConvertButton
             // 
             this.ProcessConvertButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ProcessConvertButton.Location = new System.Drawing.Point(221, 401);
+            this.ProcessConvertButton.Location = new System.Drawing.Point(221, 687);
             this.ProcessConvertButton.Name = "ProcessConvertButton";
             this.ProcessConvertButton.Size = new System.Drawing.Size(116, 28);
-            this.ProcessConvertButton.TabIndex = 19;
+            this.ProcessConvertButton.TabIndex = 3;
             this.ProcessConvertButton.Text = "Continue";
             this.ProcessConvertButton.UseVisualStyleBackColor = true;
             this.ProcessConvertButton.Click += new System.EventHandler(this.OnProcessConvertButtonClick);
@@ -524,13 +575,68 @@
             this.TargetLabel.Text = "Target";
             this.TargetLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // MusicGroupBox
+            // 
+            this.MusicGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.MusicGroupBox.Controls.Add(this.FormatLabel);
+            this.MusicGroupBox.Controls.Add(this.PreviewTimePicker);
+            this.MusicGroupBox.Controls.Add(this.MusicFormatDropDown);
+            this.MusicGroupBox.Controls.Add(this.PreviewOffsetLabel);
+            this.MusicGroupBox.Location = new System.Drawing.Point(12, 593);
+            this.MusicGroupBox.Name = "MusicGroupBox";
+            this.MusicGroupBox.Size = new System.Drawing.Size(447, 76);
+            this.MusicGroupBox.TabIndex = 22;
+            this.MusicGroupBox.TabStop = false;
+            this.MusicGroupBox.Text = "Music Format && Converter";
+            // 
+            // FormatLabel
+            // 
+            this.FormatLabel.Location = new System.Drawing.Point(7, 20);
+            this.FormatLabel.Name = "FormatLabel";
+            this.FormatLabel.Size = new System.Drawing.Size(110, 20);
+            this.FormatLabel.TabIndex = 23;
+            this.FormatLabel.Text = "Format";
+            this.FormatLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // PreviewTimePicker
+            // 
+            this.PreviewTimePicker.CustomFormat = "mm:ss";
+            this.PreviewTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.PreviewTimePicker.Location = new System.Drawing.Point(122, 45);
+            this.PreviewTimePicker.Name = "PreviewTimePicker";
+            this.PreviewTimePicker.ShowUpDown = true;
+            this.PreviewTimePicker.Size = new System.Drawing.Size(315, 20);
+            this.PreviewTimePicker.TabIndex = 23;
+            this.PreviewTimePicker.ValueChanged += new System.EventHandler(this.OnPreviewTimePickerValueChanged);
+            // 
+            // MusicFormatDropDown
+            // 
+            this.MusicFormatDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.MusicFormatDropDown.FormattingEnabled = true;
+            this.MusicFormatDropDown.Items.AddRange(new object[] { "Legacy Format (.2dx)" });
+            this.MusicFormatDropDown.Location = new System.Drawing.Point(122, 19);
+            this.MusicFormatDropDown.Name = "MusicFormatDropDown";
+            this.MusicFormatDropDown.Size = new System.Drawing.Size(316, 21);
+            this.MusicFormatDropDown.TabIndex = 0;
+            this.MusicFormatDropDown.SelectedIndexChanged += new System.EventHandler(this.OnMusicFormatDropDownSelectedIndexChanged);
+            // 
+            // PreviewOffsetLabel
+            // 
+            this.PreviewOffsetLabel.Location = new System.Drawing.Point(7, 45);
+            this.PreviewOffsetLabel.Name = "PreviewOffsetLabel";
+            this.PreviewOffsetLabel.Size = new System.Drawing.Size(110, 20);
+            this.PreviewOffsetLabel.TabIndex = 8;
+            this.PreviewOffsetLabel.Text = "Preview TimeStamp";
+            this.PreviewOffsetLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // ConverterForm
             // 
             this.AcceptButton = this.ProcessConvertButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelConvertButton;
-            this.ClientSize = new System.Drawing.Size(471, 441);
+            this.ClientSize = new System.Drawing.Size(471, 724);
+            this.Controls.Add(this.MusicGroupBox);
             this.Controls.Add(this.TargetLabel);
             this.Controls.Add(this.CancelConvertButton);
             this.Controls.Add(this.ProcessConvertButton);
@@ -553,10 +659,45 @@
             ((System.ComponentModel.ISupportInitialize)(this.JacketNovPictureBox)).EndInit();
             this.OptionsGroupBox.ResumeLayout(false);
             this.OptionsGroupBox.PerformLayout();
+            this.CameraEffectsGroupBox.ResumeLayout(false);
+            this.TracksGroupBox.ResumeLayout(false);
+            this.TracksGroupBox.PerformLayout();
+            this.SoundEffectGroupBox.ResumeLayout(false);
+            this.MusicGroupBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
+
+        private System.Windows.Forms.Label FormatLabel;
+
+        private System.Windows.Forms.CheckBox TrackFXLCheckBox;
+        private System.Windows.Forms.CheckBox TrackFXRCheckBox;
+
+        private System.Windows.Forms.DateTimePicker PreviewTimePicker;
+
+        private System.Windows.Forms.Label PreviewOffsetLabel;
+
+        private System.Windows.Forms.CheckBox SoundEffectsCheckBox;
+        private System.Windows.Forms.CheckedListBox SoundEffectsCheckedListBox;
+        private System.Windows.Forms.Button SoundMappingButton;
+        private System.Windows.Forms.GroupBox MusicGroupBox;
+        private System.Windows.Forms.ComboBox MusicFormatDropDown;
+
+        private System.Windows.Forms.CheckBox CameraEffectsCheckBox;
+
+        private System.Windows.Forms.Button CameraMappingButton;
+
+        private System.Windows.Forms.CheckedListBox CameraEffectsCheckedListBox;
+
+        private System.Windows.Forms.CheckBox TrackButtonBCheckBox;
+        private System.Windows.Forms.CheckBox TrackButtonCCheckBox;
+        private System.Windows.Forms.CheckBox TrackButtonDCheckBox;
+        private System.Windows.Forms.CheckBox TrackVolRCheckBox;
+
+        private System.Windows.Forms.GroupBox CameraEffectsGroupBox;
+
+        private System.Windows.Forms.GroupBox SoundEffectGroupBox;
+        private System.Windows.Forms.GroupBox TracksGroupBox;
 
         #endregion
 
@@ -571,16 +712,11 @@
         private System.Windows.Forms.PictureBox JacketNovPictureBox;
         private System.Windows.Forms.TextBox PathTextBox;
         private System.Windows.Forms.GroupBox OptionsGroupBox;
-        private System.Windows.Forms.CheckBox LongFxCheckBox;
-        private System.Windows.Forms.CheckBox ChipFxCheckBox;
         private System.Windows.Forms.Label MusicCodeLabel;
         private System.Windows.Forms.Label MeasureLabel;
         private System.Windows.Forms.TextBox AsciiTextBox;
-        private System.Windows.Forms.CheckBox CameraCheckBox;
-        private System.Windows.Forms.CheckBox TrackButtonCheckBox;
-        private System.Windows.Forms.CheckBox TrackLaserCheckBox;
-        private System.Windows.Forms.Label TrackLabel;
-        private System.Windows.Forms.Label EffectsLabel;
+        private System.Windows.Forms.CheckBox TrackButtonACheckBox;
+        private System.Windows.Forms.CheckBox TrackVolLCheckBox;
         private System.Windows.Forms.Label InfVerLabel;
         private System.Windows.Forms.CheckBox AsciiAutoCheckBox;
         private System.Windows.Forms.Button CancelConvertButton;
@@ -591,6 +727,5 @@
         private System.Windows.Forms.ComboBox InfVerDropDown;
         private System.Windows.Forms.ComboBox VersionDropDown;
         private System.Windows.Forms.Label TargetLabel;
-        private System.Windows.Forms.CheckBox SlamImpactCheckBox;
     }
 }

@@ -28,7 +28,7 @@ namespace VoxCharger
             {
             }
 
-            public static new Phaser FromVox(string data)
+            public new static Phaser FromVox(string data)
             {
                 var flanger = new Phaser();
                 var prop = data.Trim().Split(',').Select(p => p.Trim()).ToArray();
@@ -55,7 +55,7 @@ namespace VoxCharger
                 return flanger;
             }
 
-            public static new Wobble FromKsh(string data)
+            public new static Wobble FromKsh(string data)
             {
                 var prop = data.Trim().Split(';').Select(p => p.Trim()).ToArray();
                 if (!Enum.TryParse(prop[0], out FxType type) || type != FxType.Phaser)
@@ -67,7 +67,7 @@ namespace VoxCharger
                 return wobble;
             }
 
-            public static new Phaser FromKsh(KshDefinition definition)
+            public new static Phaser FromKsh(KshDefinition definition)
             {
                 var phaser = new Phaser();
 

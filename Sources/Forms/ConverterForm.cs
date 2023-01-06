@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace VoxCharger
 {
@@ -21,14 +20,98 @@ namespace VoxCharger
 
     public partial class ConverterForm : Form
     {
-        private readonly Image DummyJacket = VoxCharger.Properties.Resources.jk_dummy_s;
-        public static string LastBackground { get; private set; } = "63";
+        private enum SoundFxType
+        {
+            Chip,
+            Long,
+            Laser
+        }
 
-        private string target;
-        private string defaultAscii;
-        private ConvertMode mode;
-        private Dictionary<Difficulty, ChartInfo> charts = new Dictionary<Difficulty, ChartInfo>();
-        private Ksh.Exporter exporter;
+        private class CameraEffectOption
+        {
+            public Camera.WorkType Work { get; set; }
+            public bool SlamImpact { get; set; } = false;
+            public string Name { get; set; }
+
+            public override string ToString()
+            {
+                return Name;
+            }
+        }
+
+        private class SoundFxOption
+        {
+            public SoundFxType Type { get; set; }
+            public string Name { get; set; }
+
+            public override string ToString()
+            {
+                return Name;
+            }
+        }
+
+        private static readonly Image DummyJacket = VoxCharger.Properties.Resources.jk_dummy_s;
+        public static string LastBackground { get; private set; } = "88";
+
+        private readonly CameraEffectOption[] _cameraOptions =
+        {
+            new CameraEffectOption
+            {
+                Work = Camera.WorkType.Realize,
+                Name = "Realize"
+            },
+            new CameraEffectOption
+            {
+                Work = Camera.WorkType.Rotation,
+                Name = "CAM_RotX"
+            },
+            new CameraEffectOption
+            {
+                Work = Camera.WorkType.Radian,
+                Name = "CAM_Radian"
+            },
+            new CameraEffectOption
+            {
+                Work = Camera.WorkType.Tilt,
+                Name = "Tilt / Tilt Mode"
+            },
+            new CameraEffectOption
+            {
+                Work = Camera.WorkType.LaneClear,
+                Name = "LaneY"
+            },
+            new CameraEffectOption
+            {
+                SlamImpact = true,
+                Name = "Slam Impact"
+            },
+        };
+
+        private readonly SoundFxOption[] _sfxOptions =
+        {
+            new SoundFxOption
+            {
+                Type = SoundFxType.Chip,
+                Name = "Chip"
+            },
+            new SoundFxOption
+            {
+                Type = SoundFxType.Long,
+                Name = "Long"
+            },
+            new SoundFxOption
+            {
+                Type = SoundFxType.Laser,
+                Name = "Laser"
+            }
+        };
+
+        private string _target;
+        private string _defaultAscii;
+        private ConvertMode _mode;
+        private Dictionary<Difficulty, ChartInfo> _charts = new Dictionary<Difficulty, ChartInfo>();
+        private Ksh.Exporter _exporter;
+        private bool _updatingAllEffects = false;
 
         public VoxHeader Result        { get; private set; } = null;
         public VoxHeader[] ResultSet   { get; private set; } = new VoxHeader[0];
@@ -40,89 +123,102 @@ namespace VoxCharger
         {
             InitializeComponent();
 
-            target = path;
-            mode   = convert;
+            _target = path;
+            _mode   = convert;
+
+            foreach (var camOpt in _cameraOptions)
+                CameraEffectsCheckedListBox.Items.Add(camOpt, camOpt.Work == Camera.WorkType.Realize ? CheckState.Indeterminate : CheckState.Checked);
+
+            foreach (var sfxOpt in _sfxOptions)
+                SoundEffectsCheckedListBox.Items.Add(sfxOpt, true);
 
             // Cancerous code to adjust layout depending what this form going to be
-            if (mode == ConvertMode.Converter)
+            if (_mode == ConvertMode.Converter)
             {
                 MusicCodeLabel.Visible     = false;
                 InfVerLabel.Visible        = false;
                 BackgroundLabel.Visible    = false;
+                BackgroundDropDown.Enabled = BackgroundDropDown.Visible = false;
+                MusicGroupBox.Enabled      = MusicGroupBox.Visible      = false;
                 LevelGroupBox.Enabled      = LevelGroupBox.Visible      = false;
                 AsciiTextBox.Enabled       = AsciiTextBox.Visible       = false;
                 AsciiAutoCheckBox.Enabled  = AsciiAutoCheckBox.Visible  = false;
                 VersionDropDown.Enabled    = VersionDropDown.Visible    = false;
                 InfVerDropDown.Enabled     = InfVerDropDown.Visible     = false;
-                BackgroundDropDown.Enabled = BackgroundDropDown.Visible = false;
 
                 int componentHeight      = AsciiTextBox.Height + VersionDropDown.Height + BackgroundDropDown.Height;
                 OptionsGroupBox.Location = LevelGroupBox.Location;
                 OptionsGroupBox.Height  -= componentHeight;
-                Height                  -= LevelGroupBox.Height + componentHeight;
+                Height                  -= LevelGroupBox.Height + componentHeight + MusicGroupBox.Height;
 
+                Text = "Convert Music";
                 ProcessConvertButton.Text = "Convert";
-                PathTextBox.Text = target;
+                PathTextBox.Text = _target;
 
                 return;
             }
-            else if (mode == ConvertMode.BulkImporter)
+            else if (_mode == ConvertMode.BulkImporter)
             {
                 MusicCodeLabel.Visible     = false;
                 LevelGroupBox.Enabled      = LevelGroupBox.Visible      = false;
                 AsciiTextBox.Enabled       = AsciiTextBox.Visible       = false;
                 AsciiAutoCheckBox.Enabled  = AsciiAutoCheckBox.Visible  = false;
+                MusicGroupBox.Enabled      = MusicGroupBox.Visible      = false;
 
                 int componentHeight      = AsciiTextBox.Height;
                 OptionsGroupBox.Location = LevelGroupBox.Location;
                 OptionsGroupBox.Height  -= componentHeight;
-                Height                  -= LevelGroupBox.Height + componentHeight;
+                Height                  -= LevelGroupBox.Height + MusicGroupBox.Height + componentHeight;
             }
 
-            PathTextBox.Text                 = target;
+            MusicGroupBox.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            PreviewTimePicker.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0);
+            MusicFormatDropDown.SelectedIndex = 0;
+            MusicFormatDropDown.Enabled = false;
+
+            PathTextBox.Text                 = _target;
             BackgroundDropDown.SelectedItem  = LastBackground;
-            VersionDropDown.SelectedIndex    = 4;
+            VersionDropDown.SelectedIndex    = 5;
             InfVerDropDown.SelectedIndex     = 0;
             ProcessConvertButton.Text        = "Add";
-            
         }
 
         private void OnConverterFormLoad(object sender, EventArgs e)
         {
-            if (mode != ConvertMode.Importer)
+            if (_mode != ConvertMode.Importer)
                 return;
 
             try
             {
                 var main = new Ksh();
-                main.Parse(target);
+                main.Parse(_target);
  
                 Result       = main.ToHeader();
-                Result.ID    = AssetManager.GetNextMusicID();
-                Result.Ascii = defaultAscii = AsciiTextBox.Text = Path.GetFileName(Path.GetDirectoryName(target));
-                exporter     = new Ksh.Exporter(main);
+                Result.Id    = AssetManager.GetNextMusicId();
+                Result.Ascii = _defaultAscii = AsciiTextBox.Text = Path.GetFileName(Path.GetDirectoryName(_target));
+                _exporter     = new Ksh.Exporter(main);
 
                 for (int i = 1; Directory.Exists(AssetManager.GetMusicPath(Result)); i++)
                 {
                     if (i >= 100)
                         break; // seriously? stupid input get stupid output
 
-                    Result.Ascii = $"{defaultAscii}{i:D2}";
+                    Result.Ascii = $"{_defaultAscii}{i:D2}";
                 }
 
-                defaultAscii = AsciiTextBox.Text = Result.Ascii;
-                charts[main.Difficulty] = new ChartInfo(main, main.ToLevelHeader(), target);
-                LoadJacket(charts[main.Difficulty]);
+                _defaultAscii = AsciiTextBox.Text = Result.Ascii;
+                _charts[main.Difficulty] = new ChartInfo(main, main.ToLevelHeader(), _target);
+                LoadJacket(_charts[main.Difficulty]);
 
                 // Try to locate another difficulty
-                foreach (var lv in Ksh.Exporter.GetCharts(Path.GetDirectoryName(target), main.Title))
+                foreach (var lv in Ksh.Exporter.GetCharts(Path.GetDirectoryName(_target), main.Title))
                 {
                     // Don't replace main file, there might 2 files with similar meta or another stupid cases
                     if (lv.Key != main.Difficulty)
-                        charts[lv.Key] = lv.Value;
+                        _charts[lv.Key] = lv.Value;
                 }
 
-                UpdateUI();
+                UpdateLevels();
             }
             catch (Exception ex)
             {
@@ -142,7 +238,7 @@ namespace VoxCharger
         {
             AsciiTextBox.ReadOnly = AsciiAutoCheckBox.Checked;
             if (AsciiTextBox.ReadOnly)
-                AsciiTextBox.Text = defaultAscii;
+                AsciiTextBox.Text = _defaultAscii;
         }
 
         private void OnBackgroundDropDownSelectedIndexChanged(object sender, EventArgs e)
@@ -152,7 +248,7 @@ namespace VoxCharger
 
         private void OnInfVerDropDownSelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!charts.ContainsKey(Difficulty.Infinite))
+            if (!_charts.ContainsKey(Difficulty.Infinite))
                 InfEditButton.Text = "--";
             else
                 InfEditButton.Text = InfVerDropDown.SelectedItem.ToString();
@@ -178,8 +274,8 @@ namespace VoxCharger
                     chart.Parse(browser.FileName);
                     chart.Difficulty = diff; // make sure to replace diff
 
-                    charts[diff] = new ChartInfo(chart, chart.ToLevelHeader(), browser.FileName);
-                    UpdateUI();
+                    _charts[diff] = new ChartInfo(chart, chart.ToLevelHeader(), browser.FileName);
+                    UpdateLevels();
                 }
                 catch (Exception ex)
                 {
@@ -190,6 +286,108 @@ namespace VoxCharger
                        MessageBoxIcon.Error
                    );
                 }
+            }
+        }
+
+        private void OnSoundEffectsCheckBoxCheckedChanged(object sender, EventArgs e)
+        {
+            if (SoundEffectsCheckBox.CheckState == CheckState.Indeterminate)
+                return;
+
+            _updatingAllEffects = true;
+
+            for (int i = 0; i < SoundEffectsCheckedListBox.Items.Count; i++)
+            {
+                if (SoundEffectsCheckedListBox.GetItemCheckState(i) == CheckState.Indeterminate)
+                    continue;
+
+                SoundEffectsCheckedListBox.SetItemChecked(i, SoundEffectsCheckBox.Checked);
+            }
+
+            _updatingAllEffects = false;
+        }
+
+        private void OnCameraEffectsCheckBoxCheckedChanged(object sender, EventArgs e)
+        {
+            if (CameraEffectsCheckBox.CheckState == CheckState.Indeterminate)
+                return;
+
+            _updatingAllEffects = true;
+
+            for (int i = 0; i < CameraEffectsCheckedListBox.Items.Count; i++)
+            {
+                if (CameraEffectsCheckedListBox.GetItemCheckState(i) == CheckState.Indeterminate)
+                    continue;
+
+                CameraEffectsCheckedListBox.SetItemChecked(i, CameraEffectsCheckBox.Checked);
+            }
+
+            _updatingAllEffects = false;
+        }
+
+        private void OnSoundEffectsCheckedListBoxItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (_updatingAllEffects || e.CurrentValue == CheckState.Indeterminate)
+                return;
+
+            bool value = e.NewValue == CheckState.Checked || e.NewValue == CheckState.Indeterminate;
+            for (int i = 0; i < SoundEffectsCheckedListBox.Items.Count; i++)
+            {
+                if (i != e.Index && SoundEffectsCheckedListBox.GetItemChecked(i) != value)
+                {
+                    SoundEffectsCheckBox.CheckState = CheckState.Indeterminate;
+                    return;
+                }
+            }
+
+            SoundEffectsCheckBox.CheckState = value ? CheckState.Checked : CheckState.Unchecked;
+        }
+
+        private void OnCameraEffectsCheckedListBoxItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (_updatingAllEffects || e.CurrentValue == CheckState.Indeterminate)
+            {
+                if (e.CurrentValue == CheckState.Indeterminate)
+                    e.NewValue = CheckState.Indeterminate;
+
+                return;
+            }
+
+            bool value = e.NewValue == CheckState.Checked || e.NewValue == CheckState.Indeterminate;
+            for (int i = 0; i < CameraEffectsCheckedListBox.Items.Count; i++)
+            {
+                if (i != e.Index && CameraEffectsCheckedListBox.GetItemChecked(i) != value)
+                {
+                    CameraEffectsCheckBox.CheckState = CheckState.Indeterminate;
+                    return;
+                }
+            }
+
+            CameraEffectsCheckBox.CheckState = value ? CheckState.Checked : CheckState.Unchecked;
+        }
+
+        private void OnMappingButtonClick(object sender, EventArgs e)
+        {
+            MessageBox.Show("Custom mapping for Sound & Camera Effects is not supported (yet).",
+                "Coming Soon™", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void OnMusicFormatDropDownSelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Not Implemented
+        }
+
+        private void OnBrowseMainToolButtonClick(object sender, EventArgs e)
+        {
+        }
+
+        private void OnBrowseSecondaryToolButtonClick(object sender, EventArgs e)
+        {
+            using (var browser = new OpenFileDialog())
+            {
+                browser.Filter          = $"{PreviewOffsetLabel.Text.Replace(".exe", string.Empty)} | {PreviewOffsetLabel.Text}";
+                browser.CheckFileExists = true;
+                browser.Title           = "Browse Converter";
             }
         }
 
@@ -208,19 +406,54 @@ namespace VoxCharger
 
         private void OnProcessConvertButtonClick(object sender, EventArgs e)
         {
-            Options = new Ksh.ParseOption()
+            bool slamImpact = true;
+            var cameraOpts = new Dictionary<Camera.WorkType, bool>();
+            for (int i = 0; i < CameraEffectsCheckedListBox.Items.Count; i++)
+            {
+                if (!(CameraEffectsCheckedListBox.Items[i] is CameraEffectOption opt))
+                    continue;
+
+                if (opt.SlamImpact)
+                    slamImpact = CameraEffectsCheckedListBox.GetItemChecked(i);
+                else
+                    cameraOpts[opt.Work] = CameraEffectsCheckedListBox.GetItemChecked(i);
+            }
+
+            Options = new Ksh.ParseOption
             {
                 RealignOffset = RealignOffsetCheckBox.Checked,
-                EnableChipFx  = ChipFxCheckBox.Checked,
-                EnableLongFx  = LongFxCheckBox.Checked,
-                EnableCamera  = CameraCheckBox.Checked,
-                EnableSlamImpact  = SlamImpactCheckBox.Checked,
-                EnableLaserTrack  = TrackLaserCheckBox.Checked,
-                EnableButtonTrack = TrackButtonCheckBox.Checked
+                Camera = new Ksh.ParseOption.CameraOptions
+                {
+                    SlamImpact   = slamImpact,
+                    EnabledWorks = cameraOpts
+                },
+                SoundFx = new Ksh.ParseOption.SoundFxOptions
+                {
+                    Chip  = SoundEffectsCheckedListBox.GetItemChecked(0),
+                    Long  = SoundEffectsCheckedListBox.GetItemChecked(1),
+                    Laser = SoundEffectsCheckedListBox.GetItemChecked(2),
+                },
+                Track = new Ksh.ParseOption.TrackOptions
+                {
+                    EnabledLaserTracks = new Dictionary<Event.LaserTrack, bool>
+                    {
+                        { Event.LaserTrack.Left, TrackVolLCheckBox.Checked },
+                        { Event.LaserTrack.Right, TrackVolRCheckBox.Checked }
+                    },
+                    EnabledButtonTracks = new Dictionary<Event.ButtonTrack, bool>
+                    {
+                        { Event.ButtonTrack.A, TrackButtonACheckBox.Checked },
+                        { Event.ButtonTrack.B, TrackButtonBCheckBox.Checked },
+                        { Event.ButtonTrack.C, TrackButtonCCheckBox.Checked },
+                        { Event.ButtonTrack.D, TrackButtonDCheckBox.Checked },
+                        { Event.ButtonTrack.FxL, TrackFXLCheckBox.Checked   },
+                        { Event.ButtonTrack.FxR, TrackFXRCheckBox.Checked   }
+                    }
+                }
             };
 
             // Act as converter
-            switch (mode)
+            switch (_mode)
             {
                 case ConvertMode.Converter:     SingleConvert(); break;
                 case ConvertMode.BulkConverter: BulkConvert();   break;
@@ -231,17 +464,18 @@ namespace VoxCharger
 
         private void SingleImport()
         {
+
             try 
             { 
                 // Assign metadata
                 Result.Ascii        = AsciiTextBox.Text;
                 Result.BackgroundId = short.Parse((BackgroundDropDown.SelectedItem ?? "0").ToString().Split(' ')[0]);
                 Result.Version      = (GameVersion)(VersionDropDown.SelectedIndex + 1);
-                Result.InfVersion   = InfVerDropDown.SelectedIndex == 0 ? InfiniteVersion.MXM : (InfiniteVersion)(InfVerDropDown.SelectedIndex + 1);
+                Result.InfVersion   = InfVerDropDown.SelectedIndex == 0 ? InfiniteVersion.Mxm : (InfiniteVersion)(InfVerDropDown.SelectedIndex + 1);
                 Result.GenreId      = 16;
                 Result.Levels       = new Dictionary<Difficulty, VoxLevelHeader>();
 
-                if (Result.BpmMin != Result.BpmMax && exporter.Source.MusicOffset % 48 != 0 && Options.RealignOffset)
+                if (Result.BpmMin != Result.BpmMax && _exporter.Source.MusicOffset % 48 != 0 && Options.RealignOffset)
                 {
                     // You've been warned!
                     var prompt = MessageBox.Show(
@@ -259,7 +493,7 @@ namespace VoxCharger
                 if (Directory.Exists(AssetManager.GetMusicPath(Result)) || AssetManager.Headers.Any(h => h.Ascii == Result.Ascii))
                 {
                     MessageBox.Show(
-                        $"Music Code {Result.CodeName} is already taken.",
+                        $"Music Code {Result.CodeName} is already taken.\nTry configure \"Music Code\" manually.",
                         "Error",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error
@@ -268,8 +502,14 @@ namespace VoxCharger
                     return;
                 }
 
-                exporter.Export(Result, charts, Options);
-                Action = exporter.Action;
+                var importOptions = new AudioImportOptions
+                {
+                    Format        = AudioFormat.Iidx,
+                    PreviewOffset = PreviewTimePicker.Value.Minute * 60 + PreviewTimePicker.Value.Second
+                };
+
+                _exporter.Export(Result, _charts, Options, importOptions);
+                Action = _exporter.Action;
 
                 DialogResult = DialogResult.OK;
                 Close();
@@ -284,14 +524,14 @@ namespace VoxCharger
                 );
 
                 // Eliminate non-existent files
-                foreach (var chart in charts.Values.ToArray())
+                foreach (var chart in _charts.Values.ToArray())
                 {
                     if (!File.Exists(chart.FileName))
-                        charts.Remove(chart.Header.Difficulty);
+                        _charts.Remove(chart.Header.Difficulty);
                 }
 
                 // Reload jacket
-                UpdateUI();
+                UpdateLevels();
             }
         }
 
@@ -302,14 +542,14 @@ namespace VoxCharger
             var errors  = new List<string>();
             using (var loader = new LoadingForm())
             {
-                var action = new Action(() =>
+                loader.SetAction(dialog =>
                 {
-                    var directories = Directory.GetDirectories(target);
+                    var directories = Directory.GetDirectories(_target);
                     int current     = 0;
                     foreach (string dir in directories)
                     {
-                        loader.SetStatus($"Processing {Path.GetFileName(dir)}..");
-                        loader.SetProgress((current + 1 / (float)directories.Length) * 100f);
+                        dialog.SetStatus($"Processing {Path.GetFileName(dir)}..");
+                        dialog.SetProgress((current + 1 / (float)directories.Length) * 100f);
 
                         var files = Directory.GetFiles(dir, "*.ksh");
                         if (files.Length == 0)
@@ -323,10 +563,10 @@ namespace VoxCharger
                             ksh.Parse(fn, Options);
 
                             var header          = ksh.ToHeader();
-                            header.ID           = AssetManager.GetNextMusicID() + current++;
+                            header.Id           = AssetManager.GetNextMusicId() + current++;
                             header.BackgroundId = short.Parse((BackgroundDropDown.SelectedItem ?? "0").ToString().Split(' ')[0]);
                             header.Version      = (GameVersion)(VersionDropDown.SelectedIndex + 1);
-                            header.InfVersion   = InfVerDropDown.SelectedIndex == 0 ? InfiniteVersion.MXM : (InfiniteVersion)(InfVerDropDown.SelectedIndex + 1);
+                            header.InfVersion   = InfVerDropDown.SelectedIndex == 0 ? InfiniteVersion.Mxm : (InfiniteVersion)(InfVerDropDown.SelectedIndex + 1);
                             header.GenreId      = 16;
                             header.Levels       = new Dictionary<Difficulty, VoxLevelHeader>();
 
@@ -352,15 +592,12 @@ namespace VoxCharger
                             string err = $"Failed attempt to convert ksh file: {Path.GetFileName(fn)} ({ex.Message})";
                             errors.Add(err);
                             Debug.WriteLine(err);
-
-                            continue;
                         }
                     }
 
-                    loader.Complete();
+                    dialog.Complete();
                 });
 
-                loader.SetAction(action);
                 loader.ShowDialog();
             }
 
@@ -397,7 +634,7 @@ namespace VoxCharger
                         return;
 
                     var ksh = new Ksh();
-                    ksh.Parse(target, Options);
+                    ksh.Parse(_target, Options);
 
                     var vox = new VoxChart();
                     vox.Import(ksh);
@@ -428,29 +665,32 @@ namespace VoxCharger
         private void BulkConvert()
         {
             var errors = new List<string>();
-            using (var browser = new FolderBrowserDialog())
+            using (var browser = new CommonOpenFileDialog())
             {
-                browser.Description = "Select output directory";
-                if (browser.ShowDialog() != DialogResult.OK)
+                browser.IsFolderPicker = true;
+                browser.Multiselect    = false;
+
+                if (browser.ShowDialog() != CommonFileDialogResult.Ok)
                     return;
-                
+
+                string outputDir = browser.FileName;
                 using (var loader = new LoadingForm())
                 {
-                    var action = new Action(() =>
+                    loader.SetAction(dialog =>
                     {
-                        var directories = Directory.GetDirectories(target);
+                        var directories = Directory.GetDirectories(_target);
                         int progress = 0;
                         foreach (string dir in directories)
                         {
-                            loader.SetStatus($"Processing {Path.GetFileName(dir)}..");
-                            loader.SetProgress((progress++ / (float)directories.Length) * 100f);
+                            dialog.SetStatus($"Processing {Path.GetFileName(dir)}..");
+                            dialog.SetProgress((progress++ / (float)directories.Length) * 100f);
                             foreach (var fn in Directory.GetFiles(dir, "*.ksh"))
                             {
                                 try
                                 {
                                     // Determine output path
                                     string path = Path.Combine(
-                                        $"{browser.SelectedPath}",
+                                        $"{outputDir}",
                                         $"{Path.GetFileName(dir)}\\"
                                     );
                                     
@@ -471,16 +711,13 @@ namespace VoxCharger
                                     string err = $"Failed attempt to convert ksh file: {Path.GetFileName(fn)} ({ex.Message})";
                                     errors.Add(err);
                                     Debug.WriteLine(err);
-
-                                    continue;
                                 }
                             }
                         }
 
-                        loader.Complete();
+                        dialog.Complete();
                     });
 
-                    loader.SetAction(action);
                     loader.ShowDialog();
                 }
             }
@@ -532,7 +769,7 @@ namespace VoxCharger
             if (pictureBox == null)
                 return;
 
-            string filename = Path.Combine(Path.GetDirectoryName(info.FileName), chart.JacketFileName);
+            string filename = Path.Combine(Path.GetDirectoryName(info.FileName) ?? "", chart.JacketFileName);
             if (!File.Exists(filename))
             {
                 pictureBox.Image = DummyJacket;
@@ -551,7 +788,7 @@ namespace VoxCharger
             }
         }
 
-        private void UpdateUI()
+        private void UpdateLevels()
         {
             var buttons = new List<Button>();
             foreach (var control in LevelGroupBox.Controls)
@@ -573,9 +810,9 @@ namespace VoxCharger
                     }
                 }
 
-                if (!charts.ContainsKey(diff) || charts[diff] == null)
+                if (!_charts.ContainsKey(diff) || _charts[diff] == null)
                 {
-                    charts.Remove(diff); // should be UpdateUiButAlterMapCharts, ya whatever
+                    _charts.Remove(diff);
                     if (button != null)
                         button.Text = "--";
 
@@ -603,9 +840,20 @@ namespace VoxCharger
                         }
                     }
 
-                    LoadJacket(charts[diff]);
+                    LoadJacket(_charts[diff]);
                 }
             }
+        }
+
+        private void OnPreviewTimePickerValueChanged(object sender, EventArgs e)
+        {
+            if (PreviewTimePicker.Value.Minute == 59)
+                PreviewTimePicker.Value = PreviewTimePicker.Value.AddMinutes(1);
+            else if (PreviewTimePicker.Value.Minute >= 11)
+                PreviewTimePicker.Value = PreviewTimePicker.Value.AddMinutes(-1);
+
+            if (PreviewTimePicker.Value.Minute == 10)
+                PreviewTimePicker.Value = PreviewTimePicker.Value.AddSeconds(-PreviewTimePicker.Value.Second);
         }
     }
 }

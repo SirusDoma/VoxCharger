@@ -26,7 +26,7 @@ namespace VoxCharger
             {
             }
 
-            public static new Flanger FromVox(string data)
+            public new static Flanger FromVox(string data)
             {
                 var highPass = new Flanger();
                 var prop = data.Trim().Split(',').Select(p => p.Trim()).ToArray();
@@ -52,7 +52,7 @@ namespace VoxCharger
                 return highPass;
             }
 
-            public static new Phaser FromKsh(string data)
+            public new static Phaser FromKsh(string data)
             {
                 var prop = data.Trim().Split(';').Select(p => p.Trim()).ToArray();
                 if (!Enum.TryParse(prop[0], out FxType type) || type != FxType.Flanger)
@@ -61,7 +61,7 @@ namespace VoxCharger
                 return new Phaser(80.00f, 2.00f, 0.50f, 90, 2.00f);
             }
 
-            public static new Flanger FromKsh(KshDefinition definition)
+            public new static Flanger FromKsh(KshDefinition definition)
             {
                 var flanger = new Flanger();
 

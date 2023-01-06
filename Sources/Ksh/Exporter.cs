@@ -43,7 +43,7 @@ namespace VoxCharger
                 Export(header, null, options);
             }
 
-            public void Export(VoxHeader header, Dictionary<Difficulty, ChartInfo> charts, ParseOption options = null)
+            public void Export(VoxHeader header, Dictionary<Difficulty, ChartInfo> charts, ParseOption options = null, AudioImportOptions importOptions = null)
             {
                 // Assign level info and charts
                 foreach (var chart in charts)
@@ -74,10 +74,10 @@ namespace VoxCharger
                 {
                     var info = chart.Value;
 
-                    // Make sure to reuse 2dx file for music that share same file
+                    // Make sure to reuse 2dx / s3v file for music that share same file
                     if (string.IsNullOrEmpty(musicFile) || chart.Value.MusicFileName != musicFile)
                     {
-                        string music = Path.Combine(Path.GetDirectoryName(info.FileName), info.Source.MusicFileName);
+                        string music = Path.Combine(Path.GetDirectoryName(info.FileName) ?? "", info.Source.MusicFileName);
                         if (File.Exists(music))
                         {
                             string tmp = Path.Combine(
@@ -111,7 +111,7 @@ namespace VoxCharger
                     }
                 }
 
-                Action = new Action(() =>
+                Action = () =>
                 {
                     bool unique = false;
                     musicFile = charts.Values.First().MusicFileName;
@@ -130,22 +130,27 @@ namespace VoxCharger
                     // Make sure to use single asset for music for shared music file
                     if (!unique)
                     {
-                        AssetManager.Import2DX(musicFile, header);
-                        AssetManager.Import2DX(musicFile, header, true);
+                        AssetManager.ImportAudio(musicFile, header, importOptions);
+                        AssetManager.ImportAudio(musicFile, header, (importOptions ?? AudioImportOptions.Default).AsPreview());
                     }
 
-                    foreach (var chart in charts.Values)
+                    var highest = charts.Max(e => e.Key);
+                    foreach (var entry in charts)
                     {
+                        var chart = entry.Value;
                         if (unique && File.Exists(chart.MusicFileName))
                         {
-                            AssetManager.Import2DX(chart.MusicFileName, header, chart.Header.Difficulty);
-                            AssetManager.Import2DX(chart.MusicFileName, header, chart.Header.Difficulty, true);
+                            AssetManager.ImportAudio(chart.MusicFileName, header, chart.Header.Difficulty, importOptions);
+
+                            // Use shared preview using highest level music file
+                            if (entry.Key == highest)
+                                AssetManager.ImportAudio(chart.MusicFileName, header, (importOptions ?? AudioImportOptions.Default).AsPreview());
                         }
 
                         if (chart.Header.Jacket != null)
                             AssetManager.ImportJacket(header, chart.Header.Difficulty, chart.Header.Jacket);
                     }
-                });
+                };
             }
 
             public static Dictionary<Difficulty, ChartInfo> GetCharts(string dir, string title)

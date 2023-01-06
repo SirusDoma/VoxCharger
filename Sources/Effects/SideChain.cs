@@ -28,7 +28,7 @@ namespace VoxCharger
             {
             }
 
-            public static new SideChain FromVox(string data)
+            public new static SideChain FromVox(string data)
             {
                 var sideChain = new SideChain();
                 var prop = data.Trim().Split(',').Select(p => p.Trim()).ToArray();
@@ -55,7 +55,7 @@ namespace VoxCharger
                 return sideChain;
             }
 
-            public static new SideChain FromKsh(string data)
+            public new static SideChain FromKsh(string data)
             {
                 var sideChain = new SideChain();
                 var prop = data.Trim().Split(';').Select(p => p.Trim()).ToArray();
@@ -72,7 +72,7 @@ namespace VoxCharger
                 return sideChain;
             }
 
-            public static new SideChain FromKsh(KshDefinition definition)
+            public new static SideChain FromKsh(KshDefinition definition)
             {
                 var sideChain = new SideChain();
 

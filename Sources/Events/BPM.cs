@@ -4,13 +4,13 @@ namespace VoxCharger
 {
     public abstract partial class Event
     {
-        public class BPM : Event
+        public class Bpm : Event
         {
             public float Value { get; set; }
 
             public bool IsStop { get; set; }
 
-            public BPM(Time time, float value)
+            public Bpm(Time time, float value)
                 : base(time)
             {
                 Value = value;
@@ -18,7 +18,7 @@ namespace VoxCharger
 
             public override string ToString()
             {
-                return $"{base.ToString()}\t{Value:0.00}\t{4}" + (IsStop ? "-" : string.Empty);
+                return $"{base.ToString()}\t{Value:0.0000}\t{4}" + (IsStop ? "-" : string.Empty);
             }
         }
     }

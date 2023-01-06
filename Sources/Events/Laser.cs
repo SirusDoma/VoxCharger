@@ -19,16 +19,17 @@ namespace VoxCharger
 
         public enum SlamImpact
         {
-            None        = 0,
-            Measure     = 1,
-            HalfMeasure = 2,
-            ThreeBeat   = 3,
-            TripleMeasure    = 4,
-            Swing       = 5
+            None          = 0,
+            Measure       = 1,
+            HalfMeasure   = 2,
+            ThreeBeat     = 3,
+            TripleMeasure = 4,
+            Swing         = 5
         }
 
         public enum LaserFilter
         {
+            None       = -1,
             Peak       = 0,
             LowPass    = 1,
             HighPass   = 3,
@@ -49,7 +50,7 @@ namespace VoxCharger
             public SlamImpact Impact { get; set; }
             public int Range { get; set; }
             public LaserFilter Filter { get; set; }
-            public bool Slam { get; set; }
+            public bool IsLaserSlam { get; set; }
 
             public Laser(Time time, LaserTrack track, int offset, LaserFlag flag, SlamImpact impact)
                 : base (time)

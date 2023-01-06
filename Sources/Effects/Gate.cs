@@ -25,7 +25,7 @@ namespace VoxCharger
 
             }
 
-            public static new Gate FromVox(string data)
+            public new static Gate FromVox(string data)
             {
                 var gate = new Gate();
                 var prop = data.Trim().Split(',').Select(p => p.Trim()).ToArray();
@@ -50,7 +50,7 @@ namespace VoxCharger
                 return gate;
             }
 
-            public static new Gate FromKsh(string data)
+            public new static Gate FromKsh(string data)
             {
                 var gate = new Gate();
                 var prop = data.Trim().Split(';').Select(p => p.Trim()).ToArray();
@@ -69,7 +69,7 @@ namespace VoxCharger
                 return gate;
             }
 
-            public static new Gate FromKsh(KshDefinition definition)
+            public new static Gate FromKsh(KshDefinition definition)
             {
                 var gate = new Gate();
 

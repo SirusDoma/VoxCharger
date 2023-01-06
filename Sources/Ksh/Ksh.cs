@@ -12,6 +12,9 @@ namespace VoxCharger
         private static readonly Encoding DefaultEncoding = Encoding.GetEncoding("Shift_JIS");
         private const string VolPositions = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmno";
 
+        private const int DefaultBackgroundId = 88;
+        private const int DefaultGenre = 16;
+
         public string Title          { get; set; }
         public string Artist         { get; set; }
         public string Effector       { get; set; }
@@ -31,13 +34,45 @@ namespace VoxCharger
 
         public class ParseOption
         {
+            public class SoundFxOptions
+            {
+                public bool Chip  { get; set; } = true;
+                public bool Long  { get; set; } = true;
+                public bool Laser { get; set; } = true;
+            }
+
+            public class CameraOptions
+            {
+                public bool SlamImpact { get; set; } = true;
+                public Dictionary<Camera.WorkType, bool> EnabledWorks { get; set; } = new Dictionary<Camera.WorkType, bool>();
+
+                public bool IsEnabled(Camera.WorkType work)
+                {
+                    // Non-configured work should be enabled by default
+                    return !EnabledWorks.ContainsKey(work) || EnabledWorks[work];
+                }
+            }
+
+            public class TrackOptions
+            {
+                public Dictionary<Event.ButtonTrack, bool> EnabledButtonTracks { get; set; } = new Dictionary<Event.ButtonTrack, bool>();
+                public Dictionary<Event.LaserTrack, bool>  EnabledLaserTracks { get; set; }  = new Dictionary<Event.LaserTrack, bool>();
+
+                public bool IsButtonTrackEnabled(Event.ButtonTrack track)
+                {
+                    return !EnabledButtonTracks.ContainsKey(track) || EnabledButtonTracks[track];
+                }
+
+                public bool IsLaserTrackEnabled(Event.LaserTrack track)
+                {
+                    return !EnabledLaserTracks.ContainsKey(track) || EnabledLaserTracks[track];
+                }
+            }
+
             public bool RealignOffset     { get; set; } = false;
-            public bool EnableChipFx      { get; set; } = true;
-            public bool EnableLongFx      { get; set; } = true;
-            public bool EnableCamera      { get; set; } = true;
-            public bool EnableSlamImpact  { get; set; } = true;
-            public bool EnableLaserTrack  { get; set; } = true;
-            public bool EnableButtonTrack { get; set; } = true;
+            public SoundFxOptions SoundFx { get; set; } = new SoundFxOptions();
+            public CameraOptions  Camera  { get; set; } = new CameraOptions();
+            public TrackOptions Track     { get; set; } = new TrackOptions();
         }
 
         public Ksh()
@@ -49,13 +84,15 @@ namespace VoxCharger
             return new VoxHeader()
             {
                 Title            = Title,
+                TitleYomigana    = "ダミー",
                 Artist           = Artist,
+                ArtistYomigana   = "ダミー",
                 BpmMin           = BpmMin,
                 BpmMax           = BpmMax,
                 Volume           = Volume > 0 ? (short)Volume : (short)91,
                 DistributionDate = DateTime.Now,
-                BackgroundId     = 63,
-                GenreId          = 16,
+                BackgroundId     = DefaultBackgroundId,
+                GenreId          = DefaultGenre,
             };
         }
 
@@ -73,19 +110,18 @@ namespace VoxCharger
         public void Parse(string fileName, ParseOption opt = null)
         {
             // I pulled all nighters for few days, all for this piece of trash codes :)
-            // Reminder: there's lot of "offset" that can be ambigous between many contexts everywhere
+            // Reminder: there's lot of "offset" that can be ambiguous between many contexts everywhere
             var lines = File.ReadAllLines(fileName, DefaultEncoding);
 
             if (opt == null)
                 opt = new ParseOption();
 
-            Time time      = new Time(1, 1, 0);
+            var time       = Time.Initial;
             var signature  = new Event.TimeSignature(time, 4, 4);
             var filter     = Event.LaserFilter.Peak;
             int rangeLeft  = 0;
             int rangeRight = 0;
             var cameras    = new Dictionary<Camera.WorkType, Camera>();
-            var lastCamera = new Dictionary<Camera.WorkType, Camera>();
             var hitFx      = new Dictionary<Event.ButtonTrack, KshSoundEffect>();
             var holdFx     = new Dictionary<Event.ButtonTrack, Effect>();
             var longNotes  = new Dictionary<Event.ButtonTrack, Event.Button>();
@@ -147,7 +183,7 @@ namespace VoxCharger
                 {
                     // Might just pull it to first bar
                     if (time.Measure == 0)
-                        time = new Time(1, 1, 0);
+                        time = Time.Initial;
 
                     var data = line.Split('=');
                     if (data.Length < 2)
@@ -209,9 +245,9 @@ namespace VoxCharger
                                 if (BpmMax == 0f || t > BpmMax)
                                     BpmMax = t;
 
-                                if (!value.Contains("-"))
+                                if (!value.Contains("-") && Events.GetBpm(new Time(time.Measure, time.Beat, 0))?.Value != t)
                                 {
-                                    var bpm = new Event.BPM(new Time(time.Measure, time.Beat, 0), t); // beat still acceptable
+                                    var bpm = new Event.Bpm(new Time(time.Measure, time.Beat, 0), t); // beat still acceptable
                                     Events.Add(bpm);
                                 }
                             }
@@ -222,11 +258,11 @@ namespace VoxCharger
 
                             break;
                         case "stop" when float.TryParse(value, out float duration):
-                            Event.BPM start = null;
+                            Event.Bpm start = null;
                             time = new Time(time.Measure, time.Beat, 0);
                             foreach (var ev in Events[time])
                             {
-                                if (ev is Event.BPM x)
+                                if (ev is Event.Bpm x)
                                 {
                                     start = x;
                                     start.IsStop = true;
@@ -236,20 +272,20 @@ namespace VoxCharger
 
                             if (start == null)
                             {
-                                var last = Events.GetBPM(time);
+                                var last = Events.GetBpm(time);
                                 if (last == null)
                                     break;
 
-                                start = new Event.BPM(time, last.Value);
+                                start = new Event.Bpm(time, last.Value);
                                 start.IsStop = true;
                                 Events.Add(start);
                             }
 
-                            Event.BPM end = null;
+                            Event.Bpm end = null;
                             var target    = Time.FromOffset((int)duration, signature);
                             foreach (var ev in Events[target])
                             {
-                                if (ev is Event.BPM x)
+                                if (ev is Event.Bpm x)
                                 {
                                     end = x;
                                     end.IsStop = false;
@@ -259,11 +295,11 @@ namespace VoxCharger
 
                             if (end == null)
                             {
-                                var last = Events.GetBPM(target);
+                                var last = Events.GetBpm(target);
                                 if (last == null)
                                     break;
 
-                                end = new Event.BPM(target, last.Value);
+                                end = new Event.Bpm(target, last.Value);
                                 end.IsStop = false;
                                 Events.Add(end);
                             }
@@ -284,7 +320,7 @@ namespace VoxCharger
                             break;
                         case "fx-l":
                         case "fx-r":
-                            if (!opt.EnableLongFx)
+                            if (!opt.SoundFx.Long)
                                 break;
 
                             var htrack  = prop == "fx-l" ? Event.ButtonTrack.FxL : Event.ButtonTrack.FxR;
@@ -300,7 +336,7 @@ namespace VoxCharger
                             break;
                         case "fx-l_se":
                         case "fx-r_se":
-                            if (!opt.EnableChipFx)
+                            if (!opt.SoundFx.Chip)
                                 break;
 
                             var fxTrack = prop == "fx-l_se" ? Event.ButtonTrack.FxL : Event.ButtonTrack.FxR;
@@ -316,6 +352,12 @@ namespace VoxCharger
 
                             break;
                         case "filtertype":
+                            if (!opt.SoundFx.Laser)
+                            {
+                                filter = Event.LaserFilter.None;
+                                break;
+                            }
+
                             switch (value.Trim())
                             {
                                 case "peak": filter = Event.LaserFilter.Peak; break;
@@ -335,13 +377,29 @@ namespace VoxCharger
                         #endregion
                         #region --- Camera ---
                         case "tilt" when !float.TryParse(value.Trim(), out float _):
-                            if (!opt.EnableCamera)
+                            if (!opt.Camera.IsEnabled(Camera.WorkType.Tilt))
                                 break;
 
-                            switch (value.Trim()) // everything untested
+                            // We need manually correct the tilt because TiltMode in-game is not reliable
+                            cameras.TryGetValue(Camera.WorkType.Tilt, out var lastTilt);
+
+                            // Clear the camera cache, leave the previous tilt duration to 0
+                            cameras[Camera.WorkType.Tilt] = null;
+
+                            switch (value.Trim()) // tested with limited scenario
                             {
+                                case "zero":
                                 case "normal":
+                                    // Tilt mode normal seems ignored by the game
                                     Events.Add(new Event.TiltMode(time, Event.TiltType.Normal));
+
+                                    // Instead, we reset the previously applied tilt manually
+                                    Events.Add(new Camera.Tilt(time, 0, lastTilt?.End ?? 0.00f, 0.00f));
+
+                                    // Add padding to our reset tilt camera
+                                    var tiltPadding = new Camera.Tilt(time, 48, 0.00f, 0.00f);
+                                    Events.Add(tiltPadding);
+
                                     break;
                                 case "bigger":
                                     Events.Add(new Event.TiltMode(time, Event.TiltType.Large));
@@ -356,139 +414,72 @@ namespace VoxCharger
                         case "zoom_top":    // CAM_RotX
                         case "zoom_bottom": // CAM_Radi
                         case "lane_toggle": // LaneY
-                            if (!opt.EnableCamera)
+                            if (!float.TryParse(value, out float cameraVal))
                                 break;
 
-                            if (!float.TryParse(value, out float cameraOffset))
-                                break;
-
-                            Camera.WorkType work = Camera.WorkType.None; 
+                            var work = Camera.WorkType.None;
                             switch (prop)
                             {
-                                case "zoom_top":    
+                                case "zoom_top":
                                     work = Camera.WorkType.Rotation;
-                                    cameraOffset /= 150.0f;
+                                    cameraVal /= 100.0f;
                                     break;
-                                case "zoom_bottom": 
+                                case "zoom_bottom":
                                     work = Camera.WorkType.Radian;
-                                    cameraOffset /= -150.0f;
+                                    cameraVal /= -100.0f;
                                     break;
-                                case "tilt":        
+                                case "tilt":
                                     work = Camera.WorkType.Tilt;
-                                    cameraOffset /= 1.0f; // untested
+                                    cameraVal /= -1.0f; // untested
                                     break;
                                 case "lane_toggle":
                                     work = Camera.WorkType.LaneClear; // untested too
                                     break;
                             }
 
+                            if (!opt.Camera.IsEnabled(work))
+                                break;
+
                             Camera camera = null;
+                            cameras.TryGetValue(work, out var lastCamera);
                             switch (work)
                             {
-                                case Camera.WorkType.Rotation:  
+                                case Camera.WorkType.Rotation:
                                 case Camera.WorkType.Radian:
                                 case Camera.WorkType.Tilt:
-                                    camera = Camera.Create(work, time, maxDuration, cameraOffset, cameraOffset); 
+                                    camera = Camera.Create(work, time, 0, cameraVal, cameraVal);
                                     break;
-                                case Camera.WorkType.LaneClear: 
-                                    camera = new Camera.LaneClear(time, (int)cameraOffset, 0.00f, 1024.00f);     
+                                case Camera.WorkType.LaneClear:
+                                    camera = new Camera.LaneClear(time, (int)cameraVal, 0.00f, 1024.00f);
                                     break;
                             }
 
-                            if (!cameras.ContainsKey(work))
-                            {
-                                cameras[work]    = null;
-                                lastCamera[work] = camera;
-                                Events.Add(camera);
+                            if (camera == null)
+                                break;
 
-                                continue;
+                            int currentOffset = time.GetAbsoluteOffset(Events.GetTimeSignature(time));
+                            if (lastCamera != null)
+                            {
+                                int lastOffset = lastCamera.Time.GetAbsoluteOffset(Events.GetTimeSignature(lastCamera.Time));
+                                int diff       = Math.Abs(currentOffset - lastOffset);
+
+                                lastCamera.End      = cameraVal;
+                                lastCamera.Duration = diff;
+                            }
+                            else
+                            {
+                                // Tilt might be reset via TiltMode event
+                                var timePair   = work != Camera.WorkType.Tilt ? Time.Initial  : time;
+                                int offsetPair = work != Camera.WorkType.Tilt ? currentOffset : Math.Abs(currentOffset - timePair.GetAbsoluteOffset(Events.GetTimeSignature(timePair)));
+
+                                var init = Camera.Create(work, timePair, 0, 0.00f, cameraVal);
+                                var pair = Camera.Create(work, timePair, offsetPair, cameraVal, cameraVal);
+
+                                Events.Add(init, pair);
                             }
 
-                            var pairCamera = cameras[work];
-                            if (pairCamera == null)
-                            {
-                                switch (work)
-                                {
-                                    case Camera.WorkType.Rotation:
-                                    case Camera.WorkType.Radian:
-                                    case Camera.WorkType.Tilt:
-                                        cameras[work] = Camera.Create(work, time, -1, cameraOffset, cameraOffset);     
-                                        break;
-                                    case Camera.WorkType.LaneClear: 
-                                        var ev = new Camera.LaneClear(time, (int)cameraOffset, 1024.00f, 0.00f);
-                                        cameras[work] = ev;
-                                        Events.Add(ev);
-
-                                        break;
-                                }
-                            }
-                            else 
-                            {
-                                // Can't really use Time.Difference since time signature can be different across different measures
-                                float curOffset  = time.GetAbsoluteOffset(signature);
-                                float pairOffset = pairCamera.Time.GetAbsoluteOffset(Events.GetTimeSignature(pairCamera.Time));
-
-                                if (work == Camera.WorkType.LaneClear)
-                                {
-                                    camera.Start = pairCamera.End;
-                                    camera.End   = pairCamera.Start;
-
-                                    if ((int)Math.Abs(curOffset - pairOffset) != pairCamera.Duration)
-                                    {
-                                        var fill       = new Camera.LaneClear(null, 0, pairCamera.End, camera.Start);
-                                        var fillOffset = pairOffset + pairCamera.Duration;
-                                        var timeSig    = Events.GetTimeSignature((int)(fillOffset / 192f));
-
-                                        fill.Time     = Time.FromOffset(fillOffset, timeSig);
-                                        fill.Duration = (int)Math.Abs(curOffset - fill.Time.GetAbsoluteOffset(timeSig));
-                                        Events.Add(fill);
-                                    }
-
-                                    cameras[work] = camera;
-                                    Events.Add(camera);
-
-                                    break;
-                                }
-
-                                // Assign camera properties
-                                camera.Time     = pairCamera.Time;
-                                camera.Duration = (int)Math.Abs(curOffset - pairOffset);
-                                camera.Start    = pairCamera.Start;
-
-                                // Find gap between last camera event
-                                var prevCamera = lastCamera[work];
-
-                                float lastOffset = prevCamera.Time.GetAbsoluteOffset(Events.GetTimeSignature(prevCamera.Time));
-                                int diff = (int)Math.Abs(pairOffset - lastOffset); 
-
-                                // There's seems to be gap
-                                if (prevCamera != null && prevCamera.Duration != diff)
-                                {
-                                    // Check gap, is indeed something that we can fill
-                                    if (prevCamera.Duration < diff)
-                                    {
-                                        // Adjust time and duration to fill the gap, make sure to use correct time signature!
-                                        var fill       = Camera.Create(work, time, 0, prevCamera.End, pairCamera.Start);
-                                        var fillOffset = lastOffset + prevCamera.Duration;
-                                        var timeSig    = Events.GetTimeSignature((int)(fillOffset / 192f));
-
-                                        fill.Time     = Time.FromOffset(fillOffset, timeSig);
-                                        fill.Duration = (int)Math.Abs(pairOffset - fill.Time.GetAbsoluteOffset(timeSig));
-                                        Events.Add(fill);
-                                    }
-                                    // The previous duration is overlap with current time, readjust previous event duration
-                                    else
-                                    { 
-                                        prevCamera.Duration = diff;
-                                        prevCamera.End = camera.Start;
-                                    }
-                                }
-
-                                cameras[work] = null;
-                                lastCamera[work] = camera;
-                                Events.Add(camera);
-                            }
-
+                            cameras[work] = camera;
+                            Events.Add(camera);
                             break;
                         #endregion
                     }
@@ -532,9 +523,6 @@ namespace VoxCharger
                     #region --- BT & FX ---
                     for (int channel = 0; channel < 7; channel++)
                     {
-                        if (!opt.EnableButtonTrack)
-                            break;
-
                         Event.ButtonTrack track;
                         switch(channel)
                         {
@@ -546,6 +534,9 @@ namespace VoxCharger
                             case 6: track = Event.ButtonTrack.FxR; break;
                             default: continue;
                         }
+
+                        if (!opt.Track.IsButtonTrackEnabled(track))
+                            continue;
 
                         // FxL and FxR accept any char for long note
                         if (!int.TryParse(line[channel].ToString(), out int flag) && (track != Event.ButtonTrack.FxL && track != Event.ButtonTrack.FxR))
@@ -625,8 +616,8 @@ namespace VoxCharger
                     #region  --- Laser ---
                     foreach (var track in new[] { Event.LaserTrack.Left, Event.LaserTrack.Right })
                     {
-                        if (!opt.EnableLaserTrack)
-                            break;
+                        if (!opt.Track.IsLaserTrackEnabled(track))
+                            continue;
 
                         int channel = track == Event.LaserTrack.Left ? 8 : 9;
                         int range   = track == Event.LaserTrack.Left ? rangeLeft : rangeRight;
@@ -637,7 +628,7 @@ namespace VoxCharger
                         if (flag == ':')
                             continue;
 
-                        if (line.Length >= 13 && opt.EnableSlamImpact)
+                        if (line.Length >= 13 && opt.Camera.SlamImpact)
                         {
                             // Ignore direction, use slam offset instead
                             char f = line[10];
@@ -674,7 +665,7 @@ namespace VoxCharger
                             range
                         );
 
-                        laser.Slam = noteCount >= 32;
+                        laser.IsLaserSlam = noteCount >= 32;
                         if (flag != '-')
                         {
                             // Determine laser offset
@@ -757,7 +748,7 @@ namespace VoxCharger
                                 // Due to terrible ksh format for slam that appear in 1/32 or shorter 
                                 // the output of conversion may have 6 cells gap apart each other
                                 // TODO: Use offset instead of Time.Difference, cuz it might start and finish in different measure
-                                if (start.Slam && end.Slam && end.Time.Difference(start.Time, timeSig) <= 6)
+                                if (start.IsLaserSlam && end.IsLaserSlam && end.Time.Difference(start.Time, timeSig) <= 6)
                                 {
                                     // Pull one of the offset
                                     // In some rare cases, not pulling the offset will ended up normal laser instead of slam, especially in slow bpm

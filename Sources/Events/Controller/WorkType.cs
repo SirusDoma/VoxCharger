@@ -11,7 +11,9 @@ namespace VoxCharger
             Radian,
             Realize,
             AirLeftScaleX,
+            AirRightScaleX,
             AirLeftScaleY,
+            AirRightScaleY,
             Tilt,
             LaneClear
         }

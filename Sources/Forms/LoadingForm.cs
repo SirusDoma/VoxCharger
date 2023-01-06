@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace VoxCharger
 {
     public partial class LoadingForm : Form
     {
-        private Action action;
-        private bool completed = false;
+        private Action<LoadingForm> _action;
+        private bool _completed = false;
 
         public LoadingForm()
         {
@@ -26,12 +19,12 @@ namespace VoxCharger
 
         private void OnLoadingFormShown(object sender, EventArgs e)
         {
-            this.action();
+            this._action(this);
         }
 
-        public void SetAction(Action action)
+        public void SetAction(Action<LoadingForm> action)
         {
-            this.action = action;
+            this._action = action;
         }
 
         public void SetStatus(string text)
@@ -61,7 +54,7 @@ namespace VoxCharger
 
         public void Complete()
         {
-            completed = true;
+            _completed = true;
             if (InvokeRequired)
                 Invoke(new Action(Close));
             else
@@ -70,7 +63,7 @@ namespace VoxCharger
 
         private void OnLoadingFormFormClosing(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = !completed;
+            e.Cancel = !_completed;
         }
     }
 }

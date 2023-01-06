@@ -24,7 +24,7 @@ namespace VoxCharger
             {
             }
 
-            public static new TapeStop FromVox(string data)
+            public new static TapeStop FromVox(string data)
             {
                 var tapeStop = new TapeStop();
                 var prop = data.Trim().Split(',').Select(p => p.Trim()).ToArray();
@@ -49,7 +49,7 @@ namespace VoxCharger
                 return tapeStop;
             }
 
-            public static new TapeStop FromKsh(string data)
+            public new static TapeStop FromKsh(string data)
             {
                 var tapeStop = new TapeStop();
                 var prop = data.Trim().Split(';').Select(p => p.Trim()).ToArray();
@@ -75,7 +75,7 @@ namespace VoxCharger
                 return tapeStop;
             }
 
-            public static new TapeStop FromKsh(KshDefinition definition)
+            public new static TapeStop FromKsh(KshDefinition definition)
             {
                 var tapeStop = new TapeStop();
 

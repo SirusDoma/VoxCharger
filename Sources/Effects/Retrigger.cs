@@ -34,7 +34,7 @@ namespace VoxCharger
             {
             }
 
-            public static new Retrigger FromVox(string data)
+            public new static Retrigger FromVox(string data)
             {
                 var retrigger = new Retrigger();
                 var prop = data.Trim().Split(',').Select(p => p.Trim()).ToArray();
@@ -64,7 +64,7 @@ namespace VoxCharger
                 return retrigger;
             }
 
-            public static new Retrigger FromKsh(string data)
+            public new static Retrigger FromKsh(string data)
             {
                 var retrigger = new Retrigger();
                 var prop = data.Trim().Split(';').Select(p => p.Trim()).ToArray();
@@ -93,7 +93,7 @@ namespace VoxCharger
                 return retrigger;
             }
 
-            public static new Retrigger FromKsh(KshDefinition definition)
+            public new static Retrigger FromKsh(KshDefinition definition)
             {
                 var retrigger = new Retrigger();
 

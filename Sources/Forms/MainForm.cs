@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace VoxCharger
 {
@@ -18,11 +13,11 @@ namespace VoxCharger
     {
         #region -- Variables --
         private const int DefaultVolume = 91;
-        private readonly Image DummyJacket = VoxCharger.Properties.Resources.jk_dummy_s;
-        private readonly Dictionary<string, Queue<Action>> actions = new Dictionary<string, Queue<Action>>();
+        private readonly Image _dummyJacket = VoxCharger.Properties.Resources.jk_dummy_s;
+        private readonly Dictionary<string, Queue<Action>> _actions = new Dictionary<string, Queue<Action>>();
 
-        private bool Pristine = true;
-        private bool Autosave = true;
+        private bool _pristine = true;
+        private bool _autosave = true;
         #endregion
 
         #region --- Form ---
@@ -37,7 +32,7 @@ namespace VoxCharger
 
         private void OnMainFormFormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!Pristine && SaveFileMenu.Enabled)
+            if (!_pristine && SaveFileMenu.Enabled)
             {
                 var response = MessageBox.Show(
                     "Save file before exit the program?",
@@ -57,7 +52,7 @@ namespace VoxCharger
         #region --- Menu ---
         private void OnNewFileMenuClick(object sender, EventArgs e)
         {
-            if (!Pristine && SaveFileMenu.Enabled)
+            if (!_pristine && SaveFileMenu.Enabled)
             {
                 var response = MessageBox.Show(
                     "Save file before open another mix?",
@@ -71,27 +66,26 @@ namespace VoxCharger
                 else if (response == DialogResult.Cancel)
                     return;
 
-                Pristine = true;
-                actions.Clear();
+                _pristine = true;
+                _actions.Clear();
             }
 
             string gamePath = AssetManager.GamePath;
             if (string.IsNullOrEmpty(AssetManager.MixPath) || !Directory.Exists(AssetManager.MixPath))
             {
-                using (var browser = new FolderBrowserDialog())
+                using (var browser = new CommonOpenFileDialog())
                 {
-                    browser.ShowNewFolderButton = true;
-                    browser.Description = "Select KFC Content Root";
+                    browser.IsFolderPicker = true;
+                    browser.Multiselect    = false;
 
-                    if (browser.ShowDialog() == DialogResult.OK)
-                    {
-                        gamePath = browser.SelectedPath;
+                    if (browser.ShowDialog() != CommonFileDialogResult.Ok)
+                        return;
+                    
+                    gamePath = browser.FileName;
+                    PathTextBox.Text = string.Empty;
+                    MusicListBox.Items.Clear();
 
-                        PathTextBox.Text = string.Empty;
-                        MusicListBox.Items.Clear();
-
-                        ResetEditor();
-                    }
+                    ResetEditor();
                 }
             }
 
@@ -165,10 +159,10 @@ namespace VoxCharger
 
         private void OnChangeMixFileMenuClick(object sender, EventArgs e)
         {
-            if (!Pristine && SaveFileMenu.Enabled)
+            if (!_pristine && SaveFileMenu.Enabled)
             {
                 var response = MessageBox.Show(
-                    "Save file before open another mix?",
+                    "Save file before Open another mix?",
                     "Change Mix",
                     MessageBoxButtons.YesNoCancel,
                     MessageBoxIcon.Question
@@ -179,8 +173,8 @@ namespace VoxCharger
                 else if (response == DialogResult.Cancel)
                     return;
 
-                Pristine = true;
-                actions.Clear();
+                _pristine = true;
+                _actions.Clear();
             }
            
             using (var mixSelector = new MixSelectorForm())
@@ -211,7 +205,7 @@ namespace VoxCharger
                     MetadataGroupBox.Enabled = false;
                     MusicListBox.Items.Clear();
 
-                    DisableUI();
+                    DisableUi();
                     ResetEditor();
 
                     AssetManager.Initialize(AssetManager.GamePath);
@@ -235,8 +229,8 @@ namespace VoxCharger
 
         private void OnAutosaveEditMenuClick(object sender, EventArgs e)
         {
-            Autosave = !Autosave;
-            AutosaveEditMenu.Checked = Autosave;
+            _autosave = !_autosave;
+            AutosaveEditMenu.Checked = _autosave;
         }
 
         private void OnExplorerEditMenuClick(object sender, EventArgs e)
@@ -266,13 +260,15 @@ namespace VoxCharger
 
         private void OnBulkConvertToolsMenuClick(object sender, EventArgs e)
         {
-            using (var browser = new FolderBrowserDialog())
+            using (var browser = new CommonOpenFileDialog())
             {
-                browser.Description = "Select Kshoot chart repository";
-                if (browser.ShowDialog() != DialogResult.OK)
+                browser.IsFolderPicker = true;
+                browser.Multiselect    = false;
+
+                if (browser.ShowDialog() != CommonFileDialogResult.Ok)
                     return;
 
-                using (var converter = new ConverterForm(browser.SelectedPath, ConvertMode.Converter))
+                using (var converter = new ConverterForm(browser.FileName, ConvertMode.Converter))
                     converter.ShowDialog();
             }
         }
@@ -282,7 +278,7 @@ namespace VoxCharger
             using (var browser  = new OpenFileDialog())
             using (var exporter = new SaveFileDialog())
             {
-                browser.Filter = "Audio Files|*.wav;*.ogg;*.mp3;*.flac|2DX Music File|*.2dx;*.s3v|Music Files|*.wav;*.ogg;*.mp3;*.flac";
+                browser.Filter = "Audio Files|*.wav;*.ogg;*.mp3;*.flac";
                 browser.CheckFileExists = true;
 
                 if (browser.ShowDialog() != DialogResult.OK)
@@ -292,31 +288,29 @@ namespace VoxCharger
                 if (exporter.ShowDialog() != DialogResult.OK)
                     return;
 
+                string source = browser.FileName;
+                string output = exporter.FileName;
                 string error = string.Empty;
+                
                 using (var loader = new LoadingForm())
                 {
-                    loader.SetAction(() =>
+                    loader.SetAction(dialog =>
                     {
                         try
                         {
-                            loader.SetStatus("Processing assets..");
+                            dialog.SetStatus("Processing assets..");
+                            DxEncoder.Encode(new[] { source }, output);
 
-                            string source = browser.FileName;
-                            string tmp = DxTool.ConvertToWave(source, false);
-                            DxTool.Build(tmp, exporter.FileName);
-
-                            Directory.Delete(tmp, true);
-
-                            loader.SetProgress(100);
-                            loader.DialogResult = DialogResult.OK;
-                            loader.Complete();
+                            dialog.SetProgress(100);
+                            dialog.DialogResult = DialogResult.OK;
+                            dialog.Complete();
                         }
                         catch (Exception ex)
                         {
                             error = ex.Message;
 
-                            loader.DialogResult = DialogResult.Abort;
-                            loader.Complete();
+                            dialog.DialogResult = DialogResult.Abort;
+                            dialog.Complete();
                         }
                     });
 
@@ -342,6 +336,84 @@ namespace VoxCharger
             }
         }
 
+        private void OnS3VFileBuilderClick(object sender, EventArgs e)
+        {
+            using (var browser  = new OpenFileDialog())
+            using (var exporter = new SaveFileDialog())
+            {
+                browser.Filter = "Audio Files|*.wav;*.ogg;*.mp3;*.flac";
+                browser.CheckFileExists = true;
+
+                if (browser.ShowDialog() != DialogResult.OK)
+                    return;
+
+                exporter.Filter = "S3V File|*.s3v";
+                if (exporter.ShowDialog() != DialogResult.OK)
+                    return;
+
+                string source = browser.FileName;
+                string output = exporter.FileName;
+                string error = string.Empty;
+
+                using (var loader = new LoadingForm())
+                {
+                    loader.SetAction(dialog =>
+                    {
+                        try
+                        {
+                            dialog.SetStatus("Processing assets..");
+                            S3VTool.Convert(source, output, AudioImportOptions.Default);
+
+                            dialog.SetProgress(100);
+                            dialog.DialogResult = DialogResult.OK;
+                            dialog.Complete();
+                        }
+                        catch (Exception ex)
+                        {
+                            error = ex.Message;
+
+                            dialog.DialogResult = DialogResult.Abort;
+                            dialog.Complete();
+                        }
+                    });
+
+                    if (!File.Exists(S3VTool.ConverterFileName))
+                        S3VTool.ConverterFileName = "ffmpeg.exe";
+
+                    if (!File.Exists(S3VTool.ConverterFileName))
+                    {
+                        using (var ofd = new OpenFileDialog())
+                        {
+                            ofd.Filter = "ffmpeg.exe | ffmpeg.exe";
+                            ofd.CheckFileExists = true;
+
+                            if (ofd.ShowDialog() == DialogResult.OK)
+                                S3VTool.ConverterFileName = ofd.FileName;
+                        }
+                    }
+
+                    if (loader.ShowDialog() == DialogResult.OK)
+                    {
+                        MessageBox.Show(
+                            "Audio file has been converted successfully",
+                            "S3V Builder",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information
+                        );
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            $"Failed to convert audio file.\n{error}",
+                            "S3V Builder",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                    }
+                }
+            }
+        }
+
         private void OnAboutHelpMenuClick(object sender, EventArgs e)
         {
             using (var about = new AboutForm())
@@ -359,7 +431,7 @@ namespace VoxCharger
         {
             try
             {
-                if (!Pristine && SaveFileMenu.Enabled)
+                if (!_pristine && SaveFileMenu.Enabled)
                 {
                     var response = MessageBox.Show(
                         "Save file before open another mix?",
@@ -373,19 +445,17 @@ namespace VoxCharger
                     else if (response == DialogResult.Cancel)
                         return;
 
-                    Pristine = true;
-                    actions.Clear();
+                    _pristine = true;
+                    _actions.Clear();
                 }
 
-                using (var browser = new FolderBrowserDialog())
+                using (var browser = new CommonOpenFileDialog())
                 using (var mixSelector = new MixSelectorForm())
                 {
-                    browser.ShowNewFolderButton = true;
-                    browser.Description = "Select KFC Content Root";
-
-                    if (browser.ShowDialog() == DialogResult.OK)
+                    browser.IsFolderPicker = true;
+                    if (browser.ShowDialog() == CommonFileDialogResult.Ok)
                     {
-                        AssetManager.Initialize(browser.SelectedPath);
+                        AssetManager.Initialize(browser.FileName);
 
                         PathTextBox.Text = string.Empty;
                         MusicListBox.Items.Clear();
@@ -432,10 +502,12 @@ namespace VoxCharger
             var header = new VoxHeader()
             {
                 Title            = "Untitled",
+                TitleYomigana    = "ダミー", // dummy
                 Ascii            = defaultAscii,
                 Artist           = "Unknown",
-                Version          = GameVersion.VividWave,
-                InfVersion       = InfiniteVersion.MXM,
+                ArtistYomigana   = "ダミー", // dummy 
+                Version          = GameVersion.ExceedGear,
+                InfVersion       = InfiniteVersion.Mxm,
                 BackgroundId     = short.Parse(ConverterForm.LastBackground),
                 GenreId          = 16,
                 BpmMin           = 1,
@@ -448,7 +520,7 @@ namespace VoxCharger
                 }
             };
 
-            Pristine = false;
+            _pristine = false;
             AssetManager.Headers.Add(header);
             MusicListBox.Items.Add(header);
         }
@@ -469,15 +541,15 @@ namespace VoxCharger
                         return;
 
                     var header = converter.Result;
-                    if (!actions.ContainsKey(header.Ascii))
-                        actions[header.Ascii] = new Queue<Action>();
+                    if (!_actions.ContainsKey(header.Ascii))
+                        _actions[header.Ascii] = new Queue<Action>();
 
-                    Pristine = false;
+                    _pristine = false;
                     AssetManager.Headers.Add(header);
                     MusicListBox.Items.Add(header);
 
-                    actions[header.Ascii].Enqueue(converter.Action);
-                    if (Autosave)
+                    _actions[header.Ascii].Enqueue(converter.Action);
+                    if (_autosave)
                         Save(AssetManager.MdbFilename);
                 }
             }
@@ -485,30 +557,32 @@ namespace VoxCharger
 
         private void OnBulkImportKshMenuClick(object sender, EventArgs e)
         {
-            using (var browser = new FolderBrowserDialog())
+            using (var browser = new CommonOpenFileDialog())
             {
-                browser.Description = "Select Kshoot chart repository";
-                if (browser.ShowDialog() != DialogResult.OK)
+                browser.IsFolderPicker = true;
+                browser.Multiselect    = false;
+
+                if (browser.ShowDialog() != CommonFileDialogResult.Ok)
                     return;
 
-                using (var converter = new ConverterForm(browser.SelectedPath, ConvertMode.BulkImporter))
+                using (var converter = new ConverterForm(browser.FileName, ConvertMode.BulkImporter))
                 {
                     if (converter.ShowDialog() != DialogResult.OK)
                         return;
 
                     foreach (var header in converter.ResultSet)
                     {
-                        if (!actions.ContainsKey(header.Ascii))
-                            actions[header.Ascii] = new Queue<Action>();
+                        if (!_actions.ContainsKey(header.Ascii))
+                            _actions[header.Ascii] = new Queue<Action>();
 
                         AssetManager.Headers.Add(header);
                         MusicListBox.Items.Add(header);
 
-                        actions[header.Ascii].Enqueue(converter.ActionSet[header.Ascii]);
+                        _actions[header.Ascii].Enqueue(converter.ActionSet[header.Ascii]);
                     }
 
-                    Pristine = false;
-                    if (Autosave)
+                    _pristine = false;
+                    if (_autosave)
                         Save(AssetManager.MdbFilename);
                 }
             }
@@ -528,16 +602,16 @@ namespace VoxCharger
             if (int.TryParse(IdTextBox.Text, out int id))
             {
                 // Validate ID
-                if (!AssetManager.ValidateMusicID(id))
+                if (!AssetManager.ValidateMusicId(id))
                 {
-                    IdTextBox.Text = header.ID.ToString();
+                    IdTextBox.Text = header.Id.ToString();
                     MessageBox.Show("Music ID is already taken", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else
-                    header.ID = id;
+                    header.Id = id;
             }
             else
-                IdTextBox.Text = header.ID.ToString();
+                IdTextBox.Text = header.Id.ToString();
 
             double min = (double)Math.Min(BpmMinNumericBox.Value, BpmMaxNumericBox.Value);
             double max = (double)Math.Max(BpmMinNumericBox.Value, BpmMaxNumericBox.Value);
@@ -545,17 +619,19 @@ namespace VoxCharger
             BpmMaxNumericBox.Value = (decimal)max;
 
             header.Title            = TitleTextBox.Text;
+            header.TitleYomigana    = TitleYomiganaTextBox.Text;
             header.Artist           = ArtistTextBox.Text;
+            header.ArtistYomigana   = ArtistYomiganaTextBox.Text;
             header.BpmMin           = min;
             header.BpmMax           = max;
             header.Version          = (GameVersion)(VersionDropDown.SelectedIndex + 1);
-            header.InfVersion       = InfVerDropDown.SelectedIndex == 0 ? InfiniteVersion.MXM : (InfiniteVersion)(InfVerDropDown.SelectedIndex + 1);
+            header.InfVersion       = InfVerDropDown.SelectedIndex == 0 ? InfiniteVersion.Mxm : (InfiniteVersion)(InfVerDropDown.SelectedIndex + 1);
             header.DistributionDate = DistributionPicker.Value;
             header.BackgroundId     = short.Parse((BackgroundDropDown.SelectedItem ?? "0").ToString().Split(' ')[0]);
             header.Volume           = (short)VolumeTrackBar.Value;
 
             VolumeIndicatorLabel.Text = $"{VolumeTrackBar.Value:#00}%";
-            Pristine = false;
+            _pristine = false;
         }
 
         private void OnLevelEditButtonClick(object sender, EventArgs e)
@@ -575,10 +651,10 @@ namespace VoxCharger
                     header.Levels[difficulty] = editor.Result;
                     if (editor.Action != null)
                     {
-                        if (!actions.ContainsKey(header.Ascii))
-                            actions[header.Ascii] = new Queue<Action>();
+                        if (!_actions.ContainsKey(header.Ascii))
+                            _actions[header.Ascii] = new Queue<Action>();
 
-                        actions[header.Ascii].Enqueue(editor.Action);
+                        _actions[header.Ascii].Enqueue(editor.Action);
                     }
 
                     if (header.Levels.ContainsKey(Difficulty.Infinite))
@@ -588,10 +664,10 @@ namespace VoxCharger
 
                     OnInfVerDropDownSelectedIndexChanged(sender, e);
 
-                    Pristine = false;
+                    _pristine = false;
                     LoadJacket(header);
 
-                    if (Autosave)
+                    if (_autosave)
                         Save(AssetManager.MdbFilename);
                 }
             }
@@ -606,18 +682,14 @@ namespace VoxCharger
                 InfEditButton.Text = InfVerDropDown.SelectedItem.ToString();
         }
 
-        private void OnImport2DXMusicFileButtonClick(object sender, EventArgs e)
+        private void OnImportMusicFileButtonClick(object sender, EventArgs e)
         {
-            Import2DX();
-            if (Autosave)
-                Save(AssetManager.MdbFilename);
+            ImportAudioFile();
         }
 
-        private void OnImport2DXPreviewFileButtonClick(object sender, EventArgs e)
+        private void OnImportPreviewFileButtonClick(object sender, EventArgs e)
         {
-            Import2DX(true);
-            if (Autosave)
-                Save(AssetManager.MdbFilename);
+            ImportAudioFile(true);
         }
 
         private void OnJacketPictureBoxClick(object sender, EventArgs e)
@@ -648,8 +720,7 @@ namespace VoxCharger
         #region --- Mix List Management ---
         private void OnMusicListBoxSelectedIndexChanged(object sender, EventArgs e)
         {
-            var header = MusicListBox.SelectedItem as VoxHeader;
-            if (header == null)
+            if (!(MusicListBox.SelectedItem is VoxHeader header))
             {
                 MetadataGroupBox.Enabled = false;
                 ResetEditor();
@@ -657,34 +728,78 @@ namespace VoxCharger
                 return;
             }
 
-            IdTextBox.Text                  = header.ID.ToString();
-            TitleTextBox.Text               = VoxHeader.FixMappedChars(header.Title);
-            ArtistTextBox.Text              = VoxHeader.FixMappedChars(header.Artist);
-            BpmMinNumericBox.Value          = (decimal)header.BpmMin;
-            BpmMaxNumericBox.Value          = (decimal)header.BpmMax;
-            VersionDropDown.SelectedIndex   = (int)(header.Version) - 1;
-            InfVerDropDown.SelectedIndex    = header.InfVersion == InfiniteVersion.MXM ? 0 : (int)(header.InfVersion) - 1;
+            IdTextBox.Text                  = header.Id.ToString();
+            TitleTextBox.Text               = VoxHeader.WithDecodedSymbols(header.Title);
+            TitleYomiganaTextBox.Text       = VoxHeader.WithDecodedSymbols(header.TitleYomigana);
+            ArtistTextBox.Text              = VoxHeader.WithDecodedSymbols(header.Artist);
+            ArtistYomiganaTextBox.Text      = VoxHeader.WithDecodedSymbols(header.ArtistYomigana);
+
+            try
+            {
+                BpmMinNumericBox.Minimum = 1;
+                BpmMaxNumericBox.Minimum = 1;
+
+                BpmMinNumericBox.Value = (decimal)header.BpmMin;
+                BpmMaxNumericBox.Value = (decimal)header.BpmMax;
+
+                BpmMinNumericBox.Enabled = true;
+                BpmMaxNumericBox.Enabled = true;
+            }
+            catch (Exception)
+            {
+                BpmMinNumericBox.Minimum = 0;
+                BpmMaxNumericBox.Minimum = 0;
+                BpmMinNumericBox.Value = 0;
+                BpmMaxNumericBox.Value = 0;
+
+                BpmMinNumericBox.Enabled = false;
+                BpmMaxNumericBox.Enabled = false;
+            }
+
+            try
+            {
+                VersionDropDown.DropDownStyle = ComboBoxStyle.DropDownList;
+                InfVerDropDown.DropDownStyle  = ComboBoxStyle.DropDownList;
+
+                VersionDropDown.SelectedIndex   = (int)(header.Version) - 1;
+                InfVerDropDown.SelectedIndex    = header.InfVersion == InfiniteVersion.Mxm ? 0 : (int)(header.InfVersion) - 1;
+
+                if (header.Levels.ContainsKey(Difficulty.Infinite))
+                    InfVerDropDown.Items[0] = "MXM";
+                else
+                    InfVerDropDown.Items[0] = "--";
+
+                VersionDropDown.Enabled = true;
+                InfVerDropDown.Enabled  = true;
+            }
+            catch (Exception)
+            {
+                VersionDropDown.DropDownStyle = ComboBoxStyle.DropDown;
+                InfVerDropDown.DropDownStyle  = ComboBoxStyle.DropDown;
+
+                VersionDropDown.Text    = "--";
+                VersionDropDown.Enabled = false;
+
+                InfVerDropDown.Text = "--";
+                InfVerDropDown.Enabled  = false;
+            }
+
             DistributionPicker.Value        = header.DistributionDate;
             VolumeTrackBar.Value            = header.Volume;
             BackgroundDropDown.SelectedItem = $"{header.BackgroundId:D2}";
+            VolumeIndicatorLabel.Text       = $"{VolumeTrackBar.Value:#00}%";
 
-            VolumeIndicatorLabel.Text = $"{VolumeTrackBar.Value:#00}%";
-            if (header.Levels.ContainsKey(Difficulty.Infinite))
-                InfVerDropDown.Items[0] = "MXM";
-            else
-                InfVerDropDown.Items[0] = "--";
-
-            bool safe                        = !string.IsNullOrEmpty(AssetManager.MixName);
-            AddButton.Enabled                = safe;
-            AddEditMenu.Enabled              = safe;
-            RemoveButton.Enabled             = safe;
-            RemoveEditMenu.Enabled           = safe;
-            Import2DXEditMenu.Enabled        = safe;
-            Import2DXPreviewEditMenu.Enabled = safe;
-            ExplorerEditMenu.Enabled         = true;
-            EditMenu.Enabled                 = true;
-            MetadataGroupBox.Enabled         = true;
-            InfEditButton.Text               = InfVerDropDown.SelectedItem.ToString();
+            bool safe                          = !string.IsNullOrEmpty(AssetManager.MixName);
+            AddButton.Enabled                  = safe;
+            AddEditMenu.Enabled                = safe;
+            RemoveButton.Enabled               = safe;
+            RemoveEditMenu.Enabled             = safe;
+            ImportAudioEditMenu.Enabled        = safe;
+            ImportAudioPreviewEditMenu.Enabled = safe;
+            ExplorerEditMenu.Enabled           = true;
+            EditMenu.Enabled                   = true;
+            MetadataGroupBox.Enabled           = true;
+            InfEditButton.Text                 = InfVerDropDown.SelectedItem.ToString();
             
             LoadJacket(header);
         }
@@ -709,10 +824,10 @@ namespace VoxCharger
             MusicListBox.Items.Remove(header);
            
             // Clear pending modification, since this asset will be deleted anyway
-            actions[header.Ascii] = new Queue<Action>();
-            actions[header.Ascii].Enqueue(() => AssetManager.DeleteAssets(header));
+            _actions[header.Ascii] = new Queue<Action>();
+            _actions[header.Ascii].Enqueue(() => AssetManager.DeleteAssets(header));
 
-            if (Autosave)
+            if (_autosave)
                 Save(AssetManager.MdbFilename);
         }
 
@@ -728,18 +843,18 @@ namespace VoxCharger
         {
             using (var loader = new LoadingForm())
             {
-                loader.SetAction(() =>
+                loader.SetAction(dialog =>
                 {
                     MusicListBox.Items.Clear();
                     foreach (var header in AssetManager.Headers)
                     {
                         MusicListBox.Items.Add(header);
 
-                        loader.SetStatus(header.Title);
-                        loader.SetProgress(((float)MusicListBox.Items.Count / AssetManager.Headers.Count) * 100f);
+                        dialog.SetStatus(header.Title);
+                        dialog.SetProgress(((float)MusicListBox.Items.Count / AssetManager.Headers.Count) * 100f);
                     }
 
-                    loader.Complete();
+                    dialog.Complete();
                 });
 
 
@@ -752,14 +867,14 @@ namespace VoxCharger
             var errors = new List<string>();
             using (var loader = new LoadingForm())
             {
-                var proc = new Action(() =>
+                var proc = new Action<LoadingForm>(dialog =>
                 {
                     float it = 1f;
-                    foreach (var action in actions)
+                    foreach (var action in _actions)
                     {
-                        float progress = (it++ / actions.Count) * 100f;
-                        loader.SetStatus($"[{progress:00}%] - Processing {action.Key} assets..");
-                        loader.SetProgress(progress);
+                        float progress = (it++ / _actions.Count) * 100f;
+                        dialog.SetStatus($"[{progress:00}%] - Processing {action.Key} assets..");
+                        dialog.SetProgress(progress);
 
                         var queue = action.Value;
                         while (queue.Count > 0)
@@ -776,14 +891,14 @@ namespace VoxCharger
                         }
                     }
 
-                    loader.SetStatus("[100%] - Processing Music DB..");
-                    loader.SetProgress(100f);
+                    dialog.SetStatus("[100%] - Processing Music DB..");
+                    dialog.SetProgress(100f);
 
                     AssetManager.Headers.Save(dbFilename);
-                    loader.Complete();
+                    dialog.Complete();
                 });
 
-                loader.SetAction(() => new Thread(() => proc()).Start());
+                loader.SetAction(dialog => new Thread(() => proc(dialog)).Start());
                 loader.ShowDialog();
             }
 
@@ -796,13 +911,13 @@ namespace VoxCharger
                 MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
-            actions.Clear();
-            Pristine = true;
+            _actions.Clear();
+            _pristine = true;
 
             return errors.Count == 0;
         }
 
-        private void Import2DX(bool preview = false)
+        private void ImportAudioFile(bool preview = false)
         {
             var header = MusicListBox.SelectedItem as VoxHeader;
             if (header == null)
@@ -810,7 +925,7 @@ namespace VoxCharger
 
             using (var browser = new OpenFileDialog())
             {
-                browser.Filter = "All supported format|*.2dx;*.s3v;*.wav;*.ogg;*.mp3;*.flac|2DX Music File|*.2dx;*.s3v|Music Files|*.wav;*.ogg;*.mp3;*.flac";
+                browser.Filter = "All supported formats|*.2dx;*.s3v;*.asf;*.wav;*.ogg;*.mp3;*.flac|BEMANI Music Files|*.2dx;*.s3v|Music Files|*.wav;*.ogg;*.mp3;*.flac;*.asf";
                 browser.CheckFileExists = true;
 
                 if (browser.ShowDialog() != DialogResult.OK)
@@ -823,10 +938,18 @@ namespace VoxCharger
                 );
 
                 File.Copy(source, tmp);
-                if (!actions.ContainsKey(header.Ascii))
-                    actions[header.Ascii] = new Queue<Action>();
+                if (!_actions.ContainsKey(header.Ascii))
+                    _actions[header.Ascii] = new Queue<Action>();
 
-                actions[header.Ascii].Enqueue(() => AssetManager.Import2DX(tmp, header, preview));
+                var importOptions = new AudioImportOptions
+                {
+                    Format    = browser.FileName.ToLower().EndsWith(".s3v") ? AudioFormat.S3V : AudioFormat.Iidx,
+                    IsPreview = preview,
+                };
+                _actions[header.Ascii].Enqueue(() => AssetManager.ImportAudio(tmp, header, importOptions));
+
+                if (_autosave)
+                    Save(AssetManager.MdbFilename);
             }
         }
 
@@ -846,14 +969,14 @@ namespace VoxCharger
 
                 if (!header.Levels.ContainsKey(diff))
                 {
-                    picture.Image = DummyJacket;
+                    picture.Image = _dummyJacket;
                     continue;
                 }
 
                 try
                 {
                     string filename = $"{AssetManager.GetJacketPath(header, diff)}_s.png";
-                    if (File.Exists(filename) && (Pristine || header.Levels[diff].Jacket == null))
+                    if (File.Exists(filename) && (_pristine || header.Levels[diff].Jacket == null))
                     {
                         using (var image = Image.FromFile(filename))
                             picture.Image = new Bitmap(image);
@@ -875,11 +998,11 @@ namespace VoxCharger
                             picture.Image = new Bitmap(image);                    
                     }
                     else
-                        picture.Image = DummyJacket;
+                        picture.Image = _dummyJacket;
                 }
                 catch (Exception)
                 {
-                    picture.Image = DummyJacket;
+                    picture.Image = _dummyJacket;
                 }
             }
         }
@@ -890,24 +1013,24 @@ namespace VoxCharger
             MetadataGroupBox.Enabled = false;
 
             ResetEditor();
-            DisableUI();
+            DisableUi();
 
             LoadMusicDb();
-            EnableUI();
+            EnableUi();
         }
 
-        private void EnableUI()
+        private void EnableUi()
         {
-            UpdateUI(true);
+            UpdateUi(true);
         }
 
-        private void DisableUI()
+        private void DisableUi()
         {
-            UpdateUI(false);
+            UpdateUi(false);
             ResetEditor();
         }
 
-        private void UpdateUI(bool state)
+        private void UpdateUi(bool state)
         {
             // Dont break your goddamn kfc
             bool safe = !string.IsNullOrEmpty(AssetManager.MixName);
@@ -925,8 +1048,8 @@ namespace VoxCharger
             RemoveButton.Enabled      = state && safe;
             RemoveEditMenu.Enabled    = state && safe;
             EditMenu.Enabled          = state && safe;
-            Import2DXEditMenu.Enabled = state && safe;
-            Import2DXPreviewEditMenu.Enabled = state && safe;
+            ImportAudioEditMenu.Enabled = state && safe;
+            ImportAudioPreviewEditMenu.Enabled = state && safe;
 
             foreach (Control control in MetadataGroupBox.Controls)
             {
@@ -967,7 +1090,7 @@ namespace VoxCharger
                 if (control is PictureBox)
                 {
                     var pictureBox = control as PictureBox;
-                    pictureBox.Image = DummyJacket;
+                    pictureBox.Image = _dummyJacket;
                 }
                 else if (control is Button && control.Tag.ToString() == "4")
                 {
@@ -979,8 +1102,8 @@ namespace VoxCharger
             VolumeTrackBar.Value     = DefaultVolume;
 
             EditMenu.Enabled                 = false;
-            Import2DXEditMenu.Enabled        = false;
-            Import2DXPreviewEditMenu.Enabled = false;
+            ImportAudioEditMenu.Enabled        = false;
+            ImportAudioPreviewEditMenu.Enabled = false;
             ExplorerEditMenu.Enabled         = false;
         }
         #endregion

@@ -36,6 +36,7 @@
             this.EmailLinkLabel = new System.Windows.Forms.LinkLabel();
             this.label4 = new System.Windows.Forms.Label();
             this.CloseButton = new System.Windows.Forms.Button();
+            this.GithubLinkLabel = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.ProfilePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -65,9 +66,9 @@
             this.label2.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(107, 36);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 13);
+            this.label2.Size = new System.Drawing.Size(82, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Version 0.9.7b";
+            this.label2.Text = "Version 0.9.12c";
             // 
             // label3
             // 
@@ -77,7 +78,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(131, 13);
             this.label3.TabIndex = 3;
-            this.label3.Text = "Copyright © 2020 - CXO2";
+            this.label3.Text = "Copyright © 2022 - CXO2";
             // 
             // EmailLinkLabel
             // 
@@ -104,8 +105,7 @@
             // 
             // CloseButton
             // 
-            this.CloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.CloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.CloseButton.Location = new System.Drawing.Point(21, 151);
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(292, 26);
@@ -114,11 +114,25 @@
             this.CloseButton.UseVisualStyleBackColor = true;
             this.CloseButton.Click += new System.EventHandler(this.OnCloseButtonClick);
             // 
+            // GithubLinkLabel
+            // 
+            this.GithubLinkLabel.AutoSize = true;
+            this.GithubLinkLabel.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GithubLinkLabel.Location = new System.Drawing.Point(107, 83);
+            this.GithubLinkLabel.Name = "GithubLinkLabel";
+            this.GithubLinkLabel.Size = new System.Drawing.Size(212, 13);
+            this.GithubLinkLabel.TabIndex = 7;
+            this.GithubLinkLabel.TabStop = true;
+            this.GithubLinkLabel.Text = "https://github.com/SirusDoma/VoxCharger";
+            this.GithubLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OnGithubLinkLabelLinkClicked);
+            // 
             // AboutForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(334, 189);
+            this.Controls.Add(this.GithubLinkLabel);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.EmailLinkLabel);
@@ -128,16 +142,17 @@
             this.Controls.Add(this.ProfilePictureBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Location = new System.Drawing.Point(15, 15);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AboutForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "About VoxCharger";
             ((System.ComponentModel.ISupportInitialize)(this.ProfilePictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
+
+        private System.Windows.Forms.LinkLabel GithubLinkLabel;
 
         #endregion
 

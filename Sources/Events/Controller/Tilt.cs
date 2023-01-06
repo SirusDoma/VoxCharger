@@ -7,7 +7,7 @@ namespace VoxCharger
         public class Tilt : Camera
         {
             public Tilt(Time time, int duration, float start, float end)
-                : base(time, WorkType.Rotation)
+                : base(time, WorkType.Tilt)
             {
                 Duration = duration;
                 Start    = start;

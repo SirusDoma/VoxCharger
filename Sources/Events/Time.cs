@@ -4,6 +4,8 @@ namespace VoxCharger
 {
     public class Time
     {
+        public static readonly Time Initial = new Time(1, 1, 0);
+
         public int Measure { get; set; }
         public int Beat    { get; set; }
         public int Offset  { get; set; }

@@ -8,10 +8,11 @@ namespace VoxCharger
 {
     public enum InfiniteVersion
     {
-        MXM = 0,
-        INF = 2,
-        GRV = 3,
-        HVN = 4,
-        VVD = 5
+        Mxm = 0,
+        Inf = 2,
+        Grv = 3,
+        Hvn = 4,
+        Vvd = 5,
+        Xcd = 6,
     }
 }

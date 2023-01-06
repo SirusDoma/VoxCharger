@@ -28,9 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HelpForm));
             this.panel1 = new System.Windows.Forms.Panel();
             this.OkButton = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -49,28 +52,30 @@
             // 
             // panel1
             // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.OkButton);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 322);
+            this.panel1.Location = new System.Drawing.Point(0, 424);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(603, 40);
+            this.panel1.Size = new System.Drawing.Size(631, 40);
             this.panel1.TabIndex = 0;
             // 
             // OkButton
             // 
-            this.OkButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.OkButton.Location = new System.Drawing.Point(516, 8);
+            this.OkButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Right)));
+            this.OkButton.Location = new System.Drawing.Point(515, 8);
             this.OkButton.Name = "OkButton";
-            this.OkButton.Size = new System.Drawing.Size(75, 22);
+            this.OkButton.Size = new System.Drawing.Size(102, 20);
             this.OkButton.TabIndex = 0;
-            this.OkButton.Text = "OK";
+            this.OkButton.Text = "Got it!";
             this.OkButton.UseVisualStyleBackColor = true;
             this.OkButton.Click += new System.EventHandler(this.OnOkButtonClick);
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.White;
+            this.panel2.BackColor = System.Drawing.SystemColors.Control;
+            this.panel2.Controls.Add(this.label13);
+            this.panel2.Controls.Add(this.label14);
             this.panel2.Controls.Add(this.label11);
             this.panel2.Controls.Add(this.label12);
             this.panel2.Controls.Add(this.label9);
@@ -86,8 +91,28 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(603, 322);
+            this.panel2.Size = new System.Drawing.Size(631, 424);
             this.panel2.TabIndex = 1;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(15, 340);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(487, 65);
+            this.label13.TabIndex = 13;
+            this.label13.Text = resources.GetString("label13.Text");
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
+            this.label14.Location = new System.Drawing.Point(10, 323);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(146, 15);
+            this.label14.TabIndex = 12;
+            this.label14.Text = "Music Format && Converter";
             // 
             // label11
             // 
@@ -95,9 +120,9 @@
             this.label11.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(15, 109);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(185, 13);
+            this.label11.Size = new System.Drawing.Size(188, 13);
             this.label11.TabIndex = 11;
-            this.label11.Text = "ID of gameplay background theme";
+            this.label11.Text = "ID of gameplay background theme.\r\n";
             // 
             // label12
             // 
@@ -113,18 +138,17 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(15, 253);
+            this.label9.Location = new System.Drawing.Point(15, 266);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(302, 52);
+            this.label9.Size = new System.Drawing.Size(353, 52);
             this.label9.TabIndex = 9;
-            this.label9.Text = "Only include selected tracks to the output\r\nFor example, laser can be disabled by" +
-    " deselect \"Laser\" box\r\n\r\nUseful for experimental or debugging purpose.";
+            this.label9.Text = "Only include selected tracks to the output\r\nFor example, laser can be disabled by" + " deselect \"Vol-L\" or \"Vol-R\" box\r\n\r\nUseful for experimental or debugging purpose" + ".";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
-            this.label10.Location = new System.Drawing.Point(10, 236);
+            this.label10.Location = new System.Drawing.Point(10, 249);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(40, 15);
             this.label10.TabIndex = 8;
@@ -136,11 +160,9 @@
             this.label7.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(15, 192);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(531, 39);
+            this.label7.Size = new System.Drawing.Size(594, 52);
             this.label7.TabIndex = 7;
-            this.label7.Text = "Attempt to convert selected events into Vox format.\r\nAll of these effects are map" +
-    "ped, there\'s chance some effects to misaligned and even cease to function.\r\nNote" +
-    " that user defined Fx\'s are excluded";
+            this.label7.Text = resources.GetString("label7.Text");
             // 
             // label8
             // 
@@ -148,9 +170,9 @@
             this.label8.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
             this.label8.Location = new System.Drawing.Point(10, 175);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(42, 15);
+            this.label8.Size = new System.Drawing.Size(135, 15);
             this.label8.TabIndex = 6;
-            this.label8.Text = "Effects";
+            this.label8.Text = "Camera && Sound Effects";
             // 
             // label5
             // 
@@ -160,9 +182,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(530, 26);
             this.label5.TabIndex = 5;
-            this.label5.Text = "Trim or add additional measures to the beginning of chart. Useful when Ksh rely o" +
-    "n start music offset.\r\nHowever, chart can be broken when signature / bpm change " +
-    "occurs";
+            this.label5.Text = "Trim or add additional measures to the beginning of chart. Useful when Ksh rely o" + "n start music offset.\r\nHowever, chart can be broken when signature / bpm change " + "occurs.\r\n";
             // 
             // label6
             // 
@@ -180,9 +200,9 @@
             this.label3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(15, 74);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(365, 13);
+            this.label3.Size = new System.Drawing.Size(368, 13);
             this.label3.TabIndex = 3;
-            this.label3.Text = "Assigned game version and 4th Difficulty that will appear in the game";
+            this.label3.Text = "Assigned game version and 4th Difficulty that will appear in the game.\r\n";
             // 
             // label4
             // 
@@ -200,10 +220,9 @@
             this.label2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(17, 26);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(488, 26);
+            this.label2.Size = new System.Drawing.Size(491, 26);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Music identifier that contains only valid ascii.\r\nThis will determine asset file " +
-    "location (data_mods\\\\<mix>\\\\music\\\\<music_id>_<music_code>)";
+            this.label2.Text = "Music identifier that contains only valid ascii (the field also known as \"ascii\")" + ".\r\nThis will determine asset file location (data_mods\\\\<mix>\\\\music\\\\<music_id>_" + "<music_code>).";
             // 
             // label1
             // 
@@ -219,7 +238,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(603, 362);
+            this.ClientSize = new System.Drawing.Size(631, 464);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -227,13 +246,15 @@
             this.MinimizeBox = false;
             this.Name = "HelpForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Converter";
+            this.Text = "Help";
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);
-
         }
+
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
 
         #endregion
 

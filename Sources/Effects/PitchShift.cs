@@ -23,7 +23,7 @@ namespace VoxCharger
             {
             }
 
-            public static new PitchShift FromVox(string data)
+            public new static PitchShift FromVox(string data)
             {
                 var pitchShift = new PitchShift();
                 var prop = data.Trim().Split(',').Select(p => p.Trim()).ToArray();
@@ -47,7 +47,7 @@ namespace VoxCharger
                 return pitchShift;
             }
 
-            public static new PitchShift FromKsh(string data)
+            public new static PitchShift FromKsh(string data)
             {
                 var pitchShift = new PitchShift();
                 var prop = data.Trim().Split(';').Select(p => p.Trim()).ToArray();
@@ -65,7 +65,7 @@ namespace VoxCharger
                 return pitchShift;
             }
 
-            public static new PitchShift FromKsh(KshDefinition definition)
+            public new static PitchShift FromKsh(KshDefinition definition)
             {
                 var pitchShift = new PitchShift();
 

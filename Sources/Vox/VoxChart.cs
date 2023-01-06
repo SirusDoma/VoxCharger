@@ -12,7 +12,7 @@ namespace VoxCharger
         private static readonly Encoding DefaultEncoding = Encoding.GetEncoding("shift_jis");
 
         private const    string   VolCodes = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmno";
-        private readonly string[] Filters  = new string[] { "peak", "lpf1", "lpf1", "hpf1", "hpf1", "lbic", "nof" };
+        private readonly string[] _filters  = new string[] { "peak", "lpf1", "lpf1", "hpf1", "hpf1", "lbic", "nof" };
 
         public int Version            { get; private set; } = 10;
 
@@ -36,7 +36,7 @@ namespace VoxCharger
 
         public void Parse(string fileName)
         {
-            var current = Section.NO_STATE;
+            var current = Section.NoState;
             var lines   = File.ReadAllLines(fileName, DefaultEncoding);
 
             Event.Stop stop = null;
@@ -49,9 +49,9 @@ namespace VoxCharger
                 // Identify current section
                 if (line.StartsWith("#"))
                 {
-                    if (current == Section.NO_STATE)
+                    if (current == Section.NoState)
                     {
-                        var candidate = Section.NO_STATE;
+                        var candidate = Section.NoState;
                         string header = line.Substring(1).Trim().Replace(' ', '_');
                         foreach (Section section in Enum.GetValues(typeof(Section)))
                         {
@@ -66,13 +66,13 @@ namespace VoxCharger
                                 candidate = section; 
                         }
 
-                        if (current == Section.NO_STATE)
+                        if (current == Section.NoState)
                             current = candidate;
                     }
                     else
                     {
                         if (line == "#END")
-                            current = Section.NO_STATE;
+                            current = Section.NoState;
                     }
 
                     continue;
@@ -90,7 +90,7 @@ namespace VoxCharger
                 #endregion
 
                 #region --- FORMAT VERSION ---
-                if (current == Section.FORMAT_VERSION)
+                if (current == Section.FormatVersion)
                 {
                     /*
                      * Format Version
@@ -104,7 +104,7 @@ namespace VoxCharger
                 }
                 #endregion
                 #region --- BEAT INFO ---
-                else if (current == Section.BEAT_INFO)
+                else if (current == Section.BeatInfo)
                 {
                     /*
                      * Beat Info (a.k.a Signature)
@@ -144,7 +144,7 @@ namespace VoxCharger
                 }
                 #endregion
                 #region --- BPM (Simple) ---
-                else if (current == Section.BPM)
+                else if (current == Section.Bpm)
                 {
                     /*
                      * BPM (Simple)
@@ -171,11 +171,11 @@ namespace VoxCharger
                     if (!float.TryParse(line, out float value))
                         Debug.WriteLine($"[BPM] {i:D4}: Invalid BPM value");
                     else
-                        Events.Add(new Event.BPM(new Time(1, 1, 0), value)); 
+                        Events.Add(new Event.Bpm(new Time(1, 1, 0), value)); 
                 }
                 #endregion
                 #region --- BPM (Extended) ---
-                else if (current == Section.BPM_INFO)
+                else if (current == Section.BpmInfo)
                 {
                     /*
                      * BPM (Extended)
@@ -249,11 +249,11 @@ namespace VoxCharger
                         }
                     }
 
-                    Events.Add(new Event.BPM(time, value));
+                    Events.Add(new Event.Bpm(time, value));
                 }
                 #endregion
                 #region --- TILT MODE INFO ---
-                else if (current == Section.TILT)
+                else if (current == Section.Tilt)
                 {
                     /*
                      * Tilt Mode
@@ -291,7 +291,7 @@ namespace VoxCharger
                 }
                 #endregion
                 #region --- LYRIC INFO ---
-                else if (current == Section.LYRIC)
+                else if (current == Section.Lyric)
                 {
                     /*
                     * Lyric Info
@@ -308,7 +308,7 @@ namespace VoxCharger
                 }
                 #endregion
                 #region --- END POSITION ---
-                else if (current == Section.END_POSITION)
+                else if (current == Section.EndPosition)
                 {
                     /*
                     * End Position
@@ -325,7 +325,7 @@ namespace VoxCharger
                 }
                 #endregion
                 #region --- TAB EFFECT INFO ---
-                else if (current == Section.TAB_EFFECT)
+                else if (current == Section.TabEffect)
                 {
                     /*
                     * Tab Effect Info
@@ -339,7 +339,7 @@ namespace VoxCharger
                 }
                 #endregion
                 #region --- FXBUTTON EFFECT INFO ---
-                else if (current == Section.FXBUTTON_EFFECT)
+                else if (current == Section.FxbuttonEffect)
                 {
                     /*
                     * FxButton Effect Info
@@ -363,7 +363,7 @@ namespace VoxCharger
                 }
                 #endregion
                 #region --- TAB PARAM ASSIGN INFO ---
-                else if (current == Section.TAB_PARAM)
+                else if (current == Section.TabParam)
                 {
                     /*
                     * Tab Param Info
@@ -377,7 +377,7 @@ namespace VoxCharger
                 }
                 #endregion
                 #region --- REVERB EFFECT PARAM ---
-                else if (current == Section.REVERB)
+                else if (current == Section.Reverb)
                 {
                     /*
                     * Reverb Effect
@@ -388,7 +388,7 @@ namespace VoxCharger
                 }
                 #endregion
                 #region --- SPCONTROLLER INFO ---
-                else if (current == Section.SPCONTROLER)
+                else if (current == Section.Spcontroler)
                 {
                     /*
                     * SP Controller Info
@@ -568,10 +568,10 @@ namespace VoxCharger
             result += "#END\n\n";
 
             result += "#BPM INFO\n";
-            Event.BPM lastBpm = null;
+            Event.Bpm lastBpm = null;
             foreach (var ev in Events)
             {
-                if (ev is Event.BPM bpm)
+                if (ev is Event.Bpm bpm)
                 {
                     lastBpm = bpm;
                     result += bpm.ToString() + "\n";
@@ -679,10 +679,10 @@ namespace VoxCharger
                 foreach (var ev in Events)
                 {
                     if (ev is Camera camera && camera.Work == work)
-                        result += camera.ToString() + "\n";
+                        result += $"{camera}\n";
                 }
             }
-            
+
             result += "#END\n\n";
             result += "//====================================\n\n";
 

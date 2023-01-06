@@ -8,9 +8,9 @@ namespace VoxCharger
 {
     public class EventCollection : ICollection<Event>
     {
-        private List<Event> Events = new List<Event>();
+        private List<Event> _events = new List<Event>();
 
-        public int Count => Events.Count;
+        public int Count => _events.Count;
 
         public bool IsReadOnly => false;
 
@@ -20,13 +20,13 @@ namespace VoxCharger
 
         public Event[] this[int measure]
         {
-            get => Events.FindAll((ev) => ev.Time.Measure == measure).ToArray();
+            get => _events.FindAll((ev) => ev.Time.Measure == measure).ToArray();
         }
 
         public Event[] this[Time time]
         {
-            get => Events.FindAll((ev) => ev.Time == time).ToArray();
-            set => Events.AddRange(value.Where(ev => ev != null).Select(ev => { ev.Time = time; return ev; }));
+            get => _events.FindAll((ev) => ev.Time == time).ToArray();
+            set => _events.AddRange(value.Where(ev => ev != null).Select(ev => { ev.Time = time; return ev; }));
         }
 
         public Event.TimeSignature GetTimeSignature(int measure)
@@ -36,64 +36,64 @@ namespace VoxCharger
 
         public Event.TimeSignature GetTimeSignature(Time time)
         {
-            var timeSig = Events.LastOrDefault(ev =>
+            var timeSig = _events.LastOrDefault(ev =>
                 ev is Event.TimeSignature && (ev.Time == time || ev.Time.Measure < time.Measure)
             ) as Event.TimeSignature;
 
             return timeSig != null ? timeSig : new Event.TimeSignature(time, 4, 4);
         }
 
-        public Event.BPM GetBPM(int measure)
+        public Event.Bpm GetBpm(int measure)
         {
-            return GetBPM(new Time(measure, 1, 0));
+            return GetBpm(new Time(measure, 1, 0));
         }
 
-        public Event.BPM GetBPM(Time time)
+        public Event.Bpm GetBpm(Time time)
         {
-            return Events.LastOrDefault(ev =>
-                ev is Event.BPM && (ev.Time == time || ev.Time.Measure < time.Measure)
-            ) as Event.BPM;
+            return _events.LastOrDefault(ev =>
+                ev is Event.Bpm && (ev.Time == time || ev.Time.Measure < time.Measure)
+            ) as Event.Bpm;
         }
 
         public void Add(Event ev)
         {
             if (ev != null)
-                Events.Add(ev);
+                _events.Add(ev);
         }
 
         public void Add(params Event[] ev)
         {
-            Events.AddRange(new List<Event>(ev).FindAll(e => e != null));
+            _events.AddRange(new List<Event>(ev).FindAll(e => e != null));
         }
 
         public bool Remove(Event ev)
         {
-            return Events.Remove(ev);
+            return _events.Remove(ev);
         }
 
         public bool Contains(Event ev)
         {
-            return Events.Contains(ev);
+            return _events.Contains(ev);
         }
 
         public void CopyTo(Event[] events, int index)
         {
-            Events.CopyTo(events, index);
+            _events.CopyTo(events, index);
         }
 
         public void Clear()
         {
-            Events.Clear();
+            _events.Clear();
         }
 
         public IEnumerator<Event> GetEnumerator()
         {
-            return Events.GetEnumerator();
+            return _events.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return Events.GetEnumerator();
+            return _events.GetEnumerator();
         }
     }
 }

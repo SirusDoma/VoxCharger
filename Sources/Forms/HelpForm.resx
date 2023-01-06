@@ -117,4 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Select which music file format to use.
+  - Sound Voltex (.s3v): Support "Preview Timestamp" with reliable encoder (Recommended)
+  - Beatmania IIDX (.2dx): Legacy music format (Compatibility for Vivid Wave and older versions)
+
+You can select the path of the converter programs by clicking "..." button.
+</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Attempt to convert selected Sound Fx's and Camera movements into Vox format.
+All of these effects are mapped, there's chance that the produced effects are misaligned or even cease to function.
+
+Note that user defined and advanced Fx's are excluded.
+</value>
+  </data>
 </root>
