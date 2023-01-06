@@ -9,7 +9,7 @@ If you're not familiar with these file formats, then this sauce is not for you.
 
 ## Features ##
 - Create, manage and delete (omni)mix's in your KFC installation
-- Import .vox or .ksh into your KFC with ease
+- Import .vox or .ksh into one of your KFC (omni)mix with ease
 - Automatically convert imported audio files (e.g mp3, ogg, flac, etc) to .2dx file
 - Deferred asset modifications to keep your Music DB and asset files stay in sync until you save it
 - Music DB metadata editor
@@ -21,11 +21,11 @@ If you're not familiar with these file formats, then this sauce is not for you.
 This program require .NET Framework 4.7.2 in order to run properly.
 
 ### Media Pack / Desktop Experience
-This program now has its integrated Wav and 2DX Encoder and downloading [mon's 2dx tools](https://github.com/mon/2dxTools) is no **longer required**.
-However, the audio decoder depends on Media Foundation API under the hood, which is only available in Windows 7 and newer.
+This program now has its own integrated Wav and 2DX Encoder and downloading [mon's 2dx tools](https://github.com/mon/2dxTools) is no **longer required**.
+However, the audio decoder depends on [Media Foundation API](https://github.com/NAudio/NAudio#naudio) under the hood, which is only available in Windows 7 and newer.
 
 Furthermore, you might need to install the following dependencies:
-- [Media Feature Pack](https://support.microsoft.com/en-us/topic/media-feature-pack-list-for-windows-n-editions-c1c6fffa-d052-8338-7a79-a4bb980a700a) - Install this if you're running on Windows N or KN version (Common Windows distribution in Korea region)
+- [Media Feature Pack](https://support.microsoft.com/en-us/topic/media-feature-pack-list-for-windows-n-editions-c1c6fffa-d052-8338-7a79-a4bb980a700a) - Install this if you're running on Windows N or KN version
 - [Desktop Experience](https://learn.microsoft.com/en-us/windows-server/get-started/install-options-server-core-desktop-experience) - Install this if you're running on Windows Server
 
 ### Latest datecodes only
@@ -56,7 +56,7 @@ Remember, stupid input get stupid output. But if you believe it's a bug, feel fr
 Make sure you are running the game under offline environment and **NOT** connected to any KFC network server while using the output files of this tool. It could break network score table and you may get banned from the network for doing so.
 
 ### Music DB
-The program also prevent you to modify Music ID and some attributes are kept hidden from editor, For existing songs, the program will try to preserve all attributes throughout save iteration.
+The program also prevent you to modify Music ID and some attributes are kept hidden from editor. For existing songs, the program will try to preserve the original metadata throughout save iteration.
 However, attributes that not recognized by the program might be lost.
 
 Make sure to backup your `music_db.xml` / `music_db.merged.xml` if you have non-standard attributes in your music db or attributes that newly introduced after `2022` latest datecode (Note: `radar` is supported!).
@@ -64,7 +64,7 @@ Make sure to backup your `music_db.xml` / `music_db.merged.xml` if you have non-
 ### Asset File Modification
 Replacing asset files such as vox, 2dx and graphic files are happen immediately after changes are confirmed. In other hand, metadata need to be saved manually by clicking `File -> Save` or `CTRL+S`.
 
-Note that you can postpone asset modification until you save metadata by disabling autosave in `Edit -> Autosave Assets`
+Note that you can postpone asset modification until you save metadata by disabling autosave in `Edit -> Autosave Assets`. This allows the asset files to stay in sync with the metadata, might be useful for certain modding workflow.
 
 # License #
 
