@@ -22,7 +22,7 @@ This program require .NET Framework 4.7.2 in order to run properly.
 
 ### Media Pack / Desktop Experience
 This program now has its own integrated Wav and 2DX Encoder and downloading [mon's 2dx tools](https://github.com/mon/2dxTools) is no **longer required**.
-However, the audio decoder depends on [Media Foundation API](https://github.com/NAudio/NAudio#naudio) under the hood, which is only available in Windows 7 and newer.
+However, the audio encoder / decoder depends on [Media Foundation & ACM API](https://github.com/NAudio/NAudio) under the hood, which means support for most audio formats is only available in Windows 7 and newer.
 
 Furthermore, you might need to install the following dependencies:
 - [Media Feature Pack](https://support.microsoft.com/en-us/topic/media-feature-pack-list-for-windows-n-editions-c1c6fffa-d052-8338-7a79-a4bb980a700a) - Install this if you're running on Windows N or KN version
